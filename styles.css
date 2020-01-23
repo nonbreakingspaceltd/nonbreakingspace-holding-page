@@ -1,0 +1,201 @@
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #faf1e0;
+  position: fixed;
+  margin: 0;
+  padding: 0;
+  font-family: 'Lato', sans-serif;
+  font-size: 14px;
+  line-height: 18px;
+}
+
+@media only screen and (min-width: 500px) {
+  html,
+  body {
+    font-size: 16px;
+    line-height: 24px;
+  }
+}
+
+.content {
+  width: 300px;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 24px 0;
+  color: #0d223f;
+  opacity: 0;
+  transition: opacity 2s ease-out;
+}
+
+.window--loaded .content {
+  opacity: 1;
+}
+
+@media only screen and (min-width: 500px) {
+  .content {
+    width: 80%;
+    padding: 0;
+  }
+}
+
+@media only screen and (min-height: 500px) {
+  .content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+}
+
+.logo {
+  width: 100%;
+  margin: 0 0 0 -12px;
+  padding: 0;
+  position: relative;
+  max-width: 506px;
+}
+
+@media only screen and (max-width: 500px) {
+  .logo {
+    width: 260px;
+    height: 145px;
+    margin: 0 0 0 -4px;
+  }
+}
+
+.logo::before {
+  display: block;
+  content: '';
+  top: -1px;
+  left: -1px;
+  right: -1px;
+  bottom: -1px;
+  border: 3px solid #faf1e0;
+  position: absolute;
+  z-index: 2;
+}
+
+.logo::after {
+  width: 100%;
+  padding-top: 56.21%;
+  display: block;
+  content: '';
+}
+
+@media only screen and (max-width: 500px) {
+  .logo::after {
+    padding: 0;
+    height: 146px;
+  }
+}
+
+a {
+  text-decoration: none;
+  outline: 0;
+}
+
+html {
+  height: 100%;
+  overflow: hidden;
+  font-weight: 100;
+}
+
+.nbsp {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  z-index: 1;
+}
+
+.nbsp__mask__bg {
+  fill: #fff;
+}
+
+.nbsp__bg {
+  fill: #faf1e0;
+  -webkit-mask: url(#nbsp__mask);
+  mask: url(#nbsp__mask);
+}
+
+.video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 0;
+  overflow: hidden;
+}
+
+h1 {
+  font-size: 30px;
+  line-height: 36px;
+  font-family: 'Abril Fatface', 'Times New Roman', Times, serif;
+  margin: 0 0 36px;
+  padding: 0;
+  font-weight: normal;
+}
+
+@media only screen and (min-width: 500px) {
+  h1 {
+    font-size: 42px;
+    line-height: 48px;
+    margin: 0 0 36px;
+  }
+}
+
+h2,
+.subtitle {
+  font-size: 18px;
+  line-height: 24px;
+  margin: 0 0 12px;
+  padding: 0;
+  font-weight: bold;
+  font-family: 'Abril Fatface', 'Times New Roman', Times, serif;
+  font-weight: normal;
+}
+
+@media only screen and (min-width: 500px) {
+  h2,
+  .subtitle {
+    font-size: 24px;
+    line-height: 30px;
+    margin: 0 0 12px;
+  }
+}
+
+.contact {
+  padding-top: 24px;
+}
+
+@media only screen and (min-width: 500px) {
+  .contact {
+    padding-top: 36px;
+  }
+}
+
+.contact a {
+  color: #0d223f;
+  text-decoration: underline;
+}
+
+p {
+  margin: 0;
+  padding: 0;
+}
+
+p + p {
+  margin-top: 18px;
+}
+
+.info {
+  padding-top: 36px;
+  opacity: 0.6;
+  font-size: 12px;
+}
