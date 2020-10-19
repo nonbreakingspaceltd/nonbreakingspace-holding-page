@@ -16,12 +16,18 @@ body {
   line-height: 18px;
 }
 
-@media only screen and (min-width: 500px) {
+@media only screen and (min-width: 600px) {
   html,
   body {
     font-size: 16px;
     line-height: 24px;
   }
+}
+
+body {
+  display: flex;
+  align-items: center;
+  padding: 0 24px;
 }
 
 .content {
@@ -30,56 +36,32 @@ body {
   margin: 0 auto;
   padding: 24px 0;
   color: #0d223f;
-  opacity: 0;
   transition: opacity 2s ease-out;
 }
 
-.window--loaded .content {
-  opacity: 1;
-}
-
-@media only screen and (min-width: 500px) {
+@media only screen and (min-width: 600px) {
   .content {
     width: 80%;
     padding: 0;
   }
 }
 
-@media only screen and (min-height: 500px) {
-  .content {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-  }
-}
-
 .logo {
   width: 100%;
-  margin: 0 0 0 -12px;
   padding: 0;
   position: relative;
-  max-width: 506px;
+  overflow: hidden;
+  width: 260px;
+  height: 89px;
+  margin: 0 0 24px -4px;
 }
 
-@media only screen and (max-width: 500px) {
+@media only screen and (min-width: 600px) {
   .logo {
-    width: 260px;
-    height: 145px;
-    margin: 0 0 0 -4px;
+    width: 506px;
+    height: 172px;
+    margin: 0 0 24px -12px;
   }
-}
-
-.logo::before {
-  display: block;
-  content: '';
-  top: -1px;
-  left: -1px;
-  right: -1px;
-  bottom: -1px;
-  border: 3px solid #faf1e0;
-  position: absolute;
-  z-index: 2;
 }
 
 .logo::after {
@@ -112,25 +94,7 @@ html {
   height: 100%;
   position: absolute;
   z-index: 1;
-}
-
-.nbsp__mask__bg {
-  fill: #fff;
-}
-
-.nbsp__bg {
-  fill: #faf1e0;
-  -webkit-mask: url(#nbsp__mask);
-  mask: url(#nbsp__mask);
-}
-
-.video {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  z-index: 0;
-  overflow: hidden;
+  fill: #0d223f;
 }
 
 h1 {
@@ -142,7 +106,7 @@ h1 {
   font-weight: normal;
 }
 
-@media only screen and (min-width: 500px) {
+@media only screen and (min-width: 600px) {
   h1 {
     font-size: 42px;
     line-height: 48px;
@@ -161,7 +125,7 @@ h2,
   font-weight: normal;
 }
 
-@media only screen and (min-width: 500px) {
+@media only screen and (min-width: 600px) {
   h2,
   .subtitle {
     font-size: 24px;
@@ -174,7 +138,7 @@ h2,
   padding-top: 24px;
 }
 
-@media only screen and (min-width: 500px) {
+@media only screen and (min-width: 600px) {
   .contact {
     padding-top: 36px;
   }
@@ -196,6 +160,6 @@ p + p {
 
 .info {
   padding-top: 36px;
-  opacity: 0.6;
+  opacity: 0.8;
   font-size: 12px;
 }
