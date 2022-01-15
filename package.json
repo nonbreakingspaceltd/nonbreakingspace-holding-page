@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Holding page for Nonbreakingspace Ltd.",
   "scripts": {
-    "build": "npm run clean && eleventy",
+    "build": "yarn clean && eleventy",
     "clean": "rimraf _site",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
