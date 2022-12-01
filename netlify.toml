@@ -2,6 +2,3 @@
   publish = "_site"
   command = "DEBUG=* eleventy"
 
-  [build.environment]
-    PYTHON_VERSION = "3.7"
-
