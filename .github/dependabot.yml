@@ -1,0 +1,28 @@
+version: 2
+updates:
+  - commit-message:
+      prefix: chore
+    directory: /
+    open-pull-requests-limit: 1
+    package-ecosystem: npm
+    rebase-strategy: auto
+    schedule:
+      day: monday
+      interval: monthly
+      time: '05:00'
+    target-branch: develop
+  - commit-message:
+      prefix: chore
+    directory: /
+    groups:
+      github-actions:
+        patterns:
+          - '*'
+    open-pull-requests-limit: 1
+    package-ecosystem: github-actions
+    rebase-strategy: auto
+    schedule:
+      day: monday
+      interval: monthly
+      time: '05:00'
+    target-branch: develop
