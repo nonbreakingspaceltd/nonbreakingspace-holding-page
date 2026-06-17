@@ -1,7 +1,7 @@
-# nonbreakingspace-holding-page
+# nonbreakingspace-website
 
-[![Build](https://github.com/nonbreakingspaceltd/nonbreakingspace-holding-page/actions/workflows/build.yml/badge.svg)](https://github.com/nonbreakingspaceltd/nonbreakingspace-holding-page/actions/workflows/build.yml)
-[![CodeQL](https://github.com/nonbreakingspaceltd/nonbreakingspace-holding-page/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/nonbreakingspaceltd/nonbreakingspace-holding-page/actions/workflows/codeql-analysis.yml)
+[![Build](https://github.com/nonbreakingspaceltd/nonbreakingspace-website/actions/workflows/build.yml/badge.svg)](https://github.com/nonbreakingspaceltd/nonbreakingspace-website/actions/workflows/build.yml)
+[![CodeQL](https://github.com/nonbreakingspaceltd/nonbreakingspace-website/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/nonbreakingspaceltd/nonbreakingspace-website/actions/workflows/codeql-analysis.yml)
 
 The single-page studio website for **Nonbreakingspace Ltd** — a Manchester-based
 software, interaction and graphic design studio.
