@@ -74,11 +74,11 @@ const email = 'hello@nonbreakingspace.co.uk';
   }
 
   /* The wordmark SVG's box extends below the lettering's baseline to contain
-     the descenders of "p" and ";". Pull the lower cluster up to absorb that
-     dead-space so the headline sits an even step below the wordmark rather
-     than appearing to float away from it. */
+     the descenders of "p" and ";". Pull the lower cluster up to absorb most of
+     that dead-space, while still leaving a clear vertical step between the
+     wordmark and the headline so they read as distinct. */
   .hero__lower {
-    margin-top: clamp(-1.5rem, -2.2vw, -0.5rem);
+    margin-top: clamp(-0.25rem, 0.5vw, 1rem);
   }
 
   .hero__headline {

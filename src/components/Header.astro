@@ -3,12 +3,42 @@
 // away with the hero so the page reads as one continuous broadsheet.
 ---
 
-<header class="site-header" data-reveal>
+<header class="site-header reveal-drop" data-reveal>
   <div class="wrap site-header__inner">
     <a class="lockup link-underline" href="/">Nonbreakingspace</a>
-    <p class="eyebrow">Manchester, UK&nbsp;&mdash;&nbsp;Studio</p>
+    <p class="eyebrow">
+      Manchester, UK<time
+        class="site-header__time"
+        data-uk-time
+        hidden></time>
+    </p>
   </div>
 </header>
+
+<script>
+  // Live UK studio time. Progressive enhancement: the element ships hidden and
+  // is only revealed once JS can render an accurate Europe/London clock.
+  const el = document.querySelector<HTMLTimeElement>('[data-uk-time]');
+  if (el) {
+    const fmt = new Intl.DateTimeFormat('en-GB', {
+      timeZone: 'Europe/London',
+      hour: '2-digit',
+      minute: '2-digit',
+      timeZoneName: 'short',
+    });
+    const tick = () => {
+      el.textContent = ` — ${fmt.format(new Date())}`;
+      el.hidden = false;
+    };
+    tick();
+    // Re-sync on the minute boundary, then every minute after.
+    const now = new Date();
+    setTimeout(() => {
+      tick();
+      setInterval(tick, 60_000);
+    }, (60 - now.getSeconds()) * 1000);
+  }
+</script>
 
 <style>
   .site-header {

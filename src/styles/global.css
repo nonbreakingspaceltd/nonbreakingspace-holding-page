@@ -345,6 +345,15 @@
     transform: none;
   }
 
+  /* The masthead drops in from above the top edge instead of rising up into
+     place — it reads as settling down from the top of the window. */
+  .js [data-reveal].reveal-drop {
+    transform: translateY(-100%);
+  }
+  .js [data-reveal].reveal-drop.is-revealed {
+    transform: none;
+  }
+
   /* The wordmark is "written once": a near-upright calligraphic nib sweeps
      left-to-right across the &nbsp; monogram, uncovering the fully-formed
      glyphs in reading order (& · n · b · s · p · ;). The fill is always
