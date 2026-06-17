@@ -57,8 +57,17 @@ const jsonLd = {
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <!-- Add the `js` hook before paint so reveal styles only apply with JS. -->
+    <!-- Apply the saved theme + add the `js` hook before paint, so there is no
+         flash of the wrong theme and reveal styles only apply with JS. -->
     <script is:inline>
+      try {
+        var theme = localStorage.getItem('theme');
+        if (theme === 'dark' || theme === 'light') {
+          document.documentElement.setAttribute('data-theme', theme);
+        }
+      } catch (e) {
+        /* storage blocked — fall back to the OS preference via CSS */
+      }
       document.documentElement.classList.add('js');
       // Single-page site: always open at the top. Without this the browser
       // restores the previous scroll position on reload / back-forward, landing
@@ -89,7 +98,10 @@ const jsonLd = {
     <meta name="apple-mobile-web-app-title" content="Nonbreakingspace" />
     <meta name="application-name" content="Nonbreakingspace" />
     <meta name="msapplication-TileColor" content="#fff9ed" />
-    <meta name="theme-color" content="#fff9ed" />
+    <!-- Default to the ivory ground; the OS dark case and the in-page toggle
+         (Header.astro) keep this in step with the active theme. -->
+    <meta name="theme-color" content="#fff9ed" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0b1a2a" media="(prefers-color-scheme: dark)" />
 
     <!-- Open Graph -->
     <meta property="og:type" content="website" />

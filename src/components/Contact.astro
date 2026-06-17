@@ -35,18 +35,18 @@ const email = 'hello@nonbreakingspace.co.uk';
 
 <style>
   .contact {
-    background: var(--color-navy);
-    color: var(--color-ivory);
+    background: var(--surface-contrast);
+    color: var(--text-on-contrast);
     padding-block: var(--pad-contact);
   }
 
   .contact__eyebrow {
-    color: color-mix(in srgb, var(--color-ivory) 72%, transparent);
+    color: color-mix(in srgb, var(--text-on-contrast) 72%, transparent);
     margin-bottom: clamp(1.75rem, 5vh, 3rem);
   }
 
   .contact__headline {
-    color: var(--color-ivory);
+    color: var(--text-on-contrast);
     max-width: 16ch;
   }
 
@@ -55,7 +55,7 @@ const email = 'hello@nonbreakingspace.co.uk';
     width: max-content;
     max-width: 100%;
     margin-top: clamp(1.75rem, 4vh, 2.75rem);
-    color: var(--color-ivory);
+    color: var(--text-on-contrast);
     /* comfortable tap target */
     padding-block: 0.35rem;
   }
@@ -67,11 +67,11 @@ const email = 'hello@nonbreakingspace.co.uk';
     gap: 2rem;
     margin-top: clamp(4.5rem, 12vh, 8rem);
     padding-top: clamp(1.5rem, 3vh, 2.25rem);
-    border-top: 1px solid var(--rule-dark);
+    border-top: 1px solid var(--rule-contrast);
   }
 
   .contact__legal .legal {
-    color: color-mix(in srgb, var(--color-ivory) 70%, transparent);
+    color: color-mix(in srgb, var(--text-on-contrast) 70%, transparent);
   }
   .contact__legal .legal + .legal {
     margin-top: 0.35rem;
@@ -84,7 +84,7 @@ const email = 'hello@nonbreakingspace.co.uk';
     display: block;
     width: clamp(120px, 22vw, 168px);
     height: auto;
-    color: var(--color-ivory);
+    color: var(--text-on-contrast);
   }
 
   @media (max-width: 34rem) {
