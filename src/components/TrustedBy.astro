@@ -1,0 +1,121 @@
+---
+// An unnumbered logo wall — a quiet band of mono-colour brand marks, sitting
+// between the Approach (03) and the dark Contact close (04). Deliberately
+// outside the foliation so the 01–04 section index stays intact.
+//
+// Logos are sourced from `src/assets/logos/*.svg` and inlined so they render
+// with `fill="currentColor"` and inherit the theme — they recolour for dark
+// mode automatically. Two-tone marks keep their knockout details via
+// `fill: var(--surface)`, so the cut-outs read as holes onto the page ground.
+//
+// The roster is explicit (not filename-derived) so display order is intentional
+// and each mark gets a correct accessible name. To add a brand: drop a mono SVG
+// (currentColor for the ink, no hard-coded fills) into that folder and add a
+// `{ slug, name }` entry below.
+const logoModules = import.meta.glob<string>('../assets/logos/*.svg', {
+  query: '?raw',
+  import: 'default',
+  eager: true,
+});
+
+// Order is tuned for the wall's rhythm, not alphabetised. Every mark renders at
+// a uniform height, so a logo's optical weight tracks its aspect ratio: the two
+// near-square marks (Co-op, Unilever) read as compact, the rest as wide
+// wordmarks. We split the two compact marks one-per-row and seat each between
+// wider neighbours, and lead each row with a substantial wordmark — so at the
+// desktop 4/3 wrap the rows balance (Equal Experts · Co-op · Allgold · Neem /
+// Snotbricks · Unilever · Stage Two) instead of stranding a tiny mark in a corner.
+const brands = [
+  { slug: 'equal-experts', name: 'Equal Experts' },
+  { slug: 'co-operative', name: 'The Co-operative' },
+  { slug: 'allgold', name: 'Allgold' },
+  { slug: 'neem', name: 'Neem' },
+  // `shift` nudges a mark down (% of its own height) to sit on the shared
+  // baseline — Snotbricks' wordmark rides high because its emblem drips below.
+  { slug: 'snotbricks', name: 'Snotbricks & Co.', shift: '8%' },
+  { slug: 'unilever', name: 'Unilever' },
+  { slug: 'stage-two', name: 'Stage Two' },
+];
+
+const logos = brands
+  .map((brand) => ({ ...brand, svg: logoModules[`../assets/logos/${brand.slug}.svg`] }))
+  .filter((brand) => brand.svg);
+---
+
+<section id="trusted-by" class="trusted-by" aria-labelledby="trusted-by-heading">
+  <div class="wrap">
+    <p id="trusted-by-heading" class="eyebrow trusted-by__eyebrow" data-reveal>
+      Trusted by
+    </p>
+
+    <ul class="trusted-by__list">
+      {
+        logos.map((logo, i) => (
+          <li
+            class="trusted-by__logo"
+            role="img"
+            aria-label={logo.name}
+            data-reveal
+            style={`--reveal-delay: ${i * 60}ms; --logo-shift: ${logo.shift ?? '0'}`}
+            set:html={logo.svg}
+          />
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<style>
+  .trusted-by {
+    padding-block: var(--pad-section);
+    border-top: 1px solid var(--rule);
+  }
+
+  .trusted-by__eyebrow {
+    text-align: center;
+    margin: 0 0 clamp(2.5rem, 6vh, 4rem);
+  }
+
+  .trusted-by__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    /* Always centred — including any wrapped row. */
+    justify-content: center;
+    column-gap: clamp(2.5rem, 6vw, 6rem);
+    row-gap: clamp(3.5rem, 8vh, 5.5rem);
+  }
+
+  .trusted-by__logo {
+    display: inline-flex;
+    align-items: center;
+    /* Quietly recessed by default; lifts to full ink on hover. */
+    color: var(--text-muted-strong);
+    opacity: 0.85;
+    transition:
+      color 0.24s var(--ease-out-soft),
+      opacity 0.24s var(--ease-out-soft);
+  }
+
+  .trusted-by__logo :global(svg) {
+    display: block;
+    width: auto;
+    height: clamp(2.5rem, 1.8rem + 2.8vw, 4rem);
+  }
+
+  @media (hover: hover) {
+    .trusted-by__logo:hover {
+      color: var(--text-strong);
+      opacity: 1;
+    }
+  }
+
+  @media (max-width: 38rem) {
+    .trusted-by__list {
+      column-gap: clamp(2rem, 9vw, 3rem);
+    }
+  }
+</style>

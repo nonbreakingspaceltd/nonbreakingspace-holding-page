@@ -24,7 +24,9 @@ const email = 'hello@nonbreakingspace.co.uk';
     <div class="contact__colophon" data-reveal>
       <div class="contact__legal">
         <p class="legal">Nonbreakingspace Ltd&nbsp;&middot;&nbsp;Company no. 10833071</p>
-        <p class="legal">Manchester, UK&nbsp;&middot;&nbsp;&copy; Copyright 2026</p>
+        <p class="legal">Manchester, UK&nbsp;&middot;&nbsp;&copy; Copyright 2026&nbsp;&middot;&nbsp;<a
+            class="link-underline contact__brand-link"
+            href="/brand">Brand guidelines</a></p>
       </div>
       <span class="contact__wordmark" aria-hidden="true">
         <Wordmark />
@@ -38,6 +40,8 @@ const email = 'hello@nonbreakingspace.co.uk';
     background: var(--surface-contrast);
     color: var(--text-on-contrast);
     padding-block: var(--pad-contact);
+    /* Keyline separating the footer from the section above. */
+    border-top: 1px solid var(--rule-contrast);
   }
 
   .contact__eyebrow {
@@ -75,6 +79,11 @@ const email = 'hello@nonbreakingspace.co.uk';
   }
   .contact__legal .legal + .legal {
     margin-top: 0.35rem;
+  }
+  /* Quiet inline link to the brand spec; brightens to full ink on hover. */
+  .contact__brand-link:hover,
+  .contact__brand-link:focus-visible {
+    color: var(--text-on-contrast);
   }
 
   .contact__wordmark {
