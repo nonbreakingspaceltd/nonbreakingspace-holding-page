@@ -60,6 +60,11 @@ const jsonLd = {
     <!-- Add the `js` hook before paint so reveal styles only apply with JS. -->
     <script is:inline>
       document.documentElement.classList.add('js');
+      // Single-page site: always open at the top. Without this the browser
+      // restores the previous scroll position on reload / back-forward, landing
+      // a few dozen pixels down and hiding the masthead's top padding. Fragment
+      // links (e.g. the skip link's #index) still scroll normally.
+      if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
     </script>
 
     <title>{title}</title>
@@ -141,13 +146,35 @@ const jsonLd = {
         // Above-the-fold content reveals on load (with its stagger); the rest
         // reveals as it scrolls into view.
         const fold = window.innerHeight * 0.92;
+        const onLoad: HTMLElement[] = [];
         reveals.forEach((el) => {
           if (el.getBoundingClientRect().top < fold) {
-            el.classList.add('is-revealed');
+            onLoad.push(el);
           } else {
             observer.observe(el);
           }
         });
+        // Reveal the above-the-fold elements so their fade+rise actually
+        // transitions instead of snapping (a snap reads as the page "scrolling"
+        // a few pixels on load). Two races have to be avoided:
+        //  1. This is a deferred module — it runs before first paint, so the
+        //     hidden/translated start state must be painted before we flip the
+        //     class, or there is no "from" frame to transition out of.
+        //  2. The web fonts finish loading a beat after navigation and trigger a
+        //     full style recalc; flipping the class in that same recalc collapses
+        //     the before/after and kills the transition.
+        // Waiting for fonts to settle, then waiting two frames, clears both.
+        const revealOnLoad = () =>
+          requestAnimationFrame(() =>
+            requestAnimationFrame(() => {
+              onLoad.forEach((el) => el.classList.add('is-revealed'));
+            })
+          );
+        if (document.fonts?.status === 'loaded') {
+          revealOnLoad();
+        } else {
+          document.fonts.ready.then(revealOnLoad);
+        }
       }
     </script>
   </body>
