@@ -45,6 +45,23 @@
   --rule-light: rgb(7 26 45 / 0.12);
   --rule-dark: rgb(255 249 237 / 0.15);
 
+  /* ---- Semantic colour layer ----------------------------------------------
+     Components reference these role tokens, never the raw palette, so the whole
+     system re-themes by re-pointing them. The literal --color-* palette stays
+     fixed (it documents the brand); these map onto it for the default Light
+     theme and flip for Dark below. */
+  --surface: var(--color-ivory); /* page ground */
+  --surface-recessed: var(--color-cream); /* the one tonal band (Approach) */
+  --surface-contrast: var(--color-navy); /* the dark close (Contact) */
+  --text: var(--color-ink); /* reading copy */
+  --text-strong: var(--color-navy); /* display ink + wordmark */
+  --text-muted: var(--color-muted); /* quiet decorative marks */
+  --text-muted-strong: var(--color-muted-strong); /* essential small text */
+  --text-on-contrast: var(--color-ivory); /* text on --surface-contrast */
+  --accent: var(--color-warm); /* the single tan accent */
+  --rule: var(--rule-light); /* hairline on the page ground */
+  --rule-contrast: var(--rule-dark); /* hairline on --surface-contrast */
+
   /* Layout. */
   --gutter: clamp(1.5rem, 6vw, 9rem);
   --content-max: 1280px;
@@ -64,6 +81,48 @@
 }
 
 /* ----------------------------------------------------------------------------
+   Dark theme — the same "Quiet Index" inverted: warm light type on a deep navy
+   ground. Activated by the OS (prefers-color-scheme) unless the visitor has
+   explicitly chosen a theme via the masthead toggle (data-theme on <html>,
+   persisted in localStorage and applied before paint).
+---------------------------------------------------------------------------- */
+/* Follow the OS when the visitor hasn't pinned a theme. The token values are
+   intentionally duplicated in the explicit-choice selector below: CSS can't
+   share a declaration block between a media query and an attribute selector. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    color-scheme: dark;
+    --surface: #0b1a2a; /* deep navy-black ground */
+    --surface-recessed: #11243a; /* the lifted tonal band */
+    --surface-contrast: #102844; /* the close, a notch above the ground */
+    --text: #d9d1c2; /* warm light reading copy */
+    --text-strong: #f2ebde; /* near-ivory display ink + wordmark */
+    --text-muted: #a2978a; /* quiet marks — ≈7:1 on the ground */
+    --text-muted-strong: #bcb2a2; /* essential small text */
+    --text-on-contrast: #ece5d8; /* text on --surface-contrast */
+    --accent: #d4b89f; /* the tan accent, lifted for the dark ground */
+    --rule: rgb(255 249 237 / 0.14); /* hairline on the dark ground */
+    --rule-contrast: rgb(255 249 237 / 0.14);
+  }
+}
+
+/* An explicit choice always wins over the OS. */
+:root[data-theme='dark'] {
+  color-scheme: dark;
+  --surface: #0b1a2a;
+  --surface-recessed: #11243a;
+  --surface-contrast: #102844;
+  --text: #d9d1c2;
+  --text-strong: #f2ebde;
+  --text-muted: #a2978a;
+  --text-muted-strong: #bcb2a2;
+  --text-on-contrast: #ece5d8;
+  --accent: #d4b89f;
+  --rule: rgb(255 249 237 / 0.14);
+  --rule-contrast: rgb(255 249 237 / 0.14);
+}
+
+/* ----------------------------------------------------------------------------
    Base
 ---------------------------------------------------------------------------- */
 @layer base {
@@ -80,8 +139,8 @@
 
   body {
     margin: 0;
-    background-color: var(--color-ivory);
-    color: var(--color-ink);
+    background-color: var(--surface);
+    color: var(--text);
     font-family: var(--font-sans);
     font-size: var(--t-body);
     font-weight: 380;
@@ -105,18 +164,18 @@
   }
 
   ::selection {
-    background-color: var(--color-navy);
-    color: var(--color-ivory);
+    background-color: var(--text-strong);
+    color: var(--surface);
   }
 
   :focus-visible {
-    outline: 2px solid var(--color-navy);
+    outline: 2px solid var(--text-strong);
     outline-offset: 3px;
     border-radius: 1px;
   }
   /* Invert the focus ring on the dark close so it stays visible. */
   .on-navy :focus-visible {
-    outline-color: var(--color-ivory);
+    outline-color: var(--text-on-contrast);
   }
 
   [id] {
@@ -159,8 +218,8 @@
     top: 1rem;
     z-index: 50;
     transform: translateY(-150%);
-    background: var(--color-navy);
-    color: var(--color-ivory);
+    background: var(--surface-contrast);
+    color: var(--text-on-contrast);
     padding: 0.6rem 1rem;
     font-family: var(--font-sans);
     font-size: 0.8125rem;
@@ -176,7 +235,7 @@
   .t-display {
     font-family: var(--font-display);
     font-optical-sizing: none;
-    color: var(--color-navy);
+    color: var(--text-strong);
   }
 
   .t-hero {
@@ -186,7 +245,7 @@
     font-size: var(--t-hero);
     line-height: 0.96;
     letter-spacing: -0.025em;
-    color: var(--color-navy);
+    color: var(--text-strong);
     text-wrap: balance;
   }
 
@@ -207,7 +266,7 @@
     font-size: var(--t-statement);
     line-height: 1.12;
     letter-spacing: -0.02em;
-    color: var(--color-navy);
+    color: var(--text-strong);
   }
 
   .t-heading {
@@ -217,7 +276,7 @@
     font-size: var(--t-heading);
     line-height: 1.05;
     letter-spacing: -0.015em;
-    color: var(--color-navy);
+    color: var(--text-strong);
   }
 
   .t-cap {
@@ -227,7 +286,7 @@
     font-size: var(--t-cap);
     line-height: 1;
     letter-spacing: -0.01em;
-    color: var(--color-navy);
+    color: var(--text-strong);
   }
 
   .t-email {
@@ -267,7 +326,7 @@
     line-height: 1;
     letter-spacing: 0.22em;
     text-transform: uppercase;
-    color: var(--color-muted-strong);
+    color: var(--text-muted-strong);
   }
   .eyebrow .index {
     font-variant-numeric: tabular-nums lining-nums;
@@ -280,7 +339,7 @@
     font-weight: 500;
     letter-spacing: 0.12em;
     text-transform: uppercase;
-    color: var(--color-muted-strong);
+    color: var(--text-muted-strong);
   }
 
   .legal {
@@ -288,7 +347,7 @@
     font-size: 0.6875rem;
     line-height: 1.5;
     letter-spacing: 0.01em;
-    color: var(--color-muted);
+    color: var(--text-muted);
   }
 
   /* Tabular two-digit row index (01–06). */
@@ -298,12 +357,12 @@
     font-weight: 500;
     letter-spacing: 0.1em;
     font-variant-numeric: tabular-nums lining-nums;
-    color: var(--color-muted);
+    color: var(--text-muted);
   }
 
   /* Understated tan underline that draws on hover / focus. */
   .link-underline {
-    background-image: linear-gradient(var(--color-warm), var(--color-warm));
+    background-image: linear-gradient(var(--accent), var(--accent));
     background-position: 0 100%;
     background-repeat: no-repeat;
     background-size: 0% 1px;

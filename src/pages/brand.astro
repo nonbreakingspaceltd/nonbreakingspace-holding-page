@@ -212,6 +212,17 @@ const motionTokens = [
             ))
           }
         </ul>
+
+        <h3 class="meta-label subhead subhead--spaced">Semantic tokens &amp; themes</h3>
+        <p class="t-body colour-note" data-reveal>
+          Components reference <em>role</em> tokens &mdash; <code class="token">--surface</code>,
+          <code class="token">--text</code>, <code class="token">--text-strong</code>,
+          <code class="token">--accent</code>, <code class="token">--rule</code> and friends
+          &mdash; never the raw palette above. The default Light theme maps them onto these
+          swatches; Dark re-points them to a warm-light-on-deep-navy set of the same family.
+          Dark follows the operating system by default, with a masthead toggle to override that
+          is remembered across visits.
+        </p>
       </div>
     </section>
 
@@ -228,7 +239,7 @@ const motionTokens = [
               explicitly per step. Italic is reserved for a single accent word per view.</p>
           </article>
           <article class="family" data-reveal style="--reveal-delay: 100ms">
-            <p class="family__specimen" style="font-family: var(--font-sans); font-weight: 380; font-size: clamp(3rem, 8vw, 5.5rem); line-height: 0.9; color: var(--color-ink);">Aa</p>
+            <p class="family__specimen" style="font-family: var(--font-sans); font-weight: 380; font-size: clamp(3rem, 8vw, 5.5rem); line-height: 0.9; color: var(--text);">Aa</p>
             <h3 class="t-cap">Inter</h3>
             <p class="t-body">The clean grotesque foil. Body copy, eyebrows, labels and every
               functional role. Tabular lining numerals for indices.</p>
@@ -338,7 +349,7 @@ const motionTokens = [
     font-family: ui-monospace, 'SF Mono', SFMono-Regular, Menlo, Consolas, monospace;
     font-size: 0.8125rem;
     letter-spacing: 0;
-    color: var(--color-muted-strong);
+    color: var(--text-muted-strong);
   }
   code.token {
     font-size: 0.85em;
@@ -357,14 +368,14 @@ const motionTokens = [
   .brand-hero__lede {
     max-width: 52ch;
     margin-top: clamp(1.5rem, 4vh, 2.5rem);
-    color: var(--color-ink);
+    color: var(--text);
     text-wrap: pretty;
   }
 
   /* ---- Section shell ---- */
   .band {
     padding-block: var(--pad-section);
-    border-top: 1px solid var(--rule-light);
+    border-top: 1px solid var(--rule);
   }
 
   /* ---- 01 Foundations ---- */
@@ -378,7 +389,7 @@ const motionTokens = [
   }
   .principle p {
     max-width: 32ch;
-    color: var(--color-ink);
+    color: var(--text);
     text-wrap: pretty;
   }
 
@@ -394,23 +405,23 @@ const motionTokens = [
     flex-direction: column;
     gap: clamp(1rem, 2.5vh, 1.5rem);
     padding: clamp(1.75rem, 4vw, 3rem);
-    border: 1px solid var(--rule-light);
+    border: 1px solid var(--rule);
   }
   .mark--dark {
-    background: var(--color-navy);
+    background: var(--surface-contrast);
     border-color: transparent;
   }
   .mark--dark .meta-label {
-    color: color-mix(in srgb, var(--color-ivory) 70%, transparent);
+    color: color-mix(in srgb, var(--text-on-contrast) 70%, transparent);
   }
   .mark__art :global(svg) {
     display: block;
     width: clamp(160px, 30vw, 300px);
     height: auto;
-    color: var(--color-navy);
+    color: var(--text-strong);
   }
   .mark__art--invert :global(svg) {
-    color: var(--color-ivory);
+    color: var(--text-on-contrast);
   }
 
   .notes {
@@ -431,7 +442,7 @@ const motionTokens = [
   .note__list li {
     position: relative;
     padding-left: 1.25rem;
-    color: var(--color-ink);
+    color: var(--text);
   }
   .note__list li + li {
     margin-top: 0.65rem;
@@ -443,7 +454,7 @@ const motionTokens = [
     top: 0.7em;
     width: 0.5rem;
     height: 1px;
-    background: var(--color-warm);
+    background: var(--accent);
   }
 
   /* ---- 03 Colour ---- */
@@ -461,14 +472,14 @@ const motionTokens = [
     border-radius: 1px;
   }
   .swatch__chip--light {
-    box-shadow: inset 0 0 0 1px var(--rule-light);
+    box-shadow: inset 0 0 0 1px var(--rule);
   }
   .swatch__meta {
     margin-top: 0.9rem;
   }
   .swatch__name {
     font-weight: 500;
-    color: var(--color-navy);
+    color: var(--text-strong);
   }
   .swatch__hex {
     margin-top: 0.35rem;
@@ -476,13 +487,13 @@ const motionTokens = [
   }
   .swatch__token {
     margin-top: 0.1rem;
-    color: var(--color-muted);
+    color: var(--text-muted);
   }
   .swatch__role {
     margin-top: 0.6rem;
     font-size: 0.875rem;
     line-height: 1.45;
-    color: var(--color-ink);
+    color: var(--text);
     text-wrap: pretty;
   }
 
@@ -502,7 +513,7 @@ const motionTokens = [
   }
   .family p {
     max-width: 38ch;
-    color: var(--color-ink);
+    color: var(--text);
     text-wrap: pretty;
   }
 
@@ -510,8 +521,18 @@ const motionTokens = [
     margin-bottom: clamp(1.5rem, 4vh, 2.5rem);
   }
   .subhead + .subhead,
-  .specimens + .subhead {
+  .specimens + .subhead,
+  .subhead--spaced {
     margin-top: clamp(3rem, 7vh, 5rem);
+  }
+
+  .colour-note {
+    max-width: 62ch;
+    color: var(--text);
+    text-wrap: pretty;
+  }
+  .colour-note em {
+    font-style: italic;
   }
 
   .specimens,
@@ -525,7 +546,7 @@ const motionTokens = [
 
   .specimen {
     padding-block: clamp(1.25rem, 3vh, 2rem);
-    border-top: 1px solid var(--rule-light);
+    border-top: 1px solid var(--rule);
   }
   .specimen:first-child {
     border-top: 0;
@@ -546,7 +567,7 @@ const motionTokens = [
     gap: 0.25rem;
   }
   .specimen__meta dt {
-    color: var(--color-muted);
+    color: var(--text-muted);
   }
   .specimen__meta dd {
     margin: 0;
@@ -563,17 +584,17 @@ const motionTokens = [
     gap: 1rem clamp(1.5rem, 3vw, 2.5rem);
     align-items: baseline;
     padding-block: clamp(0.9rem, 2vh, 1.35rem);
-    border-top: 1px solid var(--rule-light);
+    border-top: 1px solid var(--rule);
   }
   .role:first-child {
     border-top: 0;
   }
   .role__name {
     font-weight: 500;
-    color: var(--color-navy);
+    color: var(--text-strong);
   }
   .role__detail {
-    color: var(--color-ink);
+    color: var(--text);
     font-size: 0.9375rem;
     line-height: 1.5;
   }
@@ -585,23 +606,23 @@ const motionTokens = [
     gap: 0.4rem clamp(1.5rem, 4vw, 3rem);
     align-items: baseline;
     padding-block: clamp(0.9rem, 2vh, 1.35rem);
-    border-top: 1px solid var(--rule-light);
+    border-top: 1px solid var(--rule);
   }
   .token-row:first-child {
     border-top: 0;
   }
   .token-row__name {
-    color: var(--color-navy);
+    color: var(--text-strong);
   }
   .token-row__value {
-    color: var(--color-muted-strong);
+    color: var(--text-muted-strong);
   }
   .token-row__note {
     grid-column: 2;
     margin-top: 0.15rem;
     font-size: 0.9375rem;
     line-height: 1.5;
-    color: var(--color-ink);
+    color: var(--text);
   }
 
   /* ---- 06 Motion ---- */
@@ -615,7 +636,7 @@ const motionTokens = [
   }
   .motion__item p {
     max-width: 40ch;
-    color: var(--color-ink);
+    color: var(--text);
     text-wrap: pretty;
   }
 
@@ -630,7 +651,7 @@ const motionTokens = [
   }
   .voice__col p {
     max-width: 42ch;
-    color: var(--color-ink);
+    color: var(--text);
     text-wrap: pretty;
   }
 

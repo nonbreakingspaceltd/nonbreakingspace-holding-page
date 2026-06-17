@@ -6,12 +6,50 @@
 <header class="site-header reveal-drop" data-reveal>
   <div class="wrap site-header__inner">
     <a class="lockup link-underline" href="/">Nonbreakingspace</a>
-    <p class="eyebrow">
-      Manchester, UK<time
-        class="site-header__time"
-        data-uk-time
-        hidden></time>
-    </p>
+    <div class="site-header__end">
+      <p class="eyebrow">
+        Manchester, UK<time
+          class="site-header__time"
+          data-uk-time
+          hidden></time>
+      </p>
+      <button
+        class="theme-toggle"
+        type="button"
+        data-theme-toggle
+        aria-label="Switch to dark theme"
+        title="Switch theme"
+      >
+        <!-- Sun (shown in dark mode → click for light). -->
+        <svg
+          class="theme-toggle__icon theme-toggle__sun"
+          viewBox="0 0 24 24"
+          width="18"
+          height="18"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.6"
+          stroke-linecap="round"
+          aria-hidden="true"
+        >
+          <circle cx="12" cy="12" r="4.2"></circle>
+          <path
+            d="M12 2.4v2.6M12 19v2.6M4.4 4.4l1.9 1.9M17.7 17.7l1.9 1.9M2.4 12h2.6M19 12h2.6M4.4 19.6l1.9-1.9M17.7 6.3l1.9-1.9"
+          ></path>
+        </svg>
+        <!-- Moon (shown in light mode → click for dark). -->
+        <svg
+          class="theme-toggle__icon theme-toggle__moon"
+          viewBox="0 0 24 24"
+          width="18"
+          height="18"
+          fill="currentColor"
+          aria-hidden="true"
+        >
+          <path d="M20 14.4A8.2 8.2 0 1 1 9.6 4a6.6 6.6 0 0 0 10.4 10.4z"></path>
+        </svg>
+      </button>
+    </div>
   </div>
 </header>
 
@@ -38,11 +76,57 @@
       setInterval(tick, 60_000);
     }, (60 - now.getSeconds()) * 1000);
   }
+
+  // Theme toggle. The effective theme is the explicit choice (data-theme) if the
+  // visitor has made one, otherwise the OS preference. Clicking pins the
+  // opposite, persisted so the no-flash inline script in BaseLayout can apply it
+  // before paint on the next load.
+  const root = document.documentElement;
+  const darkQuery = window.matchMedia('(prefers-color-scheme: dark)');
+  const toggle = document.querySelector<HTMLButtonElement>('[data-theme-toggle]');
+
+  const isDark = () => {
+    const explicit = root.getAttribute('data-theme');
+    return explicit ? explicit === 'dark' : darkQuery.matches;
+  };
+
+  const syncLabel = () => {
+    if (!toggle) return;
+    const dark = isDark();
+    toggle.setAttribute('aria-label', dark ? 'Switch to light theme' : 'Switch to dark theme');
+    toggle.setAttribute('aria-pressed', String(dark));
+  };
+
+  if (toggle) {
+    syncLabel();
+    toggle.addEventListener('click', () => {
+      const next = isDark() ? 'light' : 'dark';
+      root.setAttribute('data-theme', next);
+      try {
+        localStorage.setItem('theme', next);
+      } catch {
+        /* private mode — the choice just won't persist */
+      }
+      // Keep the address-bar / UI chrome colour in step. Drop the `media`
+      // scoping so the explicit choice wins over the OS-matched defaults.
+      document.querySelectorAll('meta[name="theme-color"]').forEach((meta) => {
+        meta.removeAttribute('media');
+        meta.setAttribute('content', next === 'dark' ? '#0b1a2a' : '#fff9ed');
+      });
+      syncLabel();
+    });
+  }
+
+  // If the visitor is following the OS (no explicit choice), keep the label in
+  // step when they change the system setting live.
+  darkQuery.addEventListener('change', () => {
+    if (!root.getAttribute('data-theme')) syncLabel();
+  });
 </script>
 
 <style>
   .site-header {
-    border-bottom: 1px solid var(--rule-light);
+    border-bottom: 1px solid var(--rule);
   }
   .site-header__inner {
     display: flex;
@@ -57,12 +141,68 @@
     font-weight: 500;
     letter-spacing: 0.22em;
     text-transform: uppercase;
-    color: var(--color-ink);
+    color: var(--text);
   }
+
+  /* Right cluster: location/time tag + the theme toggle. */
+  .site-header__end {
+    display: flex;
+    align-items: center;
+    gap: clamp(0.85rem, 2vw, 1.25rem);
+  }
+
+  /* Understated icon button — a hairline ring that warms on hover, in keeping
+     with the rest of the system (no fills, no shadows). */
+  .theme-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.1rem;
+    height: 2.1rem;
+    padding: 0;
+    margin: -0.3rem 0; /* keep the optical line without growing the header */
+    border: 1px solid var(--rule);
+    border-radius: 999px;
+    background: transparent;
+    color: var(--text-muted-strong);
+    cursor: pointer;
+    transition:
+      color 0.24s var(--ease-out-soft),
+      border-color 0.24s var(--ease-out-soft);
+  }
+  .theme-toggle:hover {
+    color: var(--text-strong);
+    border-color: var(--accent);
+  }
+  .theme-toggle__icon {
+    display: block;
+  }
+
+  /* Show the icon for the theme the visitor would switch TO. Default (light):
+     moon. Dark — whether from the OS or an explicit choice: sun. */
+  .theme-toggle__sun {
+    display: none;
+  }
+  @media (prefers-color-scheme: dark) {
+    :global(:root:not([data-theme='light'])) .theme-toggle__sun {
+      display: block;
+    }
+    :global(:root:not([data-theme='light'])) .theme-toggle__moon {
+      display: none;
+    }
+  }
+  :global(:root[data-theme='dark']) .theme-toggle__sun {
+    display: block;
+  }
+  :global(:root[data-theme='dark']) .theme-toggle__moon {
+    display: none;
+  }
+
   /* On the narrowest screens, drop the location tag to keep the line clean.
-     30rem clears the band where the non-breaking tag could touch the lockup. */
+     30rem clears the band where the non-breaking tag could touch the lockup.
+     The toggle stays — it's the one control. */
   @media (max-width: 30rem) {
-    .site-header__inner .eyebrow {
+    .site-header__end .eyebrow {
       display: none;
     }
   }
