@@ -1,3 +1,8 @@
 allowBuilds:
   esbuild: true
   sharp: true
+
+# Force the patched esbuild (CVE: RCE via NPM_CONFIG_REGISTRY + dev-server file
+# read). Astro 6.4.7 and Vite 7.3.5 still pin ^0.27; remove once they bump to ^0.28.
+overrides:
+  esbuild: ^0.28.1
