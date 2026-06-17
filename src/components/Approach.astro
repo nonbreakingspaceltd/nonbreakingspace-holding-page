@@ -7,17 +7,17 @@ const steps = [
   {
     num: 'I',
     title: 'Think',
-    body: 'We understand the problem, the audience and the constraints before deciding what needs to exist.',
+    body: 'Understand the problem, the audience and the constraints before anything else.',
   },
   {
     num: 'II',
     title: 'Shape',
-    body: 'We design the structure, interface and visual language so the work feels clear and coherent.',
+    body: 'Define the structure, interface and visual language until every part holds together.',
   },
   {
     num: 'III',
     title: 'Build',
-    body: 'We create durable software and design systems made to perform, adapt and last.',
+    body: 'Create durable software and design systems made to perform, adapt and last.',
   },
 ];
 ---
@@ -49,18 +49,23 @@ const steps = [
   }
 
   .approach__grid {
+    --approach-gap: clamp(2rem, 4vw, 4rem);
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    column-gap: clamp(2rem, 4vw, 4rem);
+    column-gap: var(--approach-gap);
   }
 
   .approach__col {
-    padding-left: clamp(1.25rem, 2vw, 2rem);
-    border-left: 1px solid var(--rule-light);
+    position: relative;
   }
-  .approach__col:first-child {
-    padding-left: 0;
-    border-left: 0;
+  /* Rule centred in the gutter so every column's text starts flush with its
+     grid track — the three columns then read as equal widths. */
+  .approach__col + .approach__col::before {
+    content: '';
+    position: absolute;
+    inset-block: 0;
+    left: calc(-0.5 * var(--approach-gap));
+    border-left: 1px solid var(--rule-light);
   }
 
   .approach__num {
@@ -81,6 +86,7 @@ const steps = [
   .approach__copy {
     max-width: 26ch;
     color: var(--color-ink);
+    text-wrap: pretty;
   }
 
   @media (max-width: 48rem) {
@@ -88,9 +94,8 @@ const steps = [
       grid-template-columns: 1fr;
       row-gap: clamp(2.5rem, 7vw, 3.5rem);
     }
-    .approach__col {
-      padding-left: 0;
-      border-left: 0;
+    .approach__col + .approach__col::before {
+      display: none;
     }
     .approach__col + .approach__col {
       border-top: 1px solid var(--rule-light);

@@ -20,10 +20,12 @@
   --color-cream: #f4ead8;
   --color-ivory: #fff9ed;
   --color-ink: #071a2d;
-  --color-muted: #8a7e6f;
-  /* Darker taupe for essential text (headings, labels, descriptors) — clears
-     WCAG AA (≈6:1 on ivory) while staying in the warm taupe family. The lighter
-     --color-muted is reserved for decorative, aria-hidden marks (indices, ticks). */
+  /* Lightest text tier — quiet decorative marks (row indices, ticks). Darkened
+     from the old #8a7e6f so it clears WCAG AA (≈4.9:1 on ivory) even though the
+     marks are aria-hidden; the previous value failed at 3.78:1. */
+  --color-muted: #786c5d;
+  /* Darker taupe for essential text (headings, labels, descriptors) — ≈6:1 on
+     ivory, in the warm taupe family. Sits one step darker than --color-muted. */
   --color-muted-strong: #685d4e;
   --color-warm: #c9ad94;
 
@@ -54,7 +56,7 @@
   /* Fluid type scale (clamp). */
   --t-hero: clamp(2.25rem, 1.3rem + 5vw, 5.75rem);
   --t-cta: clamp(2.5rem, 1.3rem + 5.4vw, 6rem);
-  --t-statement: clamp(2rem, 1.15rem + 4.2vw, 4.75rem);
+  --t-statement: clamp(1.75rem, 1.05rem + 3.4vw, 4.25rem);
   --t-heading: clamp(1.75rem, 1.15rem + 2.9vw, 3.5rem);
   --t-cap: clamp(1.5rem, 1.05rem + 2.2vw, 2.75rem);
   --t-email: clamp(1.125rem, 0.86rem + 1.32vw, 1.875rem);
