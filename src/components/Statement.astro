@@ -1,0 +1,27 @@
+---
+// An unnumbered interstitial — a single oversized editorial manifesto. The
+// whitespace around it is the design: the most vertical air on the light page.
+---
+
+<section id="statement" class="statement" aria-labelledby="statement-text">
+  <div class="wrap">
+    <h2 id="statement-text" class="t-statement statement__text" data-reveal>
+      We are a small studio making software, interfaces and visual systems with clarity,
+      restraint and <em>care</em>.
+    </h2>
+  </div>
+</section>
+
+<style>
+  .statement {
+    border-top: 1px solid var(--rule-light);
+    border-bottom: 1px solid var(--rule-light);
+    padding-block: var(--pad-statement);
+  }
+
+  /* Flush-left with the section labels; the wide right margin frames it. */
+  .statement__text {
+    max-width: 20ch;
+    text-wrap: pretty;
+  }
+</style>

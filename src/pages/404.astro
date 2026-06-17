@@ -1,0 +1,45 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Wordmark from '../components/Wordmark.astro';
+---
+
+<BaseLayout title="Page not found — Nonbreakingspace" path="/404">
+  <main class="notfound">
+    <div class="wrap notfound__inner">
+      <span class="notfound__wordmark" aria-hidden="true">
+        <Wordmark />
+      </span>
+      <p class="eyebrow"><span class="index">404</span>&nbsp;&mdash;&nbsp;Page not found</p>
+      <h1 class="t-heading notfound__title">This page slipped between the lines.</h1>
+      <a class="t-email link-underline notfound__home" href="/">Return to the index</a>
+    </div>
+  </main>
+</BaseLayout>
+
+<style>
+  .notfound {
+    min-height: 100svh;
+    display: flex;
+    align-items: center;
+  }
+  .notfound__inner {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: clamp(1.5rem, 4vh, 2.5rem);
+    padding-block: clamp(4rem, 12vh, 8rem);
+  }
+  .notfound__wordmark :global(svg) {
+    display: block;
+    width: clamp(220px, 44vw, 460px);
+    height: auto;
+    color: var(--color-navy);
+  }
+  .notfound__title {
+    max-width: 18ch;
+  }
+  .notfound__home {
+    margin-top: 0.5rem;
+    color: var(--color-ink);
+  }
+</style>

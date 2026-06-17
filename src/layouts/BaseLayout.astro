@@ -1,0 +1,146 @@
+---
+import '../styles/global.css';
+// The hero headline (LCP) is set in this face — preload it so it paints early.
+import frauncesDisplay from '@fontsource-variable/fraunces/files/fraunces-latin-opsz-normal.woff2?url';
+
+interface Props {
+  title?: string;
+  description?: string;
+  /** Path to the page, used for the canonical + og:url. */
+  path?: string;
+}
+
+const {
+  title = 'Nonbreakingspace — Software, interaction & graphic design studio',
+  description = 'Nonbreakingspace is a Manchester-based digital studio specialising in front-end development, interaction design and brand-led web experiences.',
+  path = '/',
+} = Astro.props;
+
+const site = Astro.site ?? new URL('https://www.nonbreakingspace.co.uk');
+const canonical = new URL(path, site).href;
+const ogImage = new URL('/og-image.png', site).href;
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: 'Nonbreakingspace',
+  legalName: 'Nonbreakingspace Ltd',
+  url: site.href,
+  description,
+  email: 'hello@nonbreakingspace.co.uk',
+  logo: new URL('/android-chrome-512x512.png', site).href,
+  identifier: {
+    '@type': 'PropertyValue',
+    propertyID: 'Companies House',
+    value: '10833071',
+  },
+  contactPoint: {
+    '@type': 'ContactPoint',
+    email: 'hello@nonbreakingspace.co.uk',
+    contactType: 'sales',
+  },
+  address: {
+    '@type': 'PostalAddress',
+    addressLocality: 'Manchester',
+    addressCountry: 'GB',
+  },
+};
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- Add the `js` hook before paint so reveal styles only apply with JS. -->
+    <script is:inline>
+      document.documentElement.classList.add('js');
+    </script>
+
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+
+    <link
+      rel="preload"
+      href={frauncesDisplay}
+      as="font"
+      type="font/woff2"
+      crossorigin="anonymous"
+    />
+
+    <!-- Icons & PWA -->
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#0b253f" />
+    <meta name="apple-mobile-web-app-title" content="Nonbreakingspace" />
+    <meta name="application-name" content="Nonbreakingspace" />
+    <meta name="msapplication-TileColor" content="#fff9ed" />
+    <meta name="theme-color" content="#fff9ed" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Nonbreakingspace Ltd" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:locale" content="en_GB" />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="2400" />
+    <meta property="og:image:height" content="1260" />
+    <meta property="og:image:alt" content="Nonbreakingspace — software, interaction and graphic design studio" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+    <meta name="twitter:image:alt" content="Nonbreakingspace — software, interaction and graphic design studio" />
+
+    <meta
+      name="google-site-verification"
+      content="DqXpRpJlp_JRGelFAi8IH_IBmNDXgoBwJ1rDsAwIqmk"
+    />
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} is:inline />
+  </head>
+
+  <body>
+    <a class="skip-link" href="#index">Skip to content</a>
+    <slot />
+
+    <script>
+      // Reveal-on-view: subtle fade/rise, runs once per element.
+      const reveals = Array.from(document.querySelectorAll<HTMLElement>('[data-reveal]'));
+      const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      if (reduced || !('IntersectionObserver' in window)) {
+        reveals.forEach((el) => el.classList.add('is-revealed'));
+      } else {
+        const observer = new IntersectionObserver(
+          (entries) => {
+            for (const entry of entries) {
+              if (entry.isIntersecting) {
+                entry.target.classList.add('is-revealed');
+                observer.unobserve(entry.target);
+              }
+            }
+          },
+          { threshold: 0.15, rootMargin: '0px 0px -10% 0px' }
+        );
+        // Above-the-fold content reveals on load (with its stagger); the rest
+        // reveals as it scrolls into view.
+        const fold = window.innerHeight * 0.92;
+        reveals.forEach((el) => {
+          if (el.getBoundingClientRect().top < fold) {
+            el.classList.add('is-revealed');
+          } else {
+            observer.observe(el);
+          }
+        });
+      }
+    </script>
+  </body>
+</html>

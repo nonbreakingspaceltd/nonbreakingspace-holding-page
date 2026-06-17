@@ -1,6 +1,10 @@
-_site
+# build output
+dist
 dist-*
 bin
+
+# astro
+.astro
 
 # dependencies
 node_modules

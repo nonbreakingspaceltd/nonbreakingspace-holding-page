@@ -13,8 +13,8 @@
             "type": "image/png"
         }
     ],
-    "theme_color": "#faf1e0",
-    "background_color": "#faf1e0",
-    "start_url": "http://www.nonbreakingspace.co.uk",
+    "theme_color": "#fff9ed",
+    "background_color": "#fff9ed",
+    "start_url": "https://www.nonbreakingspace.co.uk/",
     "display": "standalone"
 }

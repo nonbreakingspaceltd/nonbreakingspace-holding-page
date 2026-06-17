@@ -1,0 +1,27 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Hero from '../components/Hero.astro';
+import Statement from '../components/Statement.astro';
+import Capabilities from '../components/Capabilities.astro';
+import Approach from '../components/Approach.astro';
+import Contact from '../components/Contact.astro';
+---
+
+<BaseLayout>
+  <Header />
+  <main id="index" tabindex="-1">
+    <Hero />
+    <Statement />
+    <Capabilities />
+    <Approach />
+    <Contact />
+  </main>
+</BaseLayout>
+
+<style>
+  /* The skip-link target shouldn't draw an outline when focused programmatically. */
+  main:focus {
+    outline: none;
+  }
+</style>

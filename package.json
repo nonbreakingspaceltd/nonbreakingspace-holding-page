@@ -1,12 +1,15 @@
 {
   "name": "nonbreakingspace-holding-page",
-  "version": "0.0.0",
-  "description": "Holding page for Nonbreakingspace Ltd.",
+  "version": "2.0.0",
+  "description": "Single-page studio website for Nonbreakingspace Ltd.",
+  "type": "module",
   "scripts": {
-    "build": "pnpm clean && eleventy",
-    "clean": "rimraf _site",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "upgrade:dependencies": "pnpm up -r --latest"
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "check": "astro check",
+    "upgrade:dependencies": "pnpx npm-check-updates --dep dev,optional,peer,prod,overrides,resolutions,packageManager --upgrade --packageManager pnpm"
   },
   "repository": {
     "type": "git",
@@ -18,9 +21,19 @@
     "url": "https://github.com/nonbreakingspaceltd/nonbreakingspace-holding-page/issues"
   },
   "homepage": "https://github.com/nonbreakingspaceltd/nonbreakingspace-holding-page#readme",
-  "dependencies": {
-    "@11ty/eleventy": "3.1.2",
-    "rimraf": "6.1.0"
+  "engines": {
+    "node": "22.x"
   },
-  "packageManager": "pnpm@10.22.0+sha512.bf049efe995b28f527fd2b41ae0474ce29186f7edcb3bf545087bd61fbbebb2bf75362d1307fda09c2d288e1e499787ac12d4fcb617a974718a6051f2eee741c"
+  "dependencies": {
+    "@fontsource-variable/fraunces": "5.2.9",
+    "@fontsource-variable/inter": "5.2.8",
+    "@tailwindcss/vite": "4.3.1",
+    "astro": "6.4.7",
+    "tailwindcss": "4.3.1"
+  },
+  "packageManager": "pnpm@11.7.0+sha512.19cc852c120c7125760f2443ee6be0ca5b40f9f50598de1a09a1f177503e010e57c23c77646e01e761de59bf874fb22a3398c33ab9691fc13eb946b6f0f4d620",
+  "devDependencies": {
+    "@astrojs/check": "0.9.9",
+    "typescript": "6.0.3"
+  }
 }
