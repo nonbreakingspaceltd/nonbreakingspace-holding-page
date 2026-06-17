@@ -1,7 +1,11 @@
 ---
 import '../styles/global.css';
-// The hero headline (LCP) is set in this face — preload it so it paints early.
+// Both primary faces back above-the-fold text. They're pulled in via CSS
+// @font-face (global.css), so the browser only discovers them mid-parse and
+// chains the requests — preload the latin subsets by URL so they start with the
+// document instead. Fraunces sets the hero headline (LCP); Inter the body.
 import frauncesDisplay from '@fontsource-variable/fraunces/files/fraunces-latin-opsz-normal.woff2?url';
+import interBody from '@fontsource-variable/inter/files/inter-latin-wght-normal.woff2?url';
 import Analytics from '@vercel/analytics/astro';
 import SpeedInsights from '@vercel/speed-insights/astro';
 
@@ -88,6 +92,13 @@ const jsonLd = {
       type="font/woff2"
       crossorigin="anonymous"
     />
+    <link
+      rel="preload"
+      href={interBody}
+      as="font"
+      type="font/woff2"
+      crossorigin="anonymous"
+    />
 
     <!-- Icons & PWA -->
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
@@ -144,6 +155,11 @@ const jsonLd = {
       if (reduced || !('IntersectionObserver' in window)) {
         reveals.forEach((el) => el.classList.add('is-revealed'));
       } else {
+        // One observer reveals each element the first time it enters view —
+        // including the above-the-fold ones, which intersect on its first
+        // callback (then transition with their stagger). Letting the observer
+        // decide visibility keeps this off the main thread: no getBoundingClientRect
+        // / innerHeight read, so nothing forces a synchronous reflow.
         const observer = new IntersectionObserver(
           (entries) => {
             for (const entry of entries) {
@@ -155,37 +171,25 @@ const jsonLd = {
           },
           { threshold: 0.15, rootMargin: '0px 0px -10% 0px' }
         );
-        // Above-the-fold content reveals on load (with its stagger); the rest
-        // reveals as it scrolls into view.
-        const fold = window.innerHeight * 0.92;
-        const onLoad: HTMLElement[] = [];
-        reveals.forEach((el) => {
-          if (el.getBoundingClientRect().top < fold) {
-            onLoad.push(el);
-          } else {
-            observer.observe(el);
-          }
-        });
-        // Reveal the above-the-fold elements so their fade+rise actually
-        // transitions instead of snapping (a snap reads as the page "scrolling"
-        // a few pixels on load). Two races have to be avoided:
+        // Defer observing so the first reveal lands cleanly. Two races to avoid:
         //  1. This is a deferred module — it runs before first paint, so the
-        //     hidden/translated start state must be painted before we flip the
-        //     class, or there is no "from" frame to transition out of.
+        //     hidden/translated start state must be painted before any class
+        //     flips, or there is no "from" frame to transition out of.
         //  2. The web fonts finish loading a beat after navigation and trigger a
-        //     full style recalc; flipping the class in that same recalc collapses
-        //     the before/after and kills the transition.
-        // Waiting for fonts to settle, then waiting two frames, clears both.
-        const revealOnLoad = () =>
+        //     full style recalc; revealing in that same recalc collapses the
+        //     before/after and kills the transition.
+        // Waiting for fonts to settle, then two frames, clears both before the
+        // observer can fire.
+        const start = () =>
           requestAnimationFrame(() =>
             requestAnimationFrame(() => {
-              onLoad.forEach((el) => el.classList.add('is-revealed'));
+              reveals.forEach((el) => observer.observe(el));
             })
           );
         if (document.fonts?.status === 'loaded') {
-          revealOnLoad();
+          start();
         } else {
-          document.fonts.ready.then(revealOnLoad);
+          document.fonts.ready.then(start);
         }
       }
     </script>
