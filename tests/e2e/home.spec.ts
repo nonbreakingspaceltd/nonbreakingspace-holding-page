@@ -23,6 +23,13 @@ test('above-the-fold reveals resolve to fully visible (no stuck-hidden content)'
   await expect(headline).toHaveClass(/is-revealed/);
   await expect(headline).toHaveCSS('opacity', '1');
   await expect(page.locator('.hero__wordmark')).toHaveClass(/is-revealed/);
+
+  // The masthead is reveal-drop: it starts translated fully above the top edge,
+  // so it can never *intersect* and must be revealed on load directly. Confirm
+  // it lands visible instead of staying stuck off-screen.
+  const header = page.locator('.site-header');
+  await expect(header).toHaveClass(/is-revealed/);
+  await expect(header).toHaveCSS('opacity', '1');
 });
 
 test('trusted-by logos carry role=img on a valid host, not the <li>', async ({ page }) => {
