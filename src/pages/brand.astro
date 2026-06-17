@@ -1,0 +1,663 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import SectionLabel from '../components/SectionLabel.astro';
+import Wordmark from '../components/Wordmark.astro';
+import Contact from '../components/Contact.astro';
+
+// Brand guidelines — a living spec sheet for the "Quiet Index" system. Every
+// swatch and specimen below is driven by the same @theme tokens the site uses,
+// so this page can't drift from the real design.
+
+const colours = [
+  {
+    name: 'Navy',
+    token: '--color-navy',
+    hex: '#0b253f',
+    swatch: 'var(--color-navy)',
+    role: 'Display ink and the single dark close. Also the selection + focus ring.',
+    light: false,
+  },
+  {
+    name: 'Ink',
+    token: '--color-ink',
+    hex: '#071a2d',
+    swatch: 'var(--color-ink)',
+    role: 'Body copy on the ivory ground. ≈15:1 — well clear of AA.',
+    light: false,
+  },
+  {
+    name: 'Ivory',
+    token: '--color-ivory',
+    hex: '#fff9ed',
+    swatch: 'var(--color-ivory)',
+    role: 'The page ground — a warm off-white broadsheet stock.',
+    light: true,
+  },
+  {
+    name: 'Cream',
+    token: '--color-cream',
+    hex: '#f4ead8',
+    swatch: 'var(--color-cream)',
+    role: 'The one recessed tonal band (Approach). Use sparingly.',
+    light: true,
+  },
+  {
+    name: 'Warm tan',
+    token: '--color-warm',
+    hex: '#c9ad94',
+    swatch: 'var(--color-warm)',
+    role: 'The only accent. Draws the link underline on hover/focus — never used for text.',
+    light: true,
+  },
+  {
+    name: 'Taupe — strong',
+    token: '--color-muted-strong',
+    hex: '#685d4e',
+    swatch: 'var(--color-muted-strong)',
+    role: 'Essential small text: eyebrows, labels, descriptors. ≈6:1 on ivory.',
+    light: false,
+  },
+  {
+    name: 'Taupe — quiet',
+    token: '--color-muted',
+    hex: '#786c5d',
+    swatch: 'var(--color-muted)',
+    role: 'The quietest tier — decorative indices and ticks. ≈4.9:1 on ivory.',
+    light: false,
+  },
+];
+
+// Fraunces display steps — the expressive voice. opsz (optical size) is set
+// explicitly per step rather than auto.
+const displayType = [
+  { cls: 't-cta', name: 'CTA', token: '--t-cta', axes: 'opsz 144 · wght 360', size: '2.5 → 6rem', sample: 'Proud of it' },
+  { cls: 't-hero', name: 'Hero', token: '--t-hero', axes: 'opsz 144 · wght 360', size: '2.25 → 5.75rem', sample: 'Made with passion' },
+  { cls: 't-statement', name: 'Statement', token: '--t-statement', axes: 'opsz 72 · wght 360', size: '1.75 → 4.25rem', sample: 'Clarity, restraint and care' },
+  { cls: 't-heading', name: 'Heading', token: '--t-heading', axes: 'opsz 40 · wght 380', size: '1.75 → 3.5rem', sample: 'Think · Shape · Build' },
+  { cls: 't-cap', name: 'Capability', token: '--t-cap', axes: 'opsz 40 · wght 380', size: '1.5 → 2.75rem', sample: 'Interaction Design' },
+  { cls: 't-email', name: 'Email', token: '--t-email', axes: 'opsz 40 · wght 380', size: '1.125 → 1.875rem', sample: 'hello@nonbreakingspace.co.uk' },
+];
+
+// Inter functional roles — the clean grotesque foil.
+const functionalType = [
+  { name: 'Body', token: '--t-body', detail: 'wght 380 · line-height 1.6 · the reading voice' },
+  { name: 'Eyebrow', token: '0.75rem', detail: 'wght 500 · 0.22em tracking · uppercase — the only caps' },
+  { name: 'Meta label', token: '0.8125rem', detail: 'wght 500 · 0.12em tracking · uppercase descriptors' },
+  { name: 'Row index', token: '0.75rem', detail: 'tabular lining numerals — two-digit foliation' },
+  { name: 'Legal', token: '0.6875rem', detail: 'line-height 1.5 · colophon fine print' },
+];
+
+const layoutTokens = [
+  { token: '--gutter', value: 'clamp(1.5rem, 6vw, 9rem)', note: 'Page inline padding (.wrap).' },
+  { token: '--content-max', value: '1280px', note: 'Maximum measure for the centred column.' },
+  { token: '--pad-section', value: 'clamp(5rem, 12vh, 9rem)', note: 'Default vertical section rhythm.' },
+  { token: '--pad-statement', value: 'clamp(7rem, 16vh, 13rem)', note: 'The breathing room around the statement.' },
+  { token: '--pad-contact', value: 'clamp(6rem, 14vh, 11rem)', note: 'The dark close.' },
+  { token: '--rule-light', value: 'rgb(7 26 45 / 0.12)', note: 'Hairline on ivory — 1px borders, never shadows.' },
+  { token: '--rule-dark', value: 'rgb(255 249 237 / 0.15)', note: 'Hairline on navy.' },
+];
+
+const motionTokens = [
+  { name: 'Easing', detail: 'cubic-bezier(0.22, 1, 0.36, 1) — every transition uses this single curve.' },
+  { name: 'Reveal', detail: 'Fade + 1.25rem rise over 0.7s, once per element as it scrolls in.' },
+  { name: 'Wipe', detail: 'The wordmark performs a single left-to-right clip-path wipe over 0.9s — written once.' },
+  { name: 'Restraint', detail: 'All motion is JS-gated and honours prefers-reduced-motion: reduce.' },
+];
+---
+
+<BaseLayout
+  title="Brand Guidelines — Nonbreakingspace"
+  description="The Quiet Index — Nonbreakingspace's brand system: wordmark, palette, typography, layout and motion."
+  path="/brand"
+  noindex
+>
+  <Header />
+
+  <main id="brand" tabindex="-1">
+    <!-- Title block -->
+    <section class="brand-hero">
+      <div class="wrap">
+        <p class="eyebrow brand-hero__kicker" data-reveal>Brand Guidelines &mdash; The Quiet Index</p>
+        <h1 class="t-hero brand-hero__title" data-reveal style="--reveal-delay: 120ms">
+          One system, <em>quietly</em> kept.
+        </h1>
+        <p class="t-body brand-hero__lede" data-reveal style="--reveal-delay: 260ms">
+          A warm-ivory editorial broadsheet where type does almost everything and restraint is
+          the device. Two families, one accent, hairline rules. Everything on this page is driven
+          by the same design tokens the site ships &mdash; change a token, change the brand.
+        </p>
+      </div>
+    </section>
+
+    <!-- 01 — Foundations -->
+    <section id="foundations" class="band" aria-labelledby="foundations-label">
+      <div class="wrap">
+        <SectionLabel index="01" label="Foundations" id="foundations-label" />
+        <div class="principles">
+          <article class="principle" data-reveal>
+            <h3 class="t-cap">Type leads</h3>
+            <p class="t-body">The page is set, not decorated. Fraunces carries every expressive
+              moment; Inter does the quiet functional work. No illustration, no shadow.</p>
+          </article>
+          <article class="principle" data-reveal style="--reveal-delay: 80ms">
+            <h3 class="t-cap">Restraint is the device</h3>
+            <p class="t-body">One accent, one dark close, one italic gesture per view. If a mark
+              isn't earning its place, it's removed.</p>
+          </article>
+          <article class="principle" data-reveal style="--reveal-delay: 160ms">
+            <h3 class="t-cap">Hairlines, not boxes</h3>
+            <p class="t-body">Structure comes from 1px rules and generous space &mdash; never cards
+              or containers. Asymmetry frames the content.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- 02 — Wordmark -->
+    <section id="wordmark" class="band" aria-labelledby="wordmark-label">
+      <div class="wrap">
+        <SectionLabel index="02" label="Wordmark" id="wordmark-label" />
+        <div class="mark-grid">
+          <figure class="mark mark--light" data-reveal>
+            <span class="mark__art"><Wordmark title="Nonbreakingspace wordmark" /></span>
+            <figcaption class="meta-label">On ivory &mdash; navy ink</figcaption>
+          </figure>
+          <figure class="mark mark--dark on-navy" data-reveal style="--reveal-delay: 100ms">
+            <span class="mark__art mark__art--invert"><Wordmark /></span>
+            <figcaption class="meta-label">On navy &mdash; ivory ink</figcaption>
+          </figure>
+        </div>
+        <div class="notes">
+          <div class="note" data-reveal>
+            <h3 class="meta-label note__head">Do</h3>
+            <ul class="t-body note__list">
+              <li>Draw it in <code class="token">currentColor</code> so it inherits the text colour.</li>
+              <li>Give it clear space of at least the height of the ampersand bowl on every side.</li>
+              <li>Let it run the single written-once wipe on first view; static everywhere after.</li>
+            </ul>
+          </div>
+          <div class="note" data-reveal style="--reveal-delay: 100ms">
+            <h3 class="meta-label note__head">Don't</h3>
+            <ul class="t-body note__list">
+              <li>Recolour it outside navy / ivory, or place it on a busy ground.</li>
+              <li>Stretch, rotate, outline or add effects &mdash; it is a single calligraphic path.</li>
+              <li>Set it below ~120px wide, where the entry stroke loses its weight.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 03 — Colour -->
+    <section id="colour" class="band" aria-labelledby="colour-label">
+      <div class="wrap">
+        <SectionLabel index="03" label="Colour" id="colour-label" />
+        <ul class="swatches">
+          {
+            colours.map((c, i) => (
+              <li class="swatch" data-reveal style={`--reveal-delay: ${i * 50}ms`}>
+                <span
+                  class:list={['swatch__chip', { 'swatch__chip--light': c.light }]}
+                  style={`background:${c.swatch}`}
+                  aria-hidden="true"
+                />
+                <div class="swatch__meta">
+                  <p class="swatch__name t-body">{c.name}</p>
+                  <p class="token swatch__hex">{c.hex}</p>
+                  <p class="token swatch__token">{c.token}</p>
+                  <p class="swatch__role">{c.role}</p>
+                </div>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </section>
+
+    <!-- 04 — Typography -->
+    <section id="typography" class="band" aria-labelledby="type-label">
+      <div class="wrap">
+        <SectionLabel index="04" label="Typography" id="type-label" />
+
+        <div class="families">
+          <article class="family" data-reveal>
+            <p class="family__specimen t-display" style="font-size: clamp(3rem, 8vw, 5.5rem); line-height: 0.9;">Aa</p>
+            <h3 class="t-cap">Fraunces</h3>
+            <p class="t-body">The expressive serif. Variable optical-size (opsz) axis, set
+              explicitly per step. Italic is reserved for a single accent word per view.</p>
+          </article>
+          <article class="family" data-reveal style="--reveal-delay: 100ms">
+            <p class="family__specimen" style="font-family: var(--font-sans); font-weight: 380; font-size: clamp(3rem, 8vw, 5.5rem); line-height: 0.9; color: var(--color-ink);">Aa</p>
+            <h3 class="t-cap">Inter</h3>
+            <p class="t-body">The clean grotesque foil. Body copy, eyebrows, labels and every
+              functional role. Tabular lining numerals for indices.</p>
+          </article>
+        </div>
+
+        <h3 class="meta-label subhead">Display scale &mdash; Fraunces</h3>
+        <ul class="specimens">
+          {
+            displayType.map((t, i) => (
+              <li class="specimen" data-reveal style={`--reveal-delay: ${i * 40}ms`}>
+                <p class={`specimen__sample ${t.cls}`}>{t.sample}</p>
+                <dl class="specimen__meta">
+                  <div><dt class="meta-label">Class</dt><dd class="token">.{t.cls}</dd></div>
+                  <div><dt class="meta-label">Token</dt><dd class="token">{t.token}</dd></div>
+                  <div><dt class="meta-label">Axes</dt><dd class="token">{t.axes}</dd></div>
+                  <div><dt class="meta-label">Size</dt><dd class="token">{t.size}</dd></div>
+                </dl>
+              </li>
+            ))
+          }
+        </ul>
+
+        <h3 class="meta-label subhead">Functional roles &mdash; Inter</h3>
+        <ul class="roles">
+          {
+            functionalType.map((t, i) => (
+              <li class="role" data-reveal style={`--reveal-delay: ${i * 40}ms`}>
+                <p class="role__name t-body">{t.name}</p>
+                <p class="token role__token">{t.token}</p>
+                <p class="role__detail">{t.detail}</p>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </section>
+
+    <!-- 05 — Layout & space -->
+    <section id="layout" class="band" aria-labelledby="layout-label">
+      <div class="wrap">
+        <SectionLabel index="05" label="Layout &amp; space" id="layout-label" />
+        <ul class="tokens">
+          {
+            layoutTokens.map((t, i) => (
+              <li class="token-row" data-reveal style={`--reveal-delay: ${i * 30}ms`}>
+                <p class="token token-row__name">{t.token}</p>
+                <p class="token token-row__value">{t.value}</p>
+                <p class="token-row__note">{t.note}</p>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </section>
+
+    <!-- 06 — Motion -->
+    <section id="motion" class="band" aria-labelledby="motion-label">
+      <div class="wrap">
+        <SectionLabel index="06" label="Motion" id="motion-label" />
+        <ul class="motion">
+          {
+            motionTokens.map((m, i) => (
+              <li class="motion__item" data-reveal style={`--reveal-delay: ${i * 50}ms`}>
+                <h3 class="t-cap motion__name">{m.name}</h3>
+                <p class="t-body">{m.detail}</p>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </section>
+
+    <!-- 07 — Voice & accessibility -->
+    <section id="voice" class="band" aria-labelledby="voice-label">
+      <div class="wrap">
+        <SectionLabel index="07" label="Voice &amp; accessibility" id="voice-label" />
+        <div class="voice">
+          <div class="voice__col" data-reveal>
+            <h3 class="t-cap voice__head">Voice</h3>
+            <p class="t-body">Plain, considered, British. Short declarative lines; one idea each.
+              Sentence case everywhere except the tracked eyebrow. Never breezy, never salesy
+              &mdash; the studio reads everything and means it.</p>
+          </div>
+          <div class="voice__col" data-reveal style="--reveal-delay: 100ms">
+            <h3 class="t-cap voice__head">Accessibility</h3>
+            <p class="t-body">WCAG 2.2 AA is the floor, not the goal. All text clears 4.5:1.
+              Motion is gated behind <code class="token">prefers-reduced-motion</code>,
+              focus is always visible, and the wordmark is decorative unless labelled.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Shared footer — identical to the index page. -->
+  <Contact />
+</BaseLayout>
+
+<style>
+  main:focus {
+    outline: none;
+  }
+
+  /* Mono "spec sheet" voice for code-like tokens. */
+  .token {
+    font-family: ui-monospace, 'SF Mono', SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 0.8125rem;
+    letter-spacing: 0;
+    color: var(--color-muted-strong);
+  }
+  code.token {
+    font-size: 0.85em;
+  }
+
+  /* ---- Title block ---- */
+  .brand-hero {
+    padding-block: clamp(3.5rem, 9vh, 7rem) clamp(2.5rem, 6vh, 4.5rem);
+  }
+  .brand-hero__kicker {
+    margin-bottom: clamp(1.5rem, 4vh, 2.5rem);
+  }
+  .brand-hero__title {
+    max-width: 18ch;
+  }
+  .brand-hero__lede {
+    max-width: 52ch;
+    margin-top: clamp(1.5rem, 4vh, 2.5rem);
+    color: var(--color-ink);
+    text-wrap: pretty;
+  }
+
+  /* ---- Section shell ---- */
+  .band {
+    padding-block: var(--pad-section);
+    border-top: 1px solid var(--rule-light);
+  }
+
+  /* ---- 01 Foundations ---- */
+  .principles {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: clamp(1.5rem, 4vw, 3.5rem);
+  }
+  .principle h3 {
+    margin-bottom: clamp(0.85rem, 2vh, 1.25rem);
+  }
+  .principle p {
+    max-width: 32ch;
+    color: var(--color-ink);
+    text-wrap: pretty;
+  }
+
+  /* ---- 02 Wordmark ---- */
+  .mark-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: clamp(1.25rem, 3vw, 2rem);
+  }
+  .mark {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: clamp(1rem, 2.5vh, 1.5rem);
+    padding: clamp(1.75rem, 4vw, 3rem);
+    border: 1px solid var(--rule-light);
+  }
+  .mark--dark {
+    background: var(--color-navy);
+    border-color: transparent;
+  }
+  .mark--dark .meta-label {
+    color: color-mix(in srgb, var(--color-ivory) 70%, transparent);
+  }
+  .mark__art :global(svg) {
+    display: block;
+    width: clamp(160px, 30vw, 300px);
+    height: auto;
+    color: var(--color-navy);
+  }
+  .mark__art--invert :global(svg) {
+    color: var(--color-ivory);
+  }
+
+  .notes {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: clamp(1.5rem, 4vw, 3.5rem);
+    margin-top: clamp(2rem, 5vh, 3.5rem);
+  }
+  .note__head {
+    margin-bottom: clamp(0.85rem, 2vh, 1.25rem);
+  }
+  .note__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    max-width: 40ch;
+  }
+  .note__list li {
+    position: relative;
+    padding-left: 1.25rem;
+    color: var(--color-ink);
+  }
+  .note__list li + li {
+    margin-top: 0.65rem;
+  }
+  .note__list li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.7em;
+    width: 0.5rem;
+    height: 1px;
+    background: var(--color-warm);
+  }
+
+  /* ---- 03 Colour ---- */
+  .swatches {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+    gap: clamp(1.5rem, 3vw, 2.5rem);
+  }
+  .swatch__chip {
+    display: block;
+    height: clamp(5rem, 12vh, 8rem);
+    border-radius: 1px;
+  }
+  .swatch__chip--light {
+    box-shadow: inset 0 0 0 1px var(--rule-light);
+  }
+  .swatch__meta {
+    margin-top: 0.9rem;
+  }
+  .swatch__name {
+    font-weight: 500;
+    color: var(--color-navy);
+  }
+  .swatch__hex {
+    margin-top: 0.35rem;
+    text-transform: uppercase;
+  }
+  .swatch__token {
+    margin-top: 0.1rem;
+    color: var(--color-muted);
+  }
+  .swatch__role {
+    margin-top: 0.6rem;
+    font-size: 0.875rem;
+    line-height: 1.45;
+    color: var(--color-ink);
+    text-wrap: pretty;
+  }
+
+  /* ---- 04 Typography ---- */
+  .families {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: clamp(1.5rem, 4vw, 3.5rem);
+    margin-bottom: clamp(3rem, 7vh, 5rem);
+  }
+  .family__specimen {
+    line-height: 0.9;
+    margin-bottom: clamp(0.75rem, 2vh, 1.25rem);
+  }
+  .family h3 {
+    margin-bottom: 0.65rem;
+  }
+  .family p {
+    max-width: 38ch;
+    color: var(--color-ink);
+    text-wrap: pretty;
+  }
+
+  .subhead {
+    margin-bottom: clamp(1.5rem, 4vh, 2.5rem);
+  }
+  .subhead + .subhead,
+  .specimens + .subhead {
+    margin-top: clamp(3rem, 7vh, 5rem);
+  }
+
+  .specimens,
+  .roles,
+  .tokens,
+  .motion {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .specimen {
+    padding-block: clamp(1.25rem, 3vh, 2rem);
+    border-top: 1px solid var(--rule-light);
+  }
+  .specimen:first-child {
+    border-top: 0;
+  }
+  .specimen__sample {
+    margin-bottom: clamp(0.85rem, 2vh, 1.35rem);
+    text-wrap: balance;
+  }
+  .specimen__meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem clamp(1.5rem, 4vw, 3rem);
+    margin: 0;
+  }
+  .specimen__meta div {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+  .specimen__meta dt {
+    color: var(--color-muted);
+  }
+  .specimen__meta dd {
+    margin: 0;
+  }
+
+  /* ---- Functional roles ---- */
+  .roles {
+    display: grid;
+    gap: 0;
+  }
+  .role {
+    display: grid;
+    grid-template-columns: 10rem 9rem 1fr;
+    gap: 1rem clamp(1.5rem, 3vw, 2.5rem);
+    align-items: baseline;
+    padding-block: clamp(0.9rem, 2vh, 1.35rem);
+    border-top: 1px solid var(--rule-light);
+  }
+  .role:first-child {
+    border-top: 0;
+  }
+  .role__name {
+    font-weight: 500;
+    color: var(--color-navy);
+  }
+  .role__detail {
+    color: var(--color-ink);
+    font-size: 0.9375rem;
+    line-height: 1.5;
+  }
+
+  /* ---- 05 Layout tokens ---- */
+  .token-row {
+    display: grid;
+    grid-template-columns: 13rem 1fr;
+    gap: 0.4rem clamp(1.5rem, 4vw, 3rem);
+    align-items: baseline;
+    padding-block: clamp(0.9rem, 2vh, 1.35rem);
+    border-top: 1px solid var(--rule-light);
+  }
+  .token-row:first-child {
+    border-top: 0;
+  }
+  .token-row__name {
+    color: var(--color-navy);
+  }
+  .token-row__value {
+    color: var(--color-muted-strong);
+  }
+  .token-row__note {
+    grid-column: 2;
+    margin-top: 0.15rem;
+    font-size: 0.9375rem;
+    line-height: 1.5;
+    color: var(--color-ink);
+  }
+
+  /* ---- 06 Motion ---- */
+  .motion {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: clamp(1.5rem, 4vw, 3.5rem);
+  }
+  .motion__name {
+    margin-bottom: 0.65rem;
+  }
+  .motion__item p {
+    max-width: 40ch;
+    color: var(--color-ink);
+    text-wrap: pretty;
+  }
+
+  /* ---- 07 Voice & accessibility ---- */
+  .voice {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: clamp(1.5rem, 4vw, 3.5rem);
+  }
+  .voice__head {
+    margin-bottom: clamp(0.85rem, 2vh, 1.25rem);
+  }
+  .voice__col p {
+    max-width: 42ch;
+    color: var(--color-ink);
+    text-wrap: pretty;
+  }
+
+  /* ---- Responsive ---- */
+  @media (max-width: 52rem) {
+    .principles,
+    .motion {
+      grid-template-columns: 1fr;
+    }
+    .role {
+      grid-template-columns: 1fr;
+      gap: 0.2rem;
+    }
+    .token-row {
+      grid-template-columns: 1fr;
+    }
+    .token-row__note {
+      grid-column: 1;
+    }
+  }
+
+  @media (max-width: 40rem) {
+    .mark-grid,
+    .notes,
+    .families,
+    .voice {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
