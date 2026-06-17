@@ -5,17 +5,14 @@ import SectionLabel from './SectionLabel.astro';
 // one cream wall: Think / Shape / Build.
 const steps = [
   {
-    num: 'I',
     title: 'Think',
     body: 'Understand the problem, the audience and the constraints before anything else.',
   },
   {
-    num: 'II',
     title: 'Shape',
     body: 'Define the structure, interface and visual language until every part holds together.',
   },
   {
-    num: 'III',
     title: 'Build',
     body: 'Create durable software and design systems made to perform, adapt and last.',
   },
@@ -30,7 +27,6 @@ const steps = [
       {
         steps.map((step, i) => (
           <article class="approach__col" data-reveal style={`--reveal-delay: ${i * 80}ms`}>
-            <span class="approach__num" aria-hidden="true">{step.num}</span>
             <h3 class="t-heading approach__verb">{step.title}</h3>
             <p class="t-body approach__copy">{step.body}</p>
           </article>
@@ -68,17 +64,6 @@ const steps = [
     border-left: 1px solid var(--rule);
   }
 
-  .approach__num {
-    display: block;
-    font-family: var(--font-display);
-    font-optical-sizing: none;
-    font-variation-settings: 'opsz' 40, 'wght' 380;
-    font-size: clamp(1.25rem, 0.9rem + 1.2vw, 1.75rem);
-    line-height: 1;
-    color: var(--text-muted);
-    margin-bottom: clamp(1.25rem, 3vh, 2rem);
-  }
-
   .approach__verb {
     margin-bottom: clamp(0.85rem, 2vh, 1.25rem);
   }
@@ -100,9 +85,6 @@ const steps = [
     .approach__col + .approach__col {
       border-top: 1px solid var(--rule);
       padding-top: clamp(2.5rem, 7vw, 3.5rem);
-    }
-    .approach__num {
-      margin-bottom: clamp(0.85rem, 3vw, 1.25rem);
     }
   }
 </style>
