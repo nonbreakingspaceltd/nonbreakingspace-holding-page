@@ -11,7 +11,7 @@
 // The roster is explicit (not filename-derived) so display order is intentional
 // and each mark gets a correct accessible name. To add a brand: drop a mono SVG
 // (currentColor for the ink, no hard-coded fills) into that folder and add a
-// `{ slug, name }` entry below.
+// `{ slug, name, url }` entry below. A mark with no `url` renders unlinked.
 const logoModules = import.meta.glob<string>('../assets/logos/*.svg', {
   query: '?raw',
   import: 'default',
@@ -26,15 +26,15 @@ const logoModules = import.meta.glob<string>('../assets/logos/*.svg', {
 // desktop 4/3 wrap the rows balance (Equal Experts · Co-op · Allgold · Neem /
 // Snotbricks · Unilever · Stage Two) instead of stranding a tiny mark in a corner.
 const brands = [
-  { slug: 'equal-experts', name: 'Equal Experts' },
-  { slug: 'co-operative', name: 'The Co-operative' },
-  { slug: 'allgold', name: 'Allgold' },
-  { slug: 'neem', name: 'Neem' },
+  { slug: 'equal-experts', name: 'Equal Experts', url: 'https://www.equalexperts.com' },
+  { slug: 'co-operative', name: 'The Co-operative', url: 'https://www.coop.co.uk' },
+  { slug: 'allgold', name: 'Allgold', url: null }, // TODO: confirm destination
+  { slug: 'neem', name: 'Neem', url: null }, // TODO: confirm destination
   // `shift` nudges a mark down (% of its own height) to sit on the shared
   // baseline — Snotbricks' wordmark rides high because its emblem drips below.
-  { slug: 'snotbricks', name: 'Snotbricks & Co.', shift: '8%' },
-  { slug: 'unilever', name: 'Unilever' },
-  { slug: 'stage-two', name: 'Stage Two' },
+  { slug: 'snotbricks', name: 'Snotbricks & Co.', shift: '8%', url: null }, // TODO: confirm destination
+  { slug: 'unilever', name: 'Unilever', url: 'https://www.unilever.com' },
+  { slug: 'stage-two', name: 'Stage Two', url: null }, // TODO: confirm destination
 ];
 
 const logos = brands
@@ -56,10 +56,23 @@ const logos = brands
             data-reveal
             style={`--reveal-delay: ${i * 60}ms; --logo-shift: ${logo.shift ?? '0'}`}
           >
-            {/* The <li> stays a listitem; the image role + name live on this
-                wrapper, which is a valid host for role="img" (the inlined SVG
-                below becomes presentational under it). */}
-            <span class="trusted-by__mark" role="img" aria-label={logo.name} set:html={logo.svg} />
+            {/* The <li> stays a listitem; the image role + name live on the mark
+                wrapper, a valid host for role="img" (the inlined SVG becomes
+                presentational under it). When the brand has a site, the mark is
+                wrapped in a link — which takes its accessible name from the
+                contained role="img", so it reads as "{name}, link". */}
+            {logo.url ? (
+              <a
+                class="trusted-by__link"
+                href={logo.url}
+                target="_blank"
+                rel="noopener"
+              >
+                <span class="trusted-by__mark" role="img" aria-label={logo.name} set:html={logo.svg} />
+              </a>
+            ) : (
+              <span class="trusted-by__mark" role="img" aria-label={logo.name} set:html={logo.svg} />
+            )}
           </li>
         ))
       }
@@ -102,6 +115,19 @@ const logos = brands
       opacity 0.24s var(--ease-out-soft);
   }
 
+  /* The link hugs the mark so the click/tap target is the logo itself, not the
+     full list cell. Colour is inherited from the recessed .trusted-by__logo. */
+  .trusted-by__link {
+    display: inline-flex;
+    color: inherit;
+    text-decoration: none;
+    border-radius: 4px;
+    outline-offset: 8px;
+  }
+  .trusted-by__link:focus-visible {
+    outline: 2px solid var(--accent);
+  }
+
   /* The image-role wrapper just carries the SVG; it lays out as the logo box. */
   .trusted-by__mark {
     display: flex;
@@ -122,6 +148,12 @@ const logos = brands
       color: var(--text-strong);
       opacity: 1;
     }
+  }
+
+  /* Keyboard parity: a focused link lifts its mark exactly as hover does. */
+  .trusted-by__logo:focus-within {
+    color: var(--text-strong);
+    opacity: 1;
   }
 
   @media (max-width: 38rem) {
