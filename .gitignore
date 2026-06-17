@@ -6,6 +6,12 @@ bin
 # astro
 .astro
 
+# playwright
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+
 # dependencies
 node_modules
 
