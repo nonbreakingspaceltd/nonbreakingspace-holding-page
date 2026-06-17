@@ -160,6 +160,11 @@ const jsonLd = {
         // callback (then transition with their stagger). Letting the observer
         // decide visibility keeps this off the main thread: no getBoundingClientRect
         // / innerHeight read, so nothing forces a synchronous reflow.
+        //
+        // Exception: a `.reveal-drop` element (the masthead) starts translated
+        // fully above the top edge — it can never *intersect*, so the observer
+        // would leave it stuck hidden. It's an on-load reveal by definition, so
+        // class it directly instead of observing it.
         const observer = new IntersectionObserver(
           (entries) => {
             for (const entry of entries) {
@@ -183,7 +188,13 @@ const jsonLd = {
         const start = () =>
           requestAnimationFrame(() =>
             requestAnimationFrame(() => {
-              reveals.forEach((el) => observer.observe(el));
+              reveals.forEach((el) => {
+                if (el.classList.contains('reveal-drop')) {
+                  el.classList.add('is-revealed');
+                } else {
+                  observer.observe(el);
+                }
+              });
             })
           );
         if (document.fonts?.status === 'loaded') {
