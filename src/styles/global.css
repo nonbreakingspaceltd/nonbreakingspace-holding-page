@@ -387,6 +387,13 @@
 .nbsp-ink {
   opacity: 0;
 }
+/* The solid glyphs ARE the logo. Explicitly opaque outside the media query so
+   the complete mark always shows under reduced-motion / no-JS — the fail-safe
+   no longer rests on the mere absence of a rule (and survives any future global
+   path-opacity reset). */
+.nbsp-solid-fill {
+  opacity: 1;
+}
 
 @media (prefers-reduced-motion: no-preference) {
   .js [data-reveal] {
@@ -413,19 +420,21 @@
 
   /* The wordmark DRAWS ITSELF, letter by letter, left to right — each glyph's
      outline is traced by a thin pen line (stroke-dashoffset on the glyph's own
-     geometry), then it inks in solid. The next glyph starts before the previous
-     finishes (the stagger step is shorter than the per-glyph draw), so it reads
-     as flowing handwriting rather than six separate reveals. A genuine
-     self-draw: the reveal follows the letterforms, never a straight wipe edge,
-     and there is no travelling nib.
+     geometry), then it inks in solid. Each glyph starts partway through the
+     previous one, so it reads as one flowing hand rather than six reveals. A
+     genuine self-draw: the reveal follows the letterforms, never a straight wipe
+     edge, and there is no travelling nib.
 
-     The path is split into one element per glyph at authoring time
-     (Wordmark.astro), each tagged with its reading-order index `--gi`; the delay
-     is `--gi * step`. `pathLength="1"` per glyph makes the dash maths
-     size-independent, no JS. JS-gated + reduced-motion safe: `.nbsp-ink` is
-     hidden by default (above) and `.nbsp-solid-fill` is opaque by default, so
-     without JS or under prefers-reduced-motion the complete solid logo renders
-     at once. Scoped to the hero / 404 via .reveal-draw. */
+     Per-glyph duration and start delay are computed in Wordmark.astro and handed
+     in as inline custom properties (`--draw-dur`, `--draw-delay`, `--fill-delay`):
+     duration scales with each glyph's TRUE stroke length so the pen keeps a
+     near-constant velocity, and the fill trails each outline by a proportional
+     beat. The shallow ease-in-out keeps a near-flat body speed (only a soft
+     touch-down / lift) so momentum carries across the overlap seams. JS-gated +
+     reduced-motion safe: `.nbsp-ink` is hidden and `.nbsp-solid-fill` is opaque
+     by explicit base rules above, so without JS or under prefers-reduced-motion
+     the complete solid logo renders at once. Scoped to the hero / 404 via
+     .reveal-draw. */
   .js [data-reveal].reveal-draw {
     opacity: 1;
     transform: none;
@@ -434,20 +443,37 @@
     opacity: 1;
     stroke-dasharray: 1;
     stroke-dashoffset: 1;
-    transition: stroke-dashoffset 0.95s cubic-bezier(0.6, 0.04, 0.32, 1);
-    transition-delay: calc(var(--reveal-delay, 0ms) + var(--gi, 0) * 0.32s);
+    transition: stroke-dashoffset var(--draw-dur, 0.5s) cubic-bezier(0.37, 0.06, 0.36, 0.96);
+    transition-delay: calc(var(--reveal-delay, 0ms) + var(--draw-delay, 0ms));
   }
   .js [data-reveal].reveal-draw.is-revealed .nbsp-ink {
     stroke-dashoffset: 0;
   }
-  /* Each glyph inks in solid just after its own outline lands, then the pen line
-     is no longer needed; the solid layer simply stays. */
+  /* Each glyph inks in solid trailing its own outline by --fill-delay, then the
+     pen line is no longer needed; the solid layer simply stays. */
   .js [data-reveal].reveal-draw .nbsp-solid-fill {
     opacity: 0;
-    transition: opacity 0.5s var(--ease-out-soft);
-    transition-delay: calc(var(--reveal-delay, 0ms) + var(--gi, 0) * 0.32s + 0.6s);
+    transition: opacity 0.36s cubic-bezier(0.33, 0, 0.2, 1);
+    transition-delay: calc(var(--reveal-delay, 0ms) + var(--draw-delay, 0ms) + var(--fill-delay, 0.2s));
   }
   .js [data-reveal].reveal-draw.is-revealed .nbsp-solid-fill {
     opacity: 1;
+  }
+}
+
+/* Phone-sized touch devices: animating stroke-dashoffset re-rasters these heavy
+   calligraphic paths on the main thread every frame, and the most at-risk GPUs
+   live here. Treat such devices like reduced-motion for the TRACE only — drop
+   the pen lines (no per-frame raster) and bring the solid logo in as one cheap,
+   GPU-composited opacity fade. Still nested under no-preference, so true
+   reduced-motion users keep the instant logo. Tablets / desktop keep the full
+   self-draw. */
+@media (prefers-reduced-motion: no-preference) and (pointer: coarse) and (max-width: 48rem) {
+  .js [data-reveal].reveal-draw .nbsp-ink {
+    display: none;
+  }
+  .js [data-reveal].reveal-draw .nbsp-solid-fill {
+    transition: opacity 0.6s var(--ease-out-soft);
+    transition-delay: var(--reveal-delay, 0ms);
   }
 }
