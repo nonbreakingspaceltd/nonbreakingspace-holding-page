@@ -53,12 +53,14 @@ const logos = brands
         logos.map((logo, i) => (
           <li
             class="trusted-by__logo"
-            role="img"
-            aria-label={logo.name}
             data-reveal
             style={`--reveal-delay: ${i * 60}ms; --logo-shift: ${logo.shift ?? '0'}`}
-            set:html={logo.svg}
-          />
+          >
+            {/* The <li> stays a listitem; the image role + name live on this
+                wrapper, which is a valid host for role="img" (the inlined SVG
+                below becomes presentational under it). */}
+            <span class="trusted-by__mark" role="img" aria-label={logo.name} set:html={logo.svg} />
+          </li>
         ))
       }
     </ul>
@@ -100,10 +102,19 @@ const logos = brands
       opacity 0.24s var(--ease-out-soft);
   }
 
+  /* The image-role wrapper just carries the SVG; it lays out as the logo box. */
+  .trusted-by__mark {
+    display: flex;
+  }
+
   .trusted-by__logo :global(svg) {
     display: block;
     width: auto;
     height: clamp(2.5rem, 1.8rem + 2.8vw, 4rem);
+    /* Per-mark baseline nudge: translate down by --logo-shift (a % of the mark's
+       own height) so marks like Snotbricks — whose emblem drips below — sit on
+       the shared baseline. Transform-only, so it never disturbs row layout. */
+    transform: translateY(var(--logo-shift, 0));
   }
 
   @media (hover: hover) {
