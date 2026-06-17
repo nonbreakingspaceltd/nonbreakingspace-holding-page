@@ -1,0 +1,100 @@
+---
+import SectionLabel from './SectionLabel.astro';
+
+// A minimal typographic index of what the studio does — emphatically not cards.
+// The asymmetric hairlines are the only structure.
+const capabilities = [
+  { name: 'Software', descriptor: 'Design-led engineering' },
+  { name: 'Interaction Design', descriptor: 'Product and web' },
+  { name: 'Graphic Design', descriptor: 'Print and digital' },
+  { name: 'Brand & Identity', descriptor: 'Systems and marks' },
+  { name: 'Front-end Engineering', descriptor: 'Performant, accessible' },
+  { name: 'Design Systems', descriptor: 'Durable foundations' },
+];
+---
+
+<section id="capabilities" class="capabilities" aria-labelledby="capabilities-heading">
+  <div class="wrap">
+    <SectionLabel index="02" label="Capabilities" id="capabilities-heading" />
+
+    <ul class="cap-list">
+      {
+        capabilities.map((item, i) => (
+          <li class="cap-row" data-reveal style={`--reveal-delay: ${i * 55}ms`}>
+            <span class="cap-row__index row-index" aria-hidden="true">
+              {String(i + 1).padStart(2, '0')}
+            </span>
+            <span class="cap-row__name t-cap">{item.name}</span>
+            <span class="cap-row__desc meta-label">{item.descriptor}</span>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<style>
+  .capabilities {
+    padding-block: var(--pad-section);
+  }
+
+  .cap-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .cap-row {
+    position: relative;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: baseline;
+    column-gap: clamp(0.85rem, 2vw, 1.75rem);
+    padding-block: clamp(1.25rem, 3vh, 2.5rem);
+  }
+
+  /* Asymmetric hairline — starts at the left edge, stops at ~62% width. */
+  .cap-row::before {
+    content: '';
+    position: absolute;
+    inset-block-start: 0;
+    inset-inline-start: 0;
+    inline-size: 62%;
+    block-size: 1px;
+    background: var(--rule-light);
+    transition: background-color 0.24s var(--ease-out-soft);
+  }
+
+  .cap-row__name {
+    transition: transform 0.24s var(--ease-out-soft);
+  }
+  .cap-row__desc {
+    justify-self: end;
+    text-align: right;
+    transition: transform 0.24s var(--ease-out-soft);
+  }
+
+  @media (hover: hover) {
+    .cap-row:hover::before {
+      background: var(--color-warm);
+    }
+    .cap-row:hover .cap-row__name {
+      transform: translateX(8px);
+    }
+    .cap-row:hover .cap-row__desc {
+      transform: translateX(6px);
+    }
+  }
+
+  @media (max-width: 38rem) {
+    .cap-row {
+      grid-template-columns: auto 1fr;
+      row-gap: 0.5rem;
+    }
+    .cap-row__desc {
+      grid-column: 2;
+      justify-self: start;
+      text-align: left;
+    }
+  }
+</style>

@@ -1,0 +1,100 @@
+---
+import Wordmark from './Wordmark.astro';
+
+const email = 'hello@nonbreakingspace.co.uk';
+---
+
+<section class="hero">
+  <div class="wrap hero__main">
+    <h1 class="hero__brand">
+      <span class="sr-only">Nonbreakingspace — software, interaction and graphic design studio</span>
+      <span class="hero__wordmark reveal-wipe" data-reveal style="--reveal-delay: 120ms">
+        <Wordmark />
+      </span>
+    </h1>
+
+    <div class="hero__lower">
+      <p class="t-hero hero__headline" data-reveal style="--reveal-delay: 380ms">
+        Software, interaction and graphic design, made with <em>passion</em>.
+      </p>
+
+      <p class="t-body hero__intro" data-reveal style="--reveal-delay: 560ms">
+        Nonbreakingspace is a small Manchester studio working across front-end development,
+        interaction design and brand-led web experiences.
+      </p>
+
+      <p class="hero__cta" data-reveal style="--reveal-delay: 680ms">
+        <span class="eyebrow hero__cta-label">&rarr;&nbsp;&nbsp;Start a conversation</span>
+        <a class="t-email link-underline hero__email" href={`mailto:${email}`}>{email}</a>
+      </p>
+    </div>
+  </div>
+
+  <div class="wrap hero__foot" data-reveal style="--reveal-delay: 820ms">
+    <p class="eyebrow"><span class="index">01</span>&nbsp;&mdash;&nbsp;Index</p>
+  </div>
+</section>
+
+<style>
+  .hero {
+    min-height: 100svh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .hero__main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: clamp(1.5rem, 3vw, 2.75rem);
+    padding-block: clamp(1.25rem, 3.5vh, 2.75rem);
+  }
+
+  .hero__brand {
+    margin: 0;
+    font-weight: inherit;
+  }
+
+  /* Architectural scale, optically hung into the left margin to honour the
+     wordmark's calligraphic entry stroke. Block-level so the clip-path wipe
+     animates correctly. */
+  .hero__wordmark {
+    display: block;
+    width: max-content;
+    max-width: 100%;
+    margin-left: -0.75%;
+  }
+  .hero__wordmark :global(svg) {
+    display: block;
+    width: clamp(220px, 42vw, 580px);
+    height: auto;
+    color: var(--color-navy);
+  }
+
+  .hero__headline {
+    max-width: 20ch;
+  }
+
+  .hero__intro {
+    max-width: 38ch;
+    margin-top: clamp(1.25rem, 2.5vw, 2rem);
+    color: var(--color-ink);
+  }
+
+  .hero__cta {
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+    margin-top: clamp(1.5rem, 3vw, 2.25rem);
+  }
+  .hero__email {
+    width: max-content;
+    max-width: 100%;
+    color: var(--color-ink);
+  }
+
+  .hero__foot {
+    padding-bottom: clamp(1.25rem, 3.5vh, 2.25rem);
+  }
+</style>

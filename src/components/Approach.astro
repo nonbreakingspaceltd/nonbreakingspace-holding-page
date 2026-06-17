@@ -1,0 +1,103 @@
+---
+import SectionLabel from './SectionLabel.astro';
+
+// Section 04 — the page's single recessed tonal band. Three framed plates on
+// one cream wall: Think / Shape / Build.
+const steps = [
+  {
+    num: 'I',
+    title: 'Think',
+    body: 'We understand the problem, the audience and the constraints before deciding what needs to exist.',
+  },
+  {
+    num: 'II',
+    title: 'Shape',
+    body: 'We design the structure, interface and visual language so the work feels clear and coherent.',
+  },
+  {
+    num: 'III',
+    title: 'Build',
+    body: 'We create durable software and design systems made to perform, adapt and last.',
+  },
+];
+---
+
+<section id="approach" class="approach" aria-labelledby="approach-heading">
+  <div class="wrap">
+    <SectionLabel index="03" label="Approach" id="approach-heading" />
+
+    <div class="approach__grid">
+      {
+        steps.map((step, i) => (
+          <article class="approach__col" data-reveal style={`--reveal-delay: ${i * 80}ms`}>
+            <span class="approach__num" aria-hidden="true">{step.num}</span>
+            <h3 class="t-heading approach__verb">{step.title}</h3>
+            <p class="t-body approach__copy">{step.body}</p>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .approach {
+    background: var(--color-cream);
+    border-top: 1px solid var(--rule-light);
+    border-bottom: 1px solid var(--rule-light);
+    padding-block: var(--pad-section);
+  }
+
+  .approach__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    column-gap: clamp(2rem, 4vw, 4rem);
+  }
+
+  .approach__col {
+    padding-left: clamp(1.25rem, 2vw, 2rem);
+    border-left: 1px solid var(--rule-light);
+  }
+  .approach__col:first-child {
+    padding-left: 0;
+    border-left: 0;
+  }
+
+  .approach__num {
+    display: block;
+    font-family: var(--font-display);
+    font-optical-sizing: none;
+    font-variation-settings: 'opsz' 40, 'wght' 380;
+    font-size: clamp(1.25rem, 0.9rem + 1.2vw, 1.75rem);
+    line-height: 1;
+    color: var(--color-muted);
+    margin-bottom: clamp(1.25rem, 3vh, 2rem);
+  }
+
+  .approach__verb {
+    margin-bottom: clamp(0.85rem, 2vh, 1.25rem);
+  }
+
+  .approach__copy {
+    max-width: 26ch;
+    color: var(--color-ink);
+  }
+
+  @media (max-width: 48rem) {
+    .approach__grid {
+      grid-template-columns: 1fr;
+      row-gap: clamp(2.5rem, 7vw, 3.5rem);
+    }
+    .approach__col {
+      padding-left: 0;
+      border-left: 0;
+    }
+    .approach__col + .approach__col {
+      border-top: 1px solid var(--rule-light);
+      padding-top: clamp(2.5rem, 7vw, 3.5rem);
+    }
+    .approach__num {
+      margin-bottom: clamp(0.85rem, 3vw, 1.25rem);
+    }
+  }
+</style>

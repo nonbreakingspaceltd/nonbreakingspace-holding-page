@@ -1,0 +1,97 @@
+---
+import Wordmark from './Wordmark.astro';
+
+const email = 'hello@nonbreakingspace.co.uk';
+---
+
+<section id="contact" class="contact on-navy" aria-labelledby="contact-heading">
+  <div class="wrap contact__inner">
+    <p class="eyebrow contact__eyebrow" data-reveal>Get in touch &mdash; We read everything</p>
+
+    <h2 id="contact-heading" class="t-cta contact__headline" data-reveal style="--reveal-delay: 80ms">
+      Let&rsquo;s make something worth <em>keeping</em>.
+    </h2>
+
+    <a
+      class="t-email link-underline contact__email"
+      href={`mailto:${email}`}
+      data-reveal
+      style="--reveal-delay: 160ms"
+    >
+      {email}
+    </a>
+
+    <div class="contact__colophon" data-reveal>
+      <div class="contact__legal">
+        <p class="legal">Nonbreakingspace Ltd&nbsp;&middot;&nbsp;Company no. 10833071</p>
+        <p class="legal">Manchester, UK&nbsp;&middot;&nbsp;&copy; 2026</p>
+      </div>
+      <span class="contact__wordmark" aria-hidden="true">
+        <Wordmark />
+      </span>
+    </div>
+  </div>
+</section>
+
+<style>
+  .contact {
+    background: var(--color-navy);
+    color: var(--color-ivory);
+    padding-block: var(--pad-contact);
+  }
+
+  .contact__eyebrow {
+    color: color-mix(in srgb, var(--color-ivory) 72%, transparent);
+    margin-bottom: clamp(1.75rem, 5vh, 3rem);
+  }
+
+  .contact__headline {
+    color: var(--color-ivory);
+    max-width: 16ch;
+  }
+
+  .contact__email {
+    display: inline-block;
+    width: max-content;
+    max-width: 100%;
+    margin-top: clamp(1.75rem, 4vh, 2.75rem);
+    color: var(--color-ivory);
+    /* comfortable tap target */
+    padding-block: 0.35rem;
+  }
+
+  .contact__colophon {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 2rem;
+    margin-top: clamp(4.5rem, 12vh, 8rem);
+    padding-top: clamp(1.5rem, 3vh, 2.25rem);
+    border-top: 1px solid var(--rule-dark);
+  }
+
+  .contact__legal .legal {
+    color: color-mix(in srgb, var(--color-ivory) 70%, transparent);
+  }
+  .contact__legal .legal + .legal {
+    margin-top: 0.35rem;
+  }
+
+  .contact__wordmark {
+    flex: none;
+  }
+  .contact__wordmark :global(svg) {
+    display: block;
+    width: clamp(120px, 22vw, 168px);
+    height: auto;
+    color: var(--color-ivory);
+  }
+
+  @media (max-width: 34rem) {
+    .contact__colophon {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: clamp(2rem, 8vw, 3rem);
+    }
+  }
+</style>
