@@ -3,6 +3,7 @@ import '../styles/global.css';
 // The hero headline (LCP) is set in this face — preload it so it paints early.
 import frauncesDisplay from '@fontsource-variable/fraunces/files/fraunces-latin-opsz-normal.woff2?url';
 import Analytics from '@vercel/analytics/astro';
+import SpeedInsights from '@vercel/speed-insights/astro';
 
 interface Props {
   title?: string;
@@ -111,6 +112,7 @@ const jsonLd = {
     />
     <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} is:inline />
     <Analytics />
+    <SpeedInsights />
   </head>
 
   <body>
