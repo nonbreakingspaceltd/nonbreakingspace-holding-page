@@ -57,3 +57,5 @@ tsconfig.tsbuildinfo
 
 # rollup
 .rollup.cache
+.vercel
+.env*.local
