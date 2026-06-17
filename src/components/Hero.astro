@@ -8,7 +8,7 @@ const email = 'hello@nonbreakingspace.co.uk';
   <div class="wrap hero__main">
     <h1 class="hero__brand">
       <span class="sr-only">Nonbreakingspace — software, interaction and graphic design studio</span>
-      <span class="hero__wordmark reveal-wipe" data-reveal style="--reveal-delay: 120ms">
+      <span class="hero__wordmark reveal-draw" data-reveal style="--reveal-delay: 120ms">
         <Wordmark />
       </span>
     </h1>
@@ -58,8 +58,8 @@ const email = 'hello@nonbreakingspace.co.uk';
   }
 
   /* Architectural scale, optically hung into the left margin to honour the
-     wordmark's calligraphic entry stroke. Block-level so the clip-path wipe
-     animates correctly. */
+     wordmark's calligraphic entry stroke. Block-level so the nib-sweep mask
+     reveal (.reveal-draw, in global.css) lays out correctly. */
   .hero__wordmark {
     display: block;
     width: max-content;
@@ -73,12 +73,22 @@ const email = 'hello@nonbreakingspace.co.uk';
     color: var(--color-navy);
   }
 
+  /* The wordmark SVG's box extends below the lettering's baseline to contain
+     the descenders of "p" and ";". Pull the lower cluster up to absorb that
+     dead-space so the headline sits an even step below the wordmark rather
+     than appearing to float away from it. */
+  .hero__lower {
+    margin-top: clamp(-1.5rem, -2.2vw, -0.5rem);
+  }
+
   .hero__headline {
     max-width: 20ch;
   }
 
   .hero__intro {
-    max-width: 36ch;
+    /* ~60–66 character reading measure. `ch` tracks the digit width, which is
+       wider than Inter's average glyph, so 50ch lands the prose around 62. */
+    max-width: 50ch;
     margin-top: clamp(1rem, 2vw, 1.75rem);
     color: var(--color-ink);
     /* Avoid a one-word widow on the last line. */

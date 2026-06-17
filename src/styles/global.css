@@ -321,6 +321,16 @@
    The `.js` class is added to <html> before paint; without JS (or with
    reduced-motion) every element renders at its final state.
 ---------------------------------------------------------------------------- */
+
+/* Registered so the nib sweep can interpolate: a plain custom property cannot
+   be transitioned, but a typed <number> can. Must be declared at the top
+   level (an @property nested inside @media is ignored). */
+@property --draw {
+  syntax: '<number>';
+  inherits: false;
+  initial-value: 0;
+}
+
 @media (prefers-reduced-motion: no-preference) {
   .js [data-reveal] {
     opacity: 0;
@@ -335,16 +345,70 @@
     transform: none;
   }
 
-  /* The wordmark performs a single left-to-right "written-once" wipe. */
-  .js [data-reveal].reveal-wipe {
-    transform: none;
-    clip-path: inset(0 100% 0 0);
-    transition:
-      opacity 0.6s var(--ease-out-soft),
-      clip-path 0.9s var(--ease-out-soft);
-    transition-delay: var(--reveal-delay, 0ms);
+  /* The wordmark is "written once": a near-upright calligraphic nib sweeps
+     left-to-right across the &nbsp; monogram, uncovering the fully-formed
+     glyphs in reading order (& · n · b · s · p · ;). The fill is always
+     present — a soft-edged mask is opaque BEHIND the travelling nib and
+     transparent AHEAD of it, so ink can never appear before the pen reaches
+     it. The mask is on the SVG itself (fixed 2403:818 box) so the pen angle
+     and the wet-ink feather stay constant across the responsive width.
+     Scoped to the hero via .reveal-draw. */
+  @supports (mask-image: linear-gradient(#000, #000)) or
+    (-webkit-mask-image: linear-gradient(#000, #000)) {
+    .js [data-reveal].reveal-draw {
+      /* The mask governs visibility; let the mark itself sit fully present. */
+      opacity: 1;
+      transform: none;
+    }
+    .js [data-reveal].reveal-draw .nbsp-wordmark {
+      --draw: 0;
+      /* Width of the soft "wet ink" leading edge, in constant screen pixels. */
+      --nib-feather: 20px;
+      /* 95deg = all but vertical, with a faint forward lean (an upright pen,
+         not a diagonal slash). Ink (solid) trails the nib; everything ahead
+         of the feather is clear. The `100% + feather` travel guarantees the
+         first and last glyphs fully clear at the start and the end. */
+      -webkit-mask-image: linear-gradient(
+        95deg,
+        #000 calc(var(--draw) * (100% + var(--nib-feather)) - var(--nib-feather)),
+        transparent calc(var(--draw) * (100% + var(--nib-feather)))
+      );
+      mask-image: linear-gradient(
+        95deg,
+        #000 calc(var(--draw) * (100% + var(--nib-feather)) - var(--nib-feather)),
+        transparent calc(var(--draw) * (100% + var(--nib-feather)))
+      );
+      -webkit-mask-repeat: no-repeat;
+      mask-repeat: no-repeat;
+      -webkit-mask-size: 100% 100%;
+      mask-size: 100% 100%;
+      /* A calligraphic hand: a deliberate start, a steady glide, a soft
+         settle — paced, not a constant-speed bar. */
+      transition: --draw 1.4s cubic-bezier(0.65, 0.02, 0.3, 1);
+      transition-delay: var(--reveal-delay, 0ms);
+    }
+    .js [data-reveal].reveal-draw.is-revealed .nbsp-wordmark {
+      --draw: 1;
+    }
   }
-  .js [data-reveal].reveal-wipe.is-revealed {
-    clip-path: inset(0 0 0 0);
+
+  /* Fallback for engines without animatable masks: reuse the known-good
+     clip-path wipe so the worst case is the previous behaviour, never a
+     broken mask. Both paths end at the identical, fully-filled mark. */
+  @supports not (
+    (mask-image: linear-gradient(#000, #000)) or
+      (-webkit-mask-image: linear-gradient(#000, #000))
+  ) {
+    .js [data-reveal].reveal-draw {
+      transform: none;
+      clip-path: inset(0 100% 0 0);
+      transition:
+        opacity 0.6s var(--ease-out-soft),
+        clip-path 0.9s var(--ease-out-soft);
+      transition-delay: var(--reveal-delay, 0ms);
+    }
+    .js [data-reveal].reveal-draw.is-revealed {
+      clip-path: inset(0 0 0 0);
+    }
   }
 }
