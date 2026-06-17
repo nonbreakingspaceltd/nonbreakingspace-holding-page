@@ -22,7 +22,7 @@
   },
   "homepage": "https://github.com/nonbreakingspaceltd/nonbreakingspace-holding-page#readme",
   "engines": {
-    "node": "22.x"
+    "node": "24.x"
   },
   "dependencies": {
     "@fontsource-variable/fraunces": "5.2.9",
