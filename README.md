@@ -1,4 +1,4 @@
-# nonbreakingspace-website
+# Nonbreakingspace Website
 
 [![Build](https://github.com/nonbreakingspaceltd/nonbreakingspace-website/actions/workflows/build.yml/badge.svg)](https://github.com/nonbreakingspaceltd/nonbreakingspace-website/actions/workflows/build.yml)
 [![CodeQL](https://github.com/nonbreakingspaceltd/nonbreakingspace-website/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/nonbreakingspaceltd/nonbreakingspace-website/actions/workflows/codeql-analysis.yml)
