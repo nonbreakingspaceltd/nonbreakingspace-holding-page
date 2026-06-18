@@ -12,7 +12,7 @@
 // and each mark gets a correct accessible name. To add a brand: drop a mono SVG
 // (currentColor for the ink, no hard-coded fills) into that folder and add a
 // `{ slug, name, url }` entry below. A mark with no `url` renders unlinked.
-const logoModules = import.meta.glob<string>('../assets/logos/*.svg', {
+const logoModules = import.meta.glob<string>('../../assets/logos/*.svg', {
   query: '?raw',
   import: 'default',
   eager: true,
@@ -38,7 +38,7 @@ const brands = [
 ];
 
 const logos = brands
-  .map((brand) => ({ ...brand, svg: logoModules[`../assets/logos/${brand.slug}.svg`] }))
+  .map((brand) => ({ ...brand, svg: logoModules[`../../assets/logos/${brand.slug}.svg`] }))
   .filter((brand) => brand.svg);
 ---
 

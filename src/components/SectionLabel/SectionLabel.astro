@@ -1,13 +1,7 @@
 ---
 // A numbered eyebrow that doubles as the section's accessible heading.
 // The two-digit "foliation" index is decorative; the label is the a11y name.
-interface Props {
-  index: string;
-  label: string;
-  id?: string;
-  /** Render as the given heading level (default h2). */
-  as?: 'h2' | 'h3';
-}
+import type { Props } from './types';
 
 const { index, label, id, as: Tag = 'h2' } = Astro.props;
 ---
