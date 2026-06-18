@@ -1,9 +1,14 @@
 ---
 // The only header — a slim editorial masthead. It does NOT stick; it scrolls
 // away with the hero so the page reads as one continuous broadsheet.
+//
+// Carries id="top" as the page's "back to top" target (see Contact's colophon
+// link). tabindex="-1" lets focus land here when that link is activated, so
+// keyboard / screen-reader users resume from the top — the mirror of the
+// skip link, which sends them the other way to #index.
 ---
 
-<header class="site-header reveal-drop" data-reveal>
+<header class="site-header reveal-drop" id="top" tabindex="-1" data-reveal>
   <div class="wrap site-header__inner">
     <a class="lockup link-underline" href="/">Nonbreakingspace</a>
     <div class="site-header__end">
