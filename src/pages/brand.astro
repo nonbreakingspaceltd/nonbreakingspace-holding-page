@@ -958,8 +958,16 @@ const colophon = [
     grid-template-rows: subgrid;
     gap: var(--stack-gap);
   }
+  /* Shrink-wrapped to the mark plus one X of clear space on every side, so the
+     tinted band IS the keep-clear zone the corner unit measures. */
   .clearspace__stage {
     position: relative;
+    width: max-content;
+    max-width: 100%;
+    margin-inline: auto;
+    /* Keep the natural height so all four clear-space bands stay exactly X —
+       never let a taller neighbour stretch this stage and inflate the margins. */
+    align-self: start;
     padding: var(--cs-x, clamp(1.5rem, 4vw, 2.75rem));
     background: var(--surface-recessed);
     border: 1px solid var(--rule);
@@ -982,14 +990,20 @@ const colophon = [
     letter-spacing: 0.1em;
     color: var(--text-muted-strong);
   }
+  /* The dashed line hugs the mark — it IS the mark's bounding box. The mark
+     sits on the page ground so it reads as distinct from the tinted clear band. */
   .clearspace__bound {
-    display: grid;
-    place-items: center;
-    padding: clamp(0.85rem, 2.5vw, 1.5rem);
+    display: block;
+    padding: 0;
     border: 1px dashed color-mix(in srgb, var(--text-muted) 55%, transparent);
+    background: var(--surface);
+  }
+  .clearspace__mark {
+    display: block;
   }
   .clearspace__mark :global(svg) {
-    width: min(100%, 240px);
+    display: block;
+    width: clamp(180px, 40vw, 300px);
   }
   .minsize__stage {
     display: flex;
@@ -998,10 +1012,16 @@ const colophon = [
     justify-content: center;
     gap: 0.85rem;
     padding: clamp(1.5rem, 4vw, 2.75rem);
-    background: var(--surface-recessed);
-    border: 1px solid var(--rule);
+  }
+  /* The dashed line wraps the 120px mark itself — it IS the 120px width the
+     label calls out; the "120PX" tag sits outside it, below. */
+  .minsize__mark {
+    display: block;
+    width: max-content;
+    border: 1px dashed color-mix(in srgb, var(--text-muted) 55%, transparent);
   }
   .minsize__mark :global(svg) {
+    display: block;
     width: 120px;
   }
   .minsize__tag {
@@ -1517,10 +1537,18 @@ const colophon = [
     list-style: none;
     margin: 0;
     padding: 0;
+    /* One shared grid for the whole table so every row's columns align. Say +
+       Not are max-content — sized to their longest phrase ACROSS ALL ROWS, so
+       neither ever wraps; Why (1fr) takes the rest. Rows opt in via subgrid.
+       (The responsive rules below reset this to a block for narrow screens.) */
+    display: grid;
+    grid-template-columns: max-content max-content 1fr;
+    column-gap: var(--grid-gap-tight);
   }
   .lexicon__row {
     display: grid;
-    grid-template-columns: 12rem 14rem 1fr;
+    grid-column: 1 / -1;
+    grid-template-columns: subgrid;
     gap: 0.35rem var(--grid-gap-tight);
     align-items: baseline;
     padding-block: clamp(0.9rem, 2vh, 1.35rem);
@@ -1688,6 +1716,10 @@ const colophon = [
     }
     .token-row__note {
       grid-column: 1;
+    }
+    /* Drop the shared grid so each row restacks on its own. */
+    .lexicon {
+      display: block;
     }
     .lexicon__row {
       grid-template-columns: 1fr 1fr;
