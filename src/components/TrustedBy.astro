@@ -83,7 +83,8 @@ const logos = brands
 <style>
   .trusted-by {
     padding-block: var(--pad-section);
-    border-top: 1px solid var(--rule);
+    /* No own top rule: the preceding Approach section already draws a
+       border-bottom at this boundary — adding one here doubled the hairline. */
   }
 
   .trusted-by__eyebrow {
