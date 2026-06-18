@@ -28,9 +28,31 @@ const email = 'hello@nonbreakingspace.co.uk';
             class="link-underline contact__brand-link"
             href="/brand">Brand guidelines</a></p>
       </div>
-      <span class="contact__wordmark" aria-hidden="true">
-        <Wordmark />
-      </span>
+      <div class="contact__end">
+        {/* Mirror of the skip link: returns to the masthead (#top) and moves
+            focus there. Smooth-scrolls via the global html { scroll-behavior },
+            which flips to auto under prefers-reduced-motion. */}
+        <a class="link-underline contact__totop" href="#top">
+          Back to top
+          <svg
+            class="contact__totop-icon"
+            viewBox="0 0 24 24"
+            width="13"
+            height="13"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.9"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <path d="M12 19V5M6 11l6-6 6 6"></path>
+          </svg>
+        </a>
+        <span class="contact__wordmark" aria-hidden="true">
+          <Wordmark />
+        </span>
+      </div>
     </div>
   </div>
 </section>
@@ -86,6 +108,32 @@ const email = 'hello@nonbreakingspace.co.uk';
     color: var(--text-on-contrast);
   }
 
+  /* Right column of the colophon: the back-to-top link stacked over the mark. */
+  .contact__end {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: clamp(1.25rem, 3vh, 2rem);
+  }
+
+  /* Quiet wayfinding link, recessed like the legal/eyebrow meta; warms to full
+     ink (and draws its tan underline) on hover / focus. */
+  .contact__totop {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: color-mix(in srgb, var(--text-on-contrast) 70%, transparent);
+    /* comfortable tap target without growing the visible line */
+    padding-block: 0.35rem;
+  }
+  .contact__totop:hover,
+  .contact__totop:focus-visible {
+    color: var(--text-on-contrast);
+  }
+  .contact__totop-icon {
+    flex: none;
+  }
+
   .contact__wordmark {
     flex: none;
   }
@@ -101,6 +149,11 @@ const email = 'hello@nonbreakingspace.co.uk';
       flex-direction: column;
       align-items: flex-start;
       gap: clamp(2rem, 8vw, 3rem);
+    }
+    /* Stack flush-left with the rest of the colophon on narrow screens. */
+    .contact__end {
+      align-items: flex-start;
+      gap: clamp(1.75rem, 6vw, 2.5rem);
     }
   }
 </style>
