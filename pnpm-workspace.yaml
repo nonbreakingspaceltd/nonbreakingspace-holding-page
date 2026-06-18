@@ -7,5 +7,13 @@ minimumReleaseAgeExclude:
 
 # Force the patched esbuild (CVE: RCE via NPM_CONFIG_REGISTRY + dev-server file
 # read). Astro 6.4.7 and Vite 7.3.5 still pin ^0.27; remove once they bump to ^0.28.
+#
+# Pin Vite to 7.x (rollup). Astro 6.4.8 uses vite@7, but @tailwindcss/vite's loose
+# peer (^5||^6||^7||^8) let pnpm auto-install a *second* vite@8 (rolldown) for the
+# Tailwind plugin, which crashes under rolldown 1.0.3 ("Missing field `tsconfigPaths`").
+# The root `vite` devDependency satisfies that peer so no second copy is pulled; this
+# override is the transitive guard. Drop both once @tailwindcss/vite supports rolldown
+# (and before any move to Astro 7, which requires vite@8).
 overrides:
   esbuild: ^0.28.1
+  vite: ^7.3.5
