@@ -48,7 +48,15 @@ const labelled = Boolean(title);
 const DRAW_BASE_MS = 172; // single pace knob — scales the whole cadence (~150 crisp … ~215 ceremonial)
 const GLYPH_WEIGHTS = [4.75, 1.95, 2.19, 1.67, 2.2, 1];
 const OVERLAP = 0.62; // each glyph starts when the previous is this far drawn — a joined-up, flowing hand
-const FILL_TRAIL = 1; // ink begins only once the glyph's outline has fully drawn (lower = sooner). The ink line shares the outline's colour, so a fill that starts earlier paints over the still-drawing line and the outline looks like it stops short — hold the fill until the trace completes.
+// How far through each glyph's own draw the solid ink begins fading in (lower =
+// sooner). The ink trails the pen: it starts before the outline is quite finished
+// so the letter floods with ink *behind* the travelling line, then settles. Don't
+// drop it too low — the ink shares the outline's colour, so if the fill is already
+// near-opaque when the trace reaches a region, that last stretch of line is painted
+// over and the outline looks like it stops short (the reason 0.45 read as broken).
+// At 0.8 the fill is only ~45% up as the longest glyph's outline completes, so the
+// finishing line stays visibly darker than the fill beneath it.
+const FILL_TRAIL = 0.8;
 
 const DRAW_DUR_MS = GLYPH_WEIGHTS.map((w) => Math.round(DRAW_BASE_MS * w));
 // Cumulative start delays: a glyph begins OVERLAP of the way through the previous
