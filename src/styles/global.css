@@ -70,6 +70,11 @@
   --pad-contact: clamp(6rem, 14vh, 11rem);
   --scroll-offset: clamp(4rem, 8vh, 6rem);
 
+  /* Gap scale — horizontal grids grow with vw, vertical stacks with vh. */
+  --grid-gap: clamp(1.5rem, 4vw, 3.5rem); /* primary multi-column gap */
+  --grid-gap-tight: clamp(1.5rem, 3vw, 2.5rem); /* card galleries */
+  --stack-gap: clamp(1rem, 2.5vh, 1.5rem); /* vertical figure stacks */
+
   /* Fluid type scale (clamp). */
   --t-hero: clamp(2.25rem, 1.3rem + 5vw, 5.75rem);
   --t-cta: clamp(2.5rem, 1.3rem + 5.4vw, 6rem);
