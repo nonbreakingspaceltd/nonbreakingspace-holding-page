@@ -17,3 +17,8 @@ minimumReleaseAgeExclude:
 overrides:
   esbuild: ^0.28.1
   vite: ^7.3.5
+
+# Native pnpm hold: `pnpm update --latest` (and `pnpm outdated`) skip these.
+updateConfig:
+  ignoreDependencies:
+    - vite
