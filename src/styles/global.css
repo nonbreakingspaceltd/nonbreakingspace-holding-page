@@ -5,14 +5,14 @@
    exposed as both utilities and CSS variables.
 ---------------------------------------------------------------------------- */
 
-@import 'tailwindcss';
+@import "tailwindcss";
 
 /* Self-hosted variable fonts — no external requests.
    Fraunces carries the optical-size axis (opsz) for expressive display type;
    Inter is the clean grotesque foil for every functional role. */
-@import '@fontsource-variable/fraunces/opsz.css';
-@import '@fontsource-variable/fraunces/opsz-italic.css';
-@import '@fontsource-variable/inter';
+@import "@fontsource-variable/fraunces/opsz.css";
+@import "@fontsource-variable/fraunces/opsz-italic.css";
+@import "@fontsource-variable/inter";
 
 @theme {
   /* Brand palette — deep navy + warm cream lineage, refined. */
@@ -30,10 +30,10 @@
   --color-warm: #c9ad94;
 
   /* Type families. */
-  --font-display: 'Fraunces Variable', 'Times New Roman', Times, serif;
+  --font-display: "Fraunces Variable", "Times New Roman", Times, serif;
   --font-sans:
-    'Inter Variable', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica,
-    Arial, sans-serif;
+    "Inter Variable", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial,
+    sans-serif;
 
   /* Easing for the restrained motion system. */
   --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
@@ -95,7 +95,7 @@
    intentionally duplicated in the explicit-choice selector below: CSS can't
    share a declaration block between a media query and an attribute selector. */
 @media (prefers-color-scheme: dark) {
-  :root:not([data-theme='light']) {
+  :root:not([data-theme="light"]) {
     color-scheme: dark;
     --surface: #0b1a2a; /* deep navy-black ground */
     --surface-recessed: #11243a; /* the lifted tonal band */
@@ -112,7 +112,7 @@
 }
 
 /* An explicit choice always wins over the OS. */
-:root[data-theme='dark'] {
+:root[data-theme="dark"] {
   color-scheme: dark;
   --surface: #0b1a2a;
   --surface-recessed: #11243a;
@@ -246,7 +246,9 @@
   .t-hero {
     font-family: var(--font-display);
     font-optical-sizing: none;
-    font-variation-settings: 'opsz' 144, 'wght' 360;
+    font-variation-settings:
+      "opsz" 144,
+      "wght" 360;
     font-size: var(--t-hero);
     line-height: 0.96;
     letter-spacing: -0.025em;
@@ -257,7 +259,9 @@
   .t-cta {
     font-family: var(--font-display);
     font-optical-sizing: none;
-    font-variation-settings: 'opsz' 144, 'wght' 360;
+    font-variation-settings:
+      "opsz" 144,
+      "wght" 360;
     font-size: var(--t-cta);
     line-height: 0.98;
     letter-spacing: -0.025em;
@@ -267,7 +271,9 @@
   .t-statement {
     font-family: var(--font-display);
     font-optical-sizing: none;
-    font-variation-settings: 'opsz' 72, 'wght' 360;
+    font-variation-settings:
+      "opsz" 72,
+      "wght" 360;
     font-size: var(--t-statement);
     line-height: 1.12;
     letter-spacing: -0.02em;
@@ -277,7 +283,9 @@
   .t-heading {
     font-family: var(--font-display);
     font-optical-sizing: none;
-    font-variation-settings: 'opsz' 40, 'wght' 380;
+    font-variation-settings:
+      "opsz" 40,
+      "wght" 380;
     font-size: var(--t-heading);
     line-height: 1.05;
     letter-spacing: -0.015em;
@@ -287,7 +295,9 @@
   .t-cap {
     font-family: var(--font-display);
     font-optical-sizing: none;
-    font-variation-settings: 'opsz' 40, 'wght' 380;
+    font-variation-settings:
+      "opsz" 40,
+      "wght" 380;
     font-size: var(--t-cap);
     line-height: 1;
     letter-spacing: -0.01em;
@@ -297,7 +307,9 @@
   .t-email {
     font-family: var(--font-display);
     font-optical-sizing: none;
-    font-variation-settings: 'opsz' 40, 'wght' 380;
+    font-variation-settings:
+      "opsz" 40,
+      "wght" 380;
     font-size: var(--t-email);
     line-height: 1.1;
     letter-spacing: -0.005em;
@@ -459,7 +471,11 @@
   .js [data-reveal].reveal-draw .nbsp-solid-fill {
     opacity: 0;
     transition: opacity 0.36s cubic-bezier(0.33, 0, 0.2, 1);
-    transition-delay: calc(var(--reveal-delay, 0ms) + var(--draw-delay, 0ms) + var(--fill-delay, 0.2s));
+    transition-delay: calc(
+      var(--reveal-delay, 0ms) +
+      var(--draw-delay, 0ms) +
+      var(--fill-delay, 0.2s)
+    );
   }
   .js [data-reveal].reveal-draw.is-revealed .nbsp-solid-fill {
     opacity: 1;
