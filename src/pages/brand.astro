@@ -1,9 +1,9 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
+import Contact from '../components/Contact.astro';
 import Header from '../components/Header.astro';
 import SectionLabel from '../components/SectionLabel.astro';
 import Wordmark from '../components/Wordmark.astro';
-import Contact from '../components/Contact.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
 
 // Brand guidelines — a living spec sheet for the "Measured Index" system. Every
 // swatch and specimen below is driven by the same @theme tokens the site uses,
@@ -12,15 +12,30 @@ import Contact from '../components/Contact.astro';
 // The numbered index of the spec — doubles as the in-page contents nav.
 const sections = [
   { index: '01', id: 'brand-idea', label: 'Brand', note: 'Positioning, the name and the promise' },
-  { index: '02', id: 'foundations', label: 'Foundations', note: 'The three principles it is built on' },
+  {
+    index: '02',
+    id: 'foundations',
+    label: 'Foundations',
+    note: 'The three principles it is built on',
+  },
   { index: '03', id: 'wordmark', label: 'Wordmark', note: 'The mark, clear space and misuse' },
   { index: '04', id: 'colour', label: 'Colour', note: 'Palette, semantic tokens and contrast' },
   { index: '05', id: 'typography', label: 'Typography', note: 'Two families, the scale and roles' },
   { index: '06', id: 'layout', label: 'Layout & grid', note: 'Measure, gutter, rhythm and rules' },
   { index: '07', id: 'iconography', label: 'Iconography', note: 'The few marks, drawn one way' },
   { index: '08', id: 'motion', label: 'Motion', note: 'One curve, reveals and the wipe' },
-  { index: '09', id: 'voice', label: 'Voice & accessibility', note: 'How we write and the a11y floor' },
-  { index: '10', id: 'applications', label: 'Applications', note: 'The system, applied in the world' },
+  {
+    index: '09',
+    id: 'voice',
+    label: 'Voice & accessibility',
+    note: 'How we write and the a11y floor',
+  },
+  {
+    index: '10',
+    id: 'applications',
+    label: 'Applications',
+    note: 'The system, applied in the world',
+  },
 ];
 
 const colours = [
@@ -85,31 +100,130 @@ const colours = [
 // Measured WCAG contrast ratios for every text-on-ground pairing the system
 // actually ships. Computed from the literal palette, not eyeballed.
 const contrastPairs = [
-  { fg: 'var(--color-ink)', bg: 'var(--color-ivory)', pair: 'Ink on ivory', sample: 'Body', ratio: '16.8 : 1', level: 'AAA' },
-  { fg: 'var(--color-navy)', bg: 'var(--color-ivory)', pair: 'Navy on ivory', sample: 'Display', ratio: '14.8 : 1', level: 'AAA' },
-  { fg: 'var(--color-muted-strong)', bg: 'var(--color-ivory)', pair: 'Taupe strong on ivory', sample: 'Labels', ratio: '6.1 : 1', level: 'AA' },
-  { fg: 'var(--color-muted)', bg: 'var(--color-ivory)', pair: 'Taupe quiet on ivory', sample: 'Indices', ratio: '4.9 : 1', level: 'AA' },
-  { fg: 'var(--color-ink)', bg: 'var(--color-cream)', pair: 'Ink on cream', sample: 'Approach', ratio: '14.7 : 1', level: 'AAA' },
-  { fg: 'var(--color-ivory)', bg: 'var(--color-navy)', pair: 'Ivory on navy', sample: 'Close', ratio: '14.8 : 1', level: 'AAA' },
-  { fg: 'var(--color-warm)', bg: 'var(--color-ivory)', pair: 'Tan on ivory', sample: 'Accent', ratio: '2.0 : 1', level: 'Decorative' },
+  {
+    fg: 'var(--color-ink)',
+    bg: 'var(--color-ivory)',
+    pair: 'Ink on ivory',
+    sample: 'Body',
+    ratio: '16.8 : 1',
+    level: 'AAA',
+  },
+  {
+    fg: 'var(--color-navy)',
+    bg: 'var(--color-ivory)',
+    pair: 'Navy on ivory',
+    sample: 'Display',
+    ratio: '14.8 : 1',
+    level: 'AAA',
+  },
+  {
+    fg: 'var(--color-muted-strong)',
+    bg: 'var(--color-ivory)',
+    pair: 'Taupe strong on ivory',
+    sample: 'Labels',
+    ratio: '6.1 : 1',
+    level: 'AA',
+  },
+  {
+    fg: 'var(--color-muted)',
+    bg: 'var(--color-ivory)',
+    pair: 'Taupe quiet on ivory',
+    sample: 'Indices',
+    ratio: '4.9 : 1',
+    level: 'AA',
+  },
+  {
+    fg: 'var(--color-ink)',
+    bg: 'var(--color-cream)',
+    pair: 'Ink on cream',
+    sample: 'Approach',
+    ratio: '14.7 : 1',
+    level: 'AAA',
+  },
+  {
+    fg: 'var(--color-ivory)',
+    bg: 'var(--color-navy)',
+    pair: 'Ivory on navy',
+    sample: 'Close',
+    ratio: '14.8 : 1',
+    level: 'AAA',
+  },
+  {
+    fg: 'var(--color-warm)',
+    bg: 'var(--color-ivory)',
+    pair: 'Tan on ivory',
+    sample: 'Accent',
+    ratio: '2.0 : 1',
+    level: 'Decorative',
+  },
 ];
 
 // Fraunces display steps — the expressive voice. opsz (optical size) is set
 // explicitly per step rather than auto.
 const displayType = [
-  { cls: 't-cta', name: 'CTA', token: '--t-cta', axes: 'opsz 144 · wght 360', size: '2.5 → 6rem', sample: 'Proud of it' },
-  { cls: 't-hero', name: 'Hero', token: '--t-hero', axes: 'opsz 144 · wght 360', size: '2.25 → 5.75rem', sample: 'Made with passion' },
-  { cls: 't-statement', name: 'Statement', token: '--t-statement', axes: 'opsz 72 · wght 360', size: '1.75 → 4.25rem', sample: 'Clarity, restraint and care' },
-  { cls: 't-heading', name: 'Heading', token: '--t-heading', axes: 'opsz 40 · wght 380', size: '1.75 → 3.5rem', sample: 'Think · Shape · Build' },
-  { cls: 't-cap', name: 'Capability', token: '--t-cap', axes: 'opsz 40 · wght 380', size: '1.5 → 2.75rem', sample: 'Interaction Design' },
-  { cls: 't-email', name: 'Email', token: '--t-email', axes: 'opsz 40 · wght 380', size: '1.125 → 1.875rem', sample: 'hello@nonbreakingspace.co.uk' },
+  {
+    cls: 't-cta',
+    name: 'CTA',
+    token: '--t-cta',
+    axes: 'opsz 144 · wght 360',
+    size: '2.5 → 6rem',
+    sample: 'Proud of it',
+  },
+  {
+    cls: 't-hero',
+    name: 'Hero',
+    token: '--t-hero',
+    axes: 'opsz 144 · wght 360',
+    size: '2.25 → 5.75rem',
+    sample: 'Made with passion',
+  },
+  {
+    cls: 't-statement',
+    name: 'Statement',
+    token: '--t-statement',
+    axes: 'opsz 72 · wght 360',
+    size: '1.75 → 4.25rem',
+    sample: 'Clarity, restraint and care',
+  },
+  {
+    cls: 't-heading',
+    name: 'Heading',
+    token: '--t-heading',
+    axes: 'opsz 40 · wght 380',
+    size: '1.75 → 3.5rem',
+    sample: 'Think · Shape · Build',
+  },
+  {
+    cls: 't-cap',
+    name: 'Capability',
+    token: '--t-cap',
+    axes: 'opsz 40 · wght 380',
+    size: '1.5 → 2.75rem',
+    sample: 'Interaction Design',
+  },
+  {
+    cls: 't-email',
+    name: 'Email',
+    token: '--t-email',
+    axes: 'opsz 40 · wght 380',
+    size: '1.125 → 1.875rem',
+    sample: 'hello@nonbreakingspace.co.uk',
+  },
 ];
 
 // Inter functional roles — the clean grotesque foil.
 const functionalType = [
   { name: 'Body', token: '--t-body', detail: 'wght 380 · line-height 1.6 · the reading voice' },
-  { name: 'Eyebrow', token: '0.75rem', detail: 'wght 500 · 0.22em tracking · uppercase — the only caps' },
-  { name: 'Meta label', token: '0.8125rem', detail: 'wght 500 · 0.12em tracking · uppercase descriptors' },
+  {
+    name: 'Eyebrow',
+    token: '0.75rem',
+    detail: 'wght 500 · 0.22em tracking · uppercase — the only caps',
+  },
+  {
+    name: 'Meta label',
+    token: '0.8125rem',
+    detail: 'wght 500 · 0.12em tracking · uppercase descriptors',
+  },
   { name: 'Row index', token: '0.75rem', detail: 'tabular lining numerals — two-digit foliation' },
   { name: 'Legal', token: '0.6875rem', detail: 'line-height 1.5 · colophon fine print' },
 ];
@@ -117,13 +231,33 @@ const functionalType = [
 const layoutTokens = [
   { token: '--gutter', value: 'clamp(1.5rem, 6vw, 9rem)', note: 'Page inline padding (.wrap).' },
   { token: '--content-max', value: '1280px', note: 'Maximum measure for the centred column.' },
-  { token: '--pad-section', value: 'clamp(5rem, 12vh, 9rem)', note: 'Default vertical section rhythm.' },
-  { token: '--pad-statement', value: 'clamp(7rem, 16vh, 13rem)', note: 'The breathing room around the statement.' },
+  {
+    token: '--pad-section',
+    value: 'clamp(5rem, 12vh, 9rem)',
+    note: 'Default vertical section rhythm.',
+  },
+  {
+    token: '--pad-statement',
+    value: 'clamp(7rem, 16vh, 13rem)',
+    note: 'The breathing room around the statement.',
+  },
   { token: '--pad-contact', value: 'clamp(6rem, 14vh, 11rem)', note: 'The dark close.' },
-  { token: '--grid-gap', value: 'clamp(1.5rem, 4vw, 3.5rem)', note: 'Primary multi-column grid gap.' },
-  { token: '--grid-gap-tight', value: 'clamp(1.5rem, 3vw, 2.5rem)', note: 'Card galleries (misuse, swatches).' },
+  {
+    token: '--grid-gap',
+    value: 'clamp(1.5rem, 4vw, 3.5rem)',
+    note: 'Primary multi-column grid gap.',
+  },
+  {
+    token: '--grid-gap-tight',
+    value: 'clamp(1.5rem, 3vw, 2.5rem)',
+    note: 'Card galleries (misuse, swatches).',
+  },
   { token: '--stack-gap', value: 'clamp(1rem, 2.5vh, 1.5rem)', note: 'Vertical figure-stack gap.' },
-  { token: '--rule-light', value: 'rgb(7 26 45 / 0.12)', note: 'Hairline on ivory — 1px borders, never shadows.' },
+  {
+    token: '--rule-light',
+    value: 'rgb(7 26 45 / 0.12)',
+    note: 'Hairline on ivory — 1px borders, never shadows.',
+  },
   { token: '--rule-dark', value: 'rgb(255 249 237 / 0.15)', note: 'Hairline on navy.' },
 ];
 
@@ -155,17 +289,30 @@ const connectives = [
 ];
 
 const motionTokens = [
-  { name: 'Easing', detail: 'cubic-bezier(0.22, 1, 0.36, 1) — every transition uses this single curve.' },
+  {
+    name: 'Easing',
+    detail: 'cubic-bezier(0.22, 1, 0.36, 1) — every transition uses this single curve.',
+  },
   { name: 'Reveal', detail: 'Fade + 1.25rem rise over 0.7s, once per element as it scrolls in.' },
-  { name: 'Wipe', detail: 'The wordmark performs a single left-to-right clip-path wipe over 0.9s — written once.' },
-  { name: 'Restraint', detail: 'All motion is JS-gated and honours prefers-reduced-motion: reduce.' },
+  {
+    name: 'Wipe',
+    detail: 'The wordmark performs a single left-to-right clip-path wipe over 0.9s — written once.',
+  },
+  {
+    name: 'Restraint',
+    detail: 'All motion is JS-gated and honours prefers-reduced-motion: reduce.',
+  },
 ];
 
 // Tone of voice — preferred phrasing against what we avoid.
 const lexicon = [
   { say: 'We build', not: 'We deliver solutions', why: 'Plain verbs over corporate nouns.' },
   { say: 'For everyone', not: 'For users', why: 'People, not segments — where a person will do.' },
-  { say: 'Accessible by default', not: 'Accessibility-first™', why: 'No buzzwords, no trademarks.' },
+  {
+    say: 'Accessible by default',
+    not: 'Accessibility-first™',
+    why: 'No buzzwords, no trademarks.',
+  },
   { say: 'We read everything', not: 'We’ll circle back', why: 'Human and direct; we mean it.' },
   { say: 'A small studio', not: 'A boutique agency', why: 'Honest about our scale.' },
 ];

@@ -23,7 +23,7 @@ export default defineConfig({
   ],
   // Build once, then serve the production output for tests.
   webServer: {
-    command: 'pnpm build && pnpm preview --port ' + PORT,
+    command: `pnpm build && pnpm preview --port ${PORT}`,
     url: baseURL,
     reuseExistingServer: !process.env.CI,
     timeout: 120_000,
