@@ -3,6 +3,10 @@ updates:
   - commit-message:
       prefix: chore
     directory: /
+    groups:
+      dependencies:
+        patterns:
+          - "*"
     open-pull-requests-limit: 1
     package-ecosystem: npm
     rebase-strategy: auto
@@ -10,7 +14,7 @@ updates:
       day: monday
       interval: monthly
       time: "05:00"
-    target-branch: develop
+    target-branch: main
   - commit-message:
       prefix: chore
     directory: /
@@ -25,4 +29,4 @@ updates:
       day: monday
       interval: monthly
       time: "05:00"
-    target-branch: develop
+    target-branch: main
