@@ -1,0 +1,20 @@
+name: Code
+
+on:
+  workflow_dispatch:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  quality:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: biomejs/setup-biome@v2
+        with:
+          version: 2.5.0
+
+      - name: Run Biome
+        run: biome ci .
