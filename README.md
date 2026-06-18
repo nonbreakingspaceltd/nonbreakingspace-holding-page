@@ -30,6 +30,7 @@ pnpm check      # astro + TypeScript diagnostics
 pnpm lint       # Biome lint + format check (biome ci)
 pnpm lint:fix   # apply safe Biome fixes + format
 pnpm format     # format only
+pnpm test:unit  # Vitest component tests (Astro Container API)
 pnpm test       # Playwright end-to-end tests
 ```
 
@@ -43,14 +44,22 @@ TypeScript where the tool allows it (`astro.config.ts`, `playwright.config.ts`);
 
 ```text
 src/
-  components/   Hero, Statement, Capabilities, Approach, TrustedBy, Contact,
-                Header, Wordmark, SectionLabel
+  components/   One folder per component (Hero, Statement, Capabilities,
+                Approach, TrustedBy, Contact, Header, Wordmark, SectionLabel):
+                  Name/
+                    Name.astro      — markup + scoped <style>
+                    index.ts        — barrel (re-exports the component + types)
+                    types.ts        — Props (components that take props)
+                    __fixtures__/   — sample data for tests
+                    __tests__/      — Vitest + Astro Container unit tests
   layouts/      BaseLayout.astro   — <head>, SEO/OG, fonts, reveal script
   pages/        index.astro, brand.astro, 404.astro
   styles/       global.css         — @theme tokens, type scale, motion
 public/         favicons, social image, web manifest
 tests/e2e/      Playwright specs
 ```
+
+Components are imported via their folder barrel — `import Hero from '../components/Hero'`.
 
 ## Editing the content
 
@@ -63,7 +72,7 @@ the top of their components.
 
 GitHub Actions (`.github/workflows/`):
 
-- **Build** — type-check + production build on push/PR to `main`.
+- **Build** — type-check, unit tests + production build on push/PR to `main`.
 - **Code** — Biome CI on pull requests.
 - **E2E** — Playwright (chromium) on pull requests, uploading the HTML report.
 - **CodeQL** — security analysis.

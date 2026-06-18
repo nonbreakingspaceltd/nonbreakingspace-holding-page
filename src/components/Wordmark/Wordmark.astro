@@ -25,11 +25,7 @@
  * Contact close, the brand specimens) renders the bare, static `<svg>` from the
  * undivided path.
  */
-interface Props {
-  class?: string;
-  title?: string;
-  animated?: boolean;
-}
+import type { Props } from './types';
 
 const { class: className, title, animated = false } = Astro.props;
 const labelled = Boolean(title);
