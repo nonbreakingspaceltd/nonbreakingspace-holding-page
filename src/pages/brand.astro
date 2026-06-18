@@ -274,8 +274,8 @@ const colophon = [
             <p class="t-body principle__copy">One accent, one dark close, one italic gesture per view &mdash; nothing unearned stays.</p>
           </article>
           <article class="principle" data-reveal style="--reveal-delay: 160ms">
-            <h3 class="t-heading">Hairlines, not boxes</h3>
-            <p class="t-body principle__copy">Structure comes from 1px rules and generous space, never cards or containers.</p>
+            <h3 class="t-heading">Edges earn their keep</h3>
+            <p class="t-body principle__copy">A hairline appears only where it does work &mdash; structure comes from space, never cards or containers.</p>
           </article>
         </div>
       </div>
@@ -300,10 +300,12 @@ const colophon = [
         <div class="construction">
           <figure class="clearspace" data-reveal>
             <div class="clearspace__stage" aria-hidden="true">
-              <span class="clearspace__unit">X</span>
-              <span class="clearspace__bound">
-                <span class="mark__art clearspace__mark"><Wordmark /></span>
-              </span>
+              <div class="clearspace__frame">
+                <span class="clearspace__unit">X</span>
+                <span class="clearspace__bound">
+                  <span class="mark__art clearspace__mark"><Wordmark /></span>
+                </span>
+              </div>
             </div>
             <figcaption class="figcap">
               Keep clear space of at least <strong>X</strong> on every side, where X is the height
@@ -920,8 +922,11 @@ const colophon = [
     margin: 0;
     display: flex;
     flex-direction: column;
+    justify-content: center;
     gap: var(--stack-gap);
     padding: clamp(1.75rem, 4vw, 3rem);
+    /* Shared example-card ratio so every framed image reads as one set. */
+    aspect-ratio: 16 / 9;
     border: 1px solid var(--rule);
   }
   .mark--dark {
@@ -945,32 +950,34 @@ const colophon = [
   .construction {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    /* Shared rows for the example stage + its caption, so both columns line up. */
-    grid-template-rows: auto auto;
     gap: var(--grid-gap);
   }
   .clearspace,
   .minsize {
     margin: 0;
-    /* Span and inherit the parent rows so both stages resolve to one common height. */
-    grid-row: span 2;
-    display: grid;
-    grid-template-rows: subgrid;
+    display: flex;
+    flex-direction: column;
     gap: var(--stack-gap);
   }
-  /* Shrink-wrapped to the mark plus one X of clear space on every side, so the
-     tinted band IS the keep-clear zone the corner unit measures. */
+  /* Outer card — the plain framed canvas (matches the wordmark example cards),
+     centring the construct so the pair balances with the min-size card. */
   .clearspace__stage {
+    display: grid;
+    place-items: center;
+    padding: clamp(1.75rem, 4vw, 3rem);
+    /* Shared example-card ratio (see .mark). */
+    aspect-ratio: 16 / 9;
+    border: 1px solid var(--rule);
+  }
+  /* The clear-space construct: shrink-wrapped to the mark plus one X of clear
+     space on every side, so the tinted band IS the keep-clear zone the corner
+     unit measures. */
+  .clearspace__frame {
     position: relative;
     width: max-content;
     max-width: 100%;
-    margin-inline: auto;
-    /* Keep the natural height so all four clear-space bands stay exactly X —
-       never let a taller neighbour stretch this stage and inflate the margins. */
-    align-self: start;
     padding: var(--cs-x, clamp(1.5rem, 4vw, 2.75rem));
     background: var(--surface-recessed);
-    border: 1px solid var(--rule);
   }
   /* The unit module that defines the margin, pinned into one corner. */
   .clearspace__unit {
@@ -1005,13 +1012,18 @@ const colophon = [
     display: block;
     width: clamp(180px, 40vw, 300px);
   }
+  /* Matching outer card — same plain frame as the clear-space stage, centring
+     the dashed 120px mark + label. */
   .minsize__stage {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     gap: 0.85rem;
-    padding: clamp(1.5rem, 4vw, 2.75rem);
+    padding: clamp(1.75rem, 4vw, 3rem);
+    /* Shared example-card ratio (see .mark). */
+    aspect-ratio: 16 / 9;
+    border: 1px solid var(--rule);
   }
   /* The dashed line wraps the 120px mark itself — it IS the 120px width the
      label calls out; the "120PX" tag sits outside it, below. */
@@ -1608,11 +1620,18 @@ const colophon = [
     border-radius: 22%;
     box-shadow: inset 0 0 0 1px var(--rule);
   }
+  /* Match the app-icon stage height, and present the lockup as it runs in the
+     real header — a bar across the top, brand left / live location right, with
+     the empty space below reading as the page it sits atop. */
   .app__stage--masthead {
-    flex-direction: column;
-    gap: 0.65rem;
-    place-items: start;
-    align-content: center;
+    flex: 1;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 0.65rem 1.5rem;
+    text-align: left;
   }
   .app__lockup {
     font-family: var(--font-sans);

@@ -28,13 +28,13 @@ const logoModules = import.meta.glob<string>('../assets/logos/*.svg', {
 const brands = [
   { slug: 'equal-experts', name: 'Equal Experts', url: 'https://www.equalexperts.com' },
   { slug: 'co-operative', name: 'The Co-operative', url: 'https://www.coop.co.uk' },
-  { slug: 'allgold', name: 'Allgold', url: null }, // TODO: confirm destination
-  { slug: 'neem', name: 'Neem', url: null }, // TODO: confirm destination
+  { slug: 'allgold', name: 'Allgold', url: 'https://allgold.com' },
+  { slug: 'neem', name: 'Neem', url: 'https://weareneem.com' },
   // `shift` nudges a mark down (% of its own height) to sit on the shared
   // baseline — Snotbricks' wordmark rides high because its emblem drips below.
-  { slug: 'snotbricks', name: 'Snotbricks & Co.', shift: '8%', url: null }, // TODO: confirm destination
+  { slug: 'snotbricks', name: 'Snotbricks & Co.', shift: '8%', url: 'https://snotbricks.com' },
   { slug: 'unilever', name: 'Unilever', url: 'https://www.unilever.com' },
-  { slug: 'stage-two', name: 'Stage Two', url: null }, // TODO: confirm destination
+  { slug: 'stage-two', name: 'Stage Two', url: 'https://wearestagetwo.com' },
 ];
 
 const logos = brands
