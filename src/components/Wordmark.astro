@@ -38,14 +38,24 @@ const labelled = Boolean(title);
 // is proportional to its true stroke length (length^0.72, normalised to ';' = 1),
 // so the pen keeps a near-constant velocity across the whole word. Order matches
 // GLYPHS: & · n · b · s · p · ;
+//
+// Weights are DERIVED from each glyph's measured path length (its getTotalLength,
+// length^0.72, ';' = 1) — they are not hand-tuned. Keep them in step with the
+// geometry: if a glyph path changes, re-measure and update the matching weight,
+// or the pen's velocity drifts on that letter. (An earlier hand-set 'p' weight of
+// 4.14 — nearly double the ~2.20 its length warrants, given 'p' is the same length
+// as 'b' — made the pen crawl through 'p' and let the trailing ';' finish first.)
 const DRAW_BASE_MS = 172; // single pace knob — scales the whole cadence (~150 crisp … ~215 ceremonial)
-const GLYPH_WEIGHTS = [3.68, 2.51, 2.3, 1.27, 4.14, 1];
+const GLYPH_WEIGHTS = [4.75, 1.95, 2.19, 1.67, 2.2, 1];
 const OVERLAP = 0.62; // each glyph starts when the previous is this far drawn — a joined-up, flowing hand
-const FILL_TRAIL = 0.45; // ink starts fading in this far through each glyph's own draw (lower = sooner)
+const FILL_TRAIL = 1; // ink begins only once the glyph's outline has fully drawn (lower = sooner). The ink line shares the outline's colour, so a fill that starts earlier paints over the still-drawing line and the outline looks like it stops short — hold the fill until the trace completes.
 
 const DRAW_DUR_MS = GLYPH_WEIGHTS.map((w) => Math.round(DRAW_BASE_MS * w));
 // Cumulative start delays: a glyph begins OVERLAP of the way through the previous
-// one, so the non-uniform gaps preserve the constant-velocity feel.
+// one, so the non-uniform gaps preserve the constant-velocity feel. With the
+// weights tracking true length, completion stays in reading order on its own (a
+// glyph never finishes before the one before it), so no extra ordering floor is
+// needed — the pen flows unbroken from & to ;.
 const DRAW_DELAY_MS = DRAW_DUR_MS.map((_, i) =>
   DRAW_DUR_MS.slice(0, i).reduce((sum, d) => sum + Math.round(d * OVERLAP), 0)
 );
@@ -96,7 +106,7 @@ const WORDMARK_PATH =
           d={d}
           fill="none"
           stroke="currentColor"
-          stroke-width="5"
+          stroke-width="3"
           stroke-linecap="round"
           stroke-linejoin="round"
           pathLength="1"

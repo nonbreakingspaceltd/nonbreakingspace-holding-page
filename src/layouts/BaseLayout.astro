@@ -16,13 +16,16 @@ interface Props {
   path?: string;
   /** Keep the page out of search results (e.g. internal reference pages). */
   noindex?: boolean;
+  /** id of the page's <main>, so the skip link targets the right content. */
+  mainId?: string;
 }
 
 const {
   title = 'Nonbreakingspace — Software, interaction & visual design studio',
-  description = 'Nonbreakingspace is a Manchester-based digital studio specialising in front-end development, interaction design and brand-led web experiences.',
+  description = 'Nonbreakingspace is a Manchester digital studio working across front-end development, interaction design and brand-led web — accessible, inclusive systems that work for everyone, not just the few.',
   path = '/',
   noindex = false,
+  mainId = 'index',
 } = Astro.props;
 
 const site = Astro.site ?? new URL('https://www.nonbreakingspace.co.uk');
@@ -144,7 +147,7 @@ const jsonLd = {
   </head>
 
   <body>
-    <a class="skip-link" href="#index">Skip to content</a>
+    <a class="skip-link" href={`#${mainId}`}>Skip to content</a>
     <slot />
 
     <script>

@@ -78,7 +78,7 @@ const html = `<!doctype html>
     <svg class="wordmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2403.3 818.3" aria-hidden="true">
       <path fill="${NAVY}" d="${wordmarkPath}"></path>
     </svg>
-    <p class="headline">Software, interaction and graphic design, made with <em>passion</em>.</p>
+    <p class="headline">Software, interaction and visual design, crafted for <em>everyone</em> &mdash; not just the few.</p>
   </div>
 </body>
 </html>`;
