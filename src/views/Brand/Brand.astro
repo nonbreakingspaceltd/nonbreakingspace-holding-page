@@ -1,0 +1,61 @@
+---
+import './brand.css';
+import Contact from '../../components/Contact';
+import Header from '../../components/Header';
+import BaseLayout from '../../layouts/BaseLayout';
+import Applications from './sections/Applications';
+import BrandHero from './sections/BrandHero';
+import BrandIdea from './sections/BrandIdea';
+import Colophon from './sections/Colophon';
+import Colour from './sections/Colour';
+import ContentsNav from './sections/ContentsNav';
+import Foundations from './sections/Foundations';
+import Iconography from './sections/Iconography';
+import LayoutGrid from './sections/LayoutGrid';
+import Motion from './sections/Motion';
+import Typography from './sections/Typography';
+import Voice from './sections/Voice';
+import WordmarkSpec from './sections/WordmarkSpec';
+
+// The /brand spec sheet as a page-level view — a living spec sheet for the
+// "Measured Index" system. The composition is assembled from one section
+// component per numbered band (sections/*); each owns its own data, markup and
+// scoped styles. Utilities shared across sections live in ./brand.css. Every
+// swatch and specimen is driven by the same @theme tokens the site ships, so
+// this page can't drift from the real design. The route entry
+// src/pages/brand.astro is a thin wrapper that just renders this view.
+---
+
+<BaseLayout
+  title="Brand Guidelines — Nonbreakingspace"
+  description="The Measured Index — Nonbreakingspace's brand system: positioning, wordmark, palette, typography, layout, iconography, motion, voice and applications."
+  path="/brand"
+  mainId="brand"
+>
+  <Header />
+
+  <main id="brand" tabindex="-1">
+    <BrandHero />
+    <ContentsNav />
+    <BrandIdea />
+    <Foundations />
+    <WordmarkSpec />
+    <Colour />
+    <Typography />
+    <LayoutGrid />
+    <Iconography />
+    <Motion />
+    <Voice />
+    <Applications />
+    <Colophon />
+  </main>
+
+  <!-- Shared footer — identical to the index page. -->
+  <Contact />
+</BaseLayout>
+
+<style>
+  main:focus {
+    outline: none;
+  }
+</style>

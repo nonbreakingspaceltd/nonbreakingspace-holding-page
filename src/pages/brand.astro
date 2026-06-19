@@ -1,59 +1,8 @@
 ---
-import '../styles/brand.css';
-import Applications from '../components/brand/Applications';
-import BrandHero from '../components/brand/BrandHero';
-import BrandIdea from '../components/brand/BrandIdea';
-import Colophon from '../components/brand/Colophon';
-import Colour from '../components/brand/Colour';
-import ContentsNav from '../components/brand/ContentsNav';
-import Foundations from '../components/brand/Foundations';
-import Iconography from '../components/brand/Iconography';
-import LayoutGrid from '../components/brand/LayoutGrid';
-import Motion from '../components/brand/Motion';
-import Typography from '../components/brand/Typography';
-import Voice from '../components/brand/Voice';
-import WordmarkSpec from '../components/brand/WordmarkSpec';
-import Contact from '../components/Contact';
-import Header from '../components/Header';
-import BaseLayout from '../layouts/BaseLayout';
-
-// Brand guidelines — a living spec sheet for the "Measured Index" system. The
-// page is assembled from one section component per numbered band; each owns its
-// own data, markup and scoped styles. Utilities shared across sections live in
-// ../styles/brand.css. Every swatch and specimen is driven by the same @theme
-// tokens the site ships, so this page can't drift from the real design.
+// Thin route entry for /brand. The page owns nothing but the URL — the whole
+// composition (layout, the thirteen spec sections, scoped styles) lives in the
+// Brand view, mirroring the pages → views → components split.
+import Brand from '../views/Brand';
 ---
 
-<BaseLayout
-  title="Brand Guidelines — Nonbreakingspace"
-  description="The Measured Index — Nonbreakingspace's brand system: positioning, wordmark, palette, typography, layout, iconography, motion, voice and applications."
-  path="/brand"
-  mainId="brand"
->
-  <Header />
-
-  <main id="brand" tabindex="-1">
-    <BrandHero />
-    <ContentsNav />
-    <BrandIdea />
-    <Foundations />
-    <WordmarkSpec />
-    <Colour />
-    <Typography />
-    <LayoutGrid />
-    <Iconography />
-    <Motion />
-    <Voice />
-    <Applications />
-    <Colophon />
-  </main>
-
-  <!-- Shared footer — identical to the index page. -->
-  <Contact />
-</BaseLayout>
-
-<style>
-  main:focus {
-    outline: none;
-  }
-</style>
+<Brand />

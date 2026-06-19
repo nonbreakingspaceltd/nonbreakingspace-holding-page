@@ -1,5 +1,5 @@
 ---
-import SectionLabel from '../../SectionLabel';
+import SectionLabel from '../../../../components/SectionLabel';
 
 // 02 — Foundations. The three principles the system is built on.
 ---
@@ -9,16 +9,16 @@ import SectionLabel from '../../SectionLabel';
     <SectionLabel index="02" label="Foundations" id="foundations-label" />
     <div class="principles">
       <article class="principle" data-reveal>
-        <h3 class="t-heading">Type leads the way</h3>
-        <p class="t-body principle__copy">The page is set, not decorated. Fraunces leads; Inter does the functional work.</p>
+        <h3 class="t-heading">Access is the floor</h3>
+        <p class="t-body principle__copy">We start from the people most easily left out &mdash; readable type, generous contrast, motion that switches off, focus you can always see. Set the floor high and everyone rises with it.</p>
       </article>
       <article class="principle" data-reveal style="--reveal-delay: 80ms">
-        <h3 class="t-heading">Restraint is the device</h3>
-        <p class="t-body principle__copy">One accent, one dark close, one italic gesture per view &mdash; nothing unearned stays.</p>
+        <h3 class="t-heading">The work goes unseen</h3>
+        <p class="t-body principle__copy">Like the character we are named for, the system holds the page together without being noticed. Space does the structuring; a hairline shows only where it earns its place.</p>
       </article>
       <article class="principle" data-reveal style="--reveal-delay: 160ms">
-        <h3 class="t-heading">Edges earn their keep</h3>
-        <p class="t-body principle__copy">A hairline appears only where it does work &mdash; structure comes from space, never cards or containers.</p>
+        <h3 class="t-heading">One system, every surface</h3>
+        <p class="t-body principle__copy">Two families, one accent and a single set of tokens carry everything from the address bar to the share card. Change a token, and the whole brand moves with it.</p>
       </article>
     </div>
   </div>
@@ -49,6 +49,13 @@ import SectionLabel from '../../SectionLabel';
     inset-block: 0;
     left: calc(-0.5 * var(--principles-gap));
     border-left: 1px solid var(--rule);
+  }
+  /* Step the headings below the full statement size (3.5rem is too shouty for a
+     3-up grid and forces the longest title onto a third line); balance evens the
+     two-line rag so all three columns share the same heading rhythm. */
+  .principle h3 {
+    font-size: clamp(1.5rem, 1.1rem + 2vw, 2.75rem);
+    text-wrap: balance;
   }
   .principle__copy {
     max-width: 26ch;
