@@ -71,7 +71,17 @@ import Wordmark from '../../../../components/Wordmark';
   .apps-grid {
     display: grid;
     grid-template-columns: minmax(11rem, 16rem) 1fr;
-    gap: clamp(1.5rem, 4vw, 3rem);
+    grid-template-rows: auto auto;
+    column-gap: clamp(1.5rem, 4vw, 3rem);
+    row-gap: var(--stack-gap);
+  }
+  /* Both specimen figures borrow the grid's two rows via subgrid, so the stages
+     share row 1 (equal height) and the captions share row 2. The stage heights
+     no longer drift with however each caption happens to wrap. */
+  .apps-grid > .app {
+    display: grid;
+    grid-row: span 2;
+    grid-template-rows: subgrid;
   }
   .app {
     margin: 0;
@@ -98,11 +108,11 @@ import Wordmark from '../../../../components/Wordmark';
     border-radius: 22%;
     box-shadow: inset 0 0 0 1px var(--rule);
   }
-  /* Match the app-icon stage height, and present the lockup as it runs in the
-     real header — a bar across the top, brand left / live location right, with
-     the empty space below reading as the page it sits atop. */
+  /* Stretched by the subgrid to the app-icon stage's height; presents the
+     lockup as it runs in the real header — a bar across the top, brand left /
+     live location right, with the empty space below reading as the page it
+     sits atop. */
   .app__stage--masthead {
-    flex: 1;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
