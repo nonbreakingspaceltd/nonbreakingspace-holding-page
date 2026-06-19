@@ -1,0 +1,232 @@
+---
+import SectionLabel from '../../SectionLabel';
+
+// 06 — Layout & grid. Measure, gutter, rhythm and rules.
+
+const layoutTokens = [
+  { token: '--gutter', value: 'clamp(1.5rem, 6vw, 9rem)', note: 'Page inline padding (.wrap).' },
+  { token: '--content-max', value: '1280px', note: 'Maximum measure for the centred column.' },
+  {
+    token: '--pad-section',
+    value: 'clamp(5rem, 12vh, 9rem)',
+    note: 'Default vertical section rhythm.',
+  },
+  {
+    token: '--pad-statement',
+    value: 'clamp(7rem, 16vh, 13rem)',
+    note: 'The breathing room around the statement.',
+  },
+  { token: '--pad-contact', value: 'clamp(6rem, 14vh, 11rem)', note: 'The dark close.' },
+  {
+    token: '--grid-gap',
+    value: 'clamp(1.5rem, 4vw, 3.5rem)',
+    note: 'Primary multi-column grid gap.',
+  },
+  {
+    token: '--grid-gap-tight',
+    value: 'clamp(1.5rem, 3vw, 2.5rem)',
+    note: 'Card galleries (misuse, swatches).',
+  },
+  { token: '--stack-gap', value: 'clamp(1rem, 2.5vh, 1.5rem)', note: 'Vertical figure-stack gap.' },
+  {
+    token: '--rule-light',
+    value: 'rgb(7 26 45 / 0.12)',
+    note: 'Hairline on ivory — 1px borders, never shadows.',
+  },
+  { token: '--rule-dark', value: 'rgb(255 249 237 / 0.15)', note: 'Hairline on navy.' },
+];
+
+// Vertical-rhythm steps, drawn to scale from their MAX clamp value (px).
+const rhythmScale = [
+  { name: 'Statement', token: '--pad-statement', label: '7 → 13rem', max: 208 },
+  { name: 'Dark close', token: '--pad-contact', label: '6 → 11rem', max: 176 },
+  { name: 'Section', token: '--pad-section', label: '5 → 9rem', max: 144 },
+];
+const rhythmMax = 208;
+---
+
+<!-- 06 — Layout & grid -->
+<section id="layout" class="band" aria-labelledby="layout-label">
+  <div class="wrap">
+    <SectionLabel index="06" label="Layout &amp; grid" id="layout-label" />
+
+    <h3 class="meta-label subhead">The measure</h3>
+    <figure class="measure" data-reveal>
+      <div class="measure__frame" aria-hidden="true">
+        <span class="measure__edge"><span>Gutter</span></span>
+        <div class="measure__col">
+          <span class="meta-label measure__cap">Content &mdash; max 1280px</span>
+        </div>
+        <span class="measure__edge"><span>Gutter</span></span>
+      </div>
+      <figcaption class="measure__note">
+        Every section centres one column capped at <code class="token">--content-max</code>,
+        with <code class="token">--gutter</code> inline padding that grows from 1.5rem to 9rem
+        with the viewport. There is no multi-column page grid &mdash; structure comes from the
+        measure and the hairlines.
+      </figcaption>
+    </figure>
+
+    <h3 class="meta-label subhead">Vertical rhythm</h3>
+    <ul class="rhythm" data-reveal>
+      {
+        rhythmScale.map((r) => (
+          <li class="rhythm__row">
+            <span class="rhythm__name t-body">{r.name}</span>
+            <span class="rhythm__track">
+              <span class="rhythm__bar" style={`width:${(r.max / rhythmMax) * 100}%`} aria-hidden="true" />
+            </span>
+            <span class="token rhythm__val">{r.label}</span>
+          </li>
+        ))
+      }
+    </ul>
+    <p class="figcap rhythm__note">Shown at each step&rsquo;s maximum. All vertical space resolves from this short scale of clamps.</p>
+
+    <h3 class="meta-label subhead">Tokens</h3>
+    <ul class="tokens">
+      {
+        layoutTokens.map((t, i) => (
+          <li class="token-row" data-reveal style={`--reveal-delay: ${i * 30}ms`}>
+            <p class="token token-row__name">{t.token}</p>
+            <p class="token token-row__value">{t.value}</p>
+            <p class="token-row__note">{t.note}</p>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<style>
+  /* Visual of the .wrap primitive: centred measure flanked by fluid gutters. */
+  .measure {
+    margin: 0 0 var(--stack-gap);
+  }
+  .measure__frame {
+    display: grid;
+    grid-template-columns: clamp(1.5rem, 7vw, 4rem) 1fr clamp(1.5rem, 7vw, 4rem);
+    min-height: clamp(7rem, 18vh, 11rem);
+    border: 1px solid var(--rule);
+  }
+  .measure__edge {
+    display: grid;
+    place-items: center;
+    background: var(--surface-recessed);
+  }
+  .measure__edge span {
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    font-family: var(--font-sans);
+    font-size: 0.6875rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+  .measure__col {
+    display: grid;
+    place-items: center;
+    padding: clamp(1.5rem, 4vh, 2.5rem);
+    border-inline: 1px solid var(--rule);
+    text-align: center;
+  }
+  .measure__cap {
+    color: var(--text-muted-strong);
+  }
+  .measure__note {
+    max-width: 62ch;
+    margin-top: var(--stack-gap);
+    font-size: 0.9375rem;
+    line-height: 1.5;
+    color: var(--text);
+    text-wrap: pretty;
+  }
+
+  .rhythm {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .rhythm__row {
+    display: grid;
+    grid-template-columns: 9rem 1fr auto;
+    align-items: center;
+    gap: 0.5rem clamp(1.25rem, 3vw, 2.5rem);
+    padding-block: clamp(0.85rem, 2vh, 1.25rem);
+    border-top: 1px solid var(--rule);
+  }
+  .rhythm__row:first-child {
+    border-top: 0;
+  }
+  .rhythm__name {
+    font-weight: 500;
+    color: var(--text-strong);
+  }
+  .rhythm__track {
+    display: block;
+  }
+  .rhythm__bar {
+    display: block;
+    height: 0.625rem;
+    border-radius: 1px;
+    background: var(--text-muted-strong);
+  }
+  .rhythm__val {
+    white-space: nowrap;
+    color: var(--text-muted);
+  }
+  .rhythm__note {
+    margin-top: clamp(0.85rem, 2vh, 1.25rem);
+  }
+
+  .tokens {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .token-row {
+    display: grid;
+    grid-template-columns: 13rem 1fr;
+    gap: 0.4rem clamp(1.5rem, 4vw, 3rem);
+    align-items: baseline;
+    padding-block: clamp(0.9rem, 2vh, 1.35rem);
+    border-top: 1px solid var(--rule);
+  }
+  .token-row:first-child {
+    border-top: 0;
+  }
+  .token-row__name {
+    color: var(--text-strong);
+  }
+  .token-row__value {
+    color: var(--text-muted-strong);
+  }
+  .token-row__note {
+    grid-column: 2;
+    margin-top: 0.15rem;
+    font-size: 0.9375rem;
+    line-height: 1.5;
+    color: var(--text);
+  }
+
+  @media (max-width: 52rem) {
+    .token-row {
+      grid-template-columns: 1fr;
+    }
+    .token-row__note {
+      grid-column: 1;
+    }
+  }
+
+  @media (max-width: 40rem) {
+    .rhythm__row {
+      grid-template-columns: 1fr auto;
+      column-gap: 1rem;
+    }
+    .rhythm__track {
+      grid-column: 1 / -1;
+      grid-row: 2;
+    }
+  }
+</style>

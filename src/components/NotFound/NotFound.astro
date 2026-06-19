@@ -1,0 +1,107 @@
+---
+import Wordmark from '../Wordmark';
+
+// The 404 view — a single centred "non-breaking space" message. Self-contained
+// so the 404 page is just <BaseLayout><NotFound /></BaseLayout>.
+---
+
+<main class="notfound" id="index" tabindex="-1">
+  <div class="wrap notfound__inner">
+    <span
+      class="notfound__wordmark reveal-draw"
+      data-reveal
+      style="--reveal-delay: 120ms"
+      aria-hidden="true"
+    >
+      <Wordmark animated />
+    </span>
+
+    <div class="notfound__lower">
+      <p class="eyebrow" data-reveal style="--reveal-delay: 420ms">
+        <span class="index">404</span>&nbsp;&mdash;&nbsp;Page not found
+      </p>
+
+      <h1 class="t-statement notfound__title" data-reveal style="--reveal-delay: 500ms">
+        You&rsquo;ve found a non&#8209;breaking&nbsp;space.
+      </h1>
+
+      <p class="t-body notfound__body" data-reveal style="--reveal-delay: 620ms">
+        The address may be mistyped, or the page has moved on. Everything else is
+        right where you left&nbsp;it.
+      </p>
+
+      <p class="notfound__cta" data-reveal style="--reveal-delay: 740ms">
+        <span class="eyebrow notfound__cta-label">&larr;&nbsp;&nbsp;Back to</span>
+        <a class="t-email link-underline notfound__home" href="/">The index</a>
+      </p>
+    </div>
+  </div>
+</main>
+
+<style>
+  /* A single centred block. `safe center` keeps it vertically centred when
+     there's room, but falls back to top-aligned (scrolling) on short viewports
+     instead of clipping the top — so it never strands or overlaps. */
+  .notfound {
+    min-height: 100svh;
+    display: grid;
+    align-content: safe center;
+    padding-block: clamp(3rem, 9vh, 6rem);
+  }
+
+  /* Optically hung into the left margin to honour the wordmark's calligraphic
+     entry stroke, matching the home hero. */
+  .notfound__wordmark {
+    display: block;
+    width: max-content;
+    max-width: 100%;
+    margin-left: -0.75%;
+  }
+  .notfound__wordmark :global(svg) {
+    display: block;
+    width: clamp(180px, 28vw, 380px);
+    height: auto;
+    color: var(--text-strong);
+  }
+
+  /* A clear, even step below the wordmark — no negative tuck that would pull the
+     small eyebrow up into the wordmark's descenders. */
+  .notfound__lower {
+    margin-top: clamp(0.75rem, 1.6vw, 1.5rem);
+  }
+
+  .notfound__title {
+    max-width: 18ch;
+    margin-top: clamp(0.5rem, 1.2vw, 1rem);
+  }
+
+  .notfound__body {
+    max-width: 46ch;
+    margin-top: clamp(1rem, 2vw, 1.5rem);
+    color: var(--text);
+    text-wrap: pretty;
+  }
+
+  .notfound__cta {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    margin-top: clamp(1.25rem, 2.5vw, 2rem);
+  }
+  .notfound__home {
+    width: max-content;
+    max-width: 100%;
+    color: var(--text);
+  }
+
+  /* Short viewports: shrink the wordmark and tighten padding so the whole
+     message fits without overflowing into a scroll. */
+  @media (max-height: 740px) {
+    .notfound {
+      padding-block: clamp(2rem, 6vh, 3.5rem);
+    }
+    .notfound__wordmark :global(svg) {
+      width: clamp(160px, 24vw, 300px);
+    }
+  }
+</style>

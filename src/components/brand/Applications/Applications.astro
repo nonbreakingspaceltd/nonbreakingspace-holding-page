@@ -1,0 +1,165 @@
+---
+import SectionLabel from '../../SectionLabel';
+import Wordmark from '../../Wordmark';
+
+// 10 — Applications. The system, applied in the world.
+---
+
+<section id="applications" class="band" aria-labelledby="apps-label">
+  <div class="wrap">
+    <SectionLabel index="10" label="Applications" id="apps-label" />
+    <p class="t-body apps-lede" data-reveal>
+      Where the system meets the world. The same tokens and the one mark, applied consistently
+      across every touchpoint &mdash; from the address bar to the share card.
+    </p>
+
+    <div class="apps-grid">
+      <figure class="app" data-reveal>
+        <span class="app__stage app__stage--icon">
+          <img class="app__icon" src="/android-chrome-512x512.png" alt="" width="104" height="104" loading="lazy" />
+        </span>
+        <figcaption class="figcap">App icon &mdash; the ampersand monogram, square-cropped for home screens, favicons and PWA installs.</figcaption>
+      </figure>
+
+      <figure class="app" data-reveal style="--reveal-delay: 100ms">
+        <span class="app__stage app__stage--masthead">
+          <span class="app__lockup">Nonbreakingspace</span>
+          <span class="app__loc meta-label">Manchester, UK &mdash; 14:07 BST</span>
+        </span>
+        <figcaption class="figcap">Masthead lockup &mdash; the tracked uppercase wordmark with the live location tag, as it runs in the header.</figcaption>
+      </figure>
+    </div>
+
+    <figure class="app app--wide" data-reveal>
+      <span class="app__stage app__stage--og">
+        <img class="app__og" src="/og-image.png" alt="" width="2400" height="1260" loading="lazy" />
+      </span>
+      <figcaption class="figcap">Share card &mdash; the Open Graph image shown when a link is posted. 2400 × 1260, built on the ivory ground.</figcaption>
+    </figure>
+
+    <figure class="app app--wide" data-reveal style="--reveal-delay: 100ms">
+      <span class="app__stage app__stage--card on-navy">
+        <span class="mark__art mark__art--invert card__mark"><Wordmark /></span>
+        <span class="card__foot">
+          <span class="meta-label card__role">Software &amp; design studio</span>
+          <span class="legal card__line">hello@nonbreakingspace.co.uk&nbsp;&middot;&nbsp;Manchester, UK</span>
+        </span>
+      </span>
+      <figcaption class="figcap">Stationery &mdash; the mark, ivory on navy, with the address set in the functional roles. Derived entirely from the tokens above.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<style>
+  /* The card mark reuses the wordmark art rules from the Wordmark section. */
+  .mark__art :global(svg) {
+    display: block;
+    width: clamp(160px, 30vw, 300px);
+    height: auto;
+    color: var(--text-strong);
+  }
+  .mark__art--invert :global(svg) {
+    color: var(--text-on-contrast);
+  }
+
+  .apps-lede {
+    max-width: 60ch;
+    margin-bottom: clamp(2rem, 5vh, 3.5rem);
+    color: var(--text);
+    text-wrap: pretty;
+  }
+  .apps-grid {
+    display: grid;
+    grid-template-columns: minmax(11rem, 16rem) 1fr;
+    gap: clamp(1.5rem, 4vw, 3rem);
+  }
+  .app {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--stack-gap);
+  }
+  .app--wide {
+    margin-top: clamp(1.5rem, 4vw, 3rem);
+  }
+  .app__stage {
+    display: grid;
+    place-items: center;
+    padding: clamp(1.5rem, 4vw, 2.5rem);
+    border: 1px solid var(--rule);
+    background: var(--surface-recessed);
+  }
+  .app__stage--icon {
+    aspect-ratio: 1;
+  }
+  .app__icon {
+    width: clamp(80px, 12vw, 104px);
+    height: auto;
+    border-radius: 22%;
+    box-shadow: inset 0 0 0 1px var(--rule);
+  }
+  /* Match the app-icon stage height, and present the lockup as it runs in the
+     real header — a bar across the top, brand left / live location right, with
+     the empty space below reading as the page it sits atop. */
+  .app__stage--masthead {
+    flex: 1;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 0.65rem 1.5rem;
+    text-align: left;
+  }
+  .app__lockup {
+    font-family: var(--font-sans);
+    font-size: clamp(0.8125rem, 0.7rem + 0.5vw, 1rem);
+    font-weight: 500;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--text-strong);
+  }
+  .app__loc {
+    color: var(--text-muted-strong);
+  }
+  .app__stage--og {
+    padding: 0;
+    overflow: hidden;
+  }
+  .app__og {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+  .app__stage--card {
+    aspect-ratio: 16 / 7;
+    flex-direction: column;
+    place-items: stretch;
+    justify-content: space-between;
+    gap: 1.5rem;
+    background: var(--surface-contrast);
+    border-color: transparent;
+    text-align: left;
+  }
+  .card__mark :global(svg) {
+    width: clamp(140px, 24vw, 220px);
+    height: auto;
+  }
+  .card__foot {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+  .card__role {
+    color: color-mix(in srgb, var(--text-on-contrast) 72%, transparent);
+  }
+  .card__line {
+    color: color-mix(in srgb, var(--text-on-contrast) 70%, transparent);
+  }
+
+  @media (max-width: 40rem) {
+    .apps-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

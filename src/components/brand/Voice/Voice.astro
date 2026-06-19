@@ -1,0 +1,132 @@
+---
+import SectionLabel from '../../SectionLabel';
+
+// 09 — Voice & accessibility. How we write and the a11y floor.
+
+// Tone of voice — preferred phrasing against what we avoid.
+const lexicon = [
+  { say: 'We build', not: 'We deliver solutions', why: 'Plain verbs over corporate nouns.' },
+  { say: 'For everyone', not: 'For users', why: 'People, not segments — where a person will do.' },
+  {
+    say: 'Accessible by default',
+    not: 'Accessibility-first™',
+    why: 'No buzzwords, no trademarks.',
+  },
+  { say: 'We read everything', not: 'We’ll circle back', why: 'Human and direct; we mean it.' },
+  { say: 'A small studio', not: 'A boutique agency', why: 'Honest about our scale.' },
+];
+---
+
+<section id="voice" class="band" aria-labelledby="voice-label">
+  <div class="wrap">
+    <SectionLabel index="09" label="Voice &amp; accessibility" id="voice-label" />
+    <div class="voice">
+      <div class="voice__col" data-reveal>
+        <h3 class="t-cap voice__head">Voice</h3>
+        <p class="t-body">Plain, considered, British. Short declarative lines; one idea each.
+          Sentence case everywhere except the tracked eyebrow. Never breezy, never salesy
+          &mdash; the studio reads everything and means it.</p>
+      </div>
+      <div class="voice__col" data-reveal style="--reveal-delay: 100ms">
+        <h3 class="t-cap voice__head">Accessibility</h3>
+        <p class="t-body">WCAG 2.2 AA is the floor, not the goal. All text clears 4.5:1.
+          Motion is gated behind <code class="token">prefers-reduced-motion</code>,
+          focus is always visible, and the wordmark is decorative unless labelled.</p>
+      </div>
+    </div>
+
+    <h3 class="meta-label subhead subhead--spaced">Lexicon</h3>
+    <ul class="lexicon">
+      {
+        lexicon.map((l, i) => (
+          <li class="lexicon__row" data-reveal style={`--reveal-delay: ${i * 40}ms`}>
+            <span class="lexicon__say t-body">{l.say}</span>
+            <span class="lexicon__not">not &ldquo;{l.not}&rdquo;</span>
+            <span class="lexicon__why">{l.why}</span>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<style>
+  /* ---- 09 Voice & accessibility ---- */
+  .voice {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--grid-gap);
+  }
+  .voice__head {
+    margin-bottom: clamp(0.85rem, 2vh, 1.25rem);
+  }
+  .voice__col p {
+    max-width: 42ch;
+    color: var(--text);
+    text-wrap: pretty;
+  }
+
+  /* Lexicon — we say / not / why */
+  .lexicon {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    /* One shared grid for the whole table so every row's columns align. Say +
+       Not are max-content — sized to their longest phrase ACROSS ALL ROWS, so
+       neither ever wraps; Why (1fr) takes the rest. Rows opt in via subgrid.
+       (The responsive rules below reset this to a block for narrow screens.) */
+    display: grid;
+    grid-template-columns: max-content max-content 1fr;
+    column-gap: var(--grid-gap-tight);
+  }
+  .lexicon__row {
+    display: grid;
+    grid-column: 1 / -1;
+    grid-template-columns: subgrid;
+    gap: 0.35rem var(--grid-gap-tight);
+    align-items: baseline;
+    padding-block: clamp(0.9rem, 2vh, 1.35rem);
+    border-top: 1px solid var(--rule);
+  }
+  .lexicon__row:first-child {
+    border-top: 0;
+  }
+  .lexicon__say {
+    font-weight: 500;
+    color: var(--text-strong);
+  }
+  .lexicon__not {
+    color: var(--text-muted-strong);
+  }
+  .lexicon__why {
+    font-size: 0.9375rem;
+    line-height: 1.5;
+    color: var(--text);
+    text-wrap: pretty;
+  }
+
+  @media (max-width: 52rem) {
+    .lexicon {
+      display: block;
+    }
+    .lexicon__row {
+      grid-template-columns: 1fr 1fr;
+    }
+    .lexicon__why {
+      grid-column: 1 / -1;
+    }
+  }
+
+  @media (max-width: 40rem) {
+    .voice {
+      grid-template-columns: 1fr;
+    }
+    .lexicon__row {
+      grid-template-columns: 1fr;
+      gap: 0.15rem;
+    }
+    .lexicon__why {
+      grid-column: 1;
+    }
+  }
+</style>

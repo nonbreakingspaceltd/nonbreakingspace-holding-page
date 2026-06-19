@@ -1,0 +1,67 @@
+---
+import SectionLabel from '../../SectionLabel';
+
+// 02 — Foundations. The three principles the system is built on.
+---
+
+<section id="foundations" class="band" aria-labelledby="foundations-label">
+  <div class="wrap">
+    <SectionLabel index="02" label="Foundations" id="foundations-label" />
+    <div class="principles">
+      <article class="principle" data-reveal>
+        <h3 class="t-heading">Type leads the way</h3>
+        <p class="t-body principle__copy">The page is set, not decorated. Fraunces leads; Inter does the functional work.</p>
+      </article>
+      <article class="principle" data-reveal style="--reveal-delay: 80ms">
+        <h3 class="t-heading">Restraint is the device</h3>
+        <p class="t-body principle__copy">One accent, one dark close, one italic gesture per view &mdash; nothing unearned stays.</p>
+      </article>
+      <article class="principle" data-reveal style="--reveal-delay: 160ms">
+        <h3 class="t-heading">Edges earn their keep</h3>
+        <p class="t-body principle__copy">A hairline appears only where it does work &mdash; structure comes from space, never cards or containers.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<style>
+  .principles {
+    --principles-gap: clamp(2rem, 4vw, 4rem);
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: auto auto;
+    column-gap: var(--principles-gap);
+    /* Large gap only separates principles when they stack on narrow screens. */
+    row-gap: clamp(2.5rem, 6vh, 4rem);
+  }
+  /* Subgrid keeps heading / copy aligned across columns regardless of
+     how the headings wrap; the vertical gutter rule frames without boxing. */
+  .principle {
+    position: relative;
+    grid-row: span 2;
+    display: grid;
+    grid-template-rows: subgrid;
+    row-gap: clamp(0.85rem, 2vh, 1.25rem);
+  }
+  .principle + .principle::before {
+    content: '';
+    position: absolute;
+    inset-block: 0;
+    left: calc(-0.5 * var(--principles-gap));
+    border-left: 1px solid var(--rule);
+  }
+  .principle__copy {
+    max-width: 26ch;
+    color: var(--text);
+    text-wrap: pretty;
+  }
+
+  @media (max-width: 52rem) {
+    .principles {
+      grid-template-columns: 1fr;
+    }
+    .principle + .principle::before {
+      display: none;
+    }
+  }
+</style>

@@ -1,0 +1,35 @@
+---
+// Brand page title block — the spec sheet's masthead.
+---
+
+<section class="brand-hero">
+  <div class="wrap">
+    <p class="eyebrow brand-hero__kicker" data-reveal>Brand Guidelines &mdash; The Measured Index</p>
+    <h1 class="t-hero brand-hero__title" data-reveal style="--reveal-delay: 120ms">
+      One system, <em>measured</em>.
+    </h1>
+    <p class="t-body brand-hero__lede" data-reveal style="--reveal-delay: 260ms">
+      A warm-ivory editorial broadsheet where type does almost everything and restraint is
+      the device. Two families, one accent, hairline rules. Everything on this page is driven
+      by the same design tokens the site ships &mdash; change a token, change the brand.
+    </p>
+  </div>
+</section>
+
+<style>
+  .brand-hero {
+    padding-block: clamp(3.5rem, 9vh, 7rem) clamp(2.5rem, 6vh, 4.5rem);
+  }
+  .brand-hero__kicker {
+    margin-bottom: clamp(1.5rem, 4vh, 2.5rem);
+  }
+  .brand-hero__title {
+    max-width: 18ch;
+  }
+  .brand-hero__lede {
+    max-width: 52ch;
+    margin-top: clamp(1.5rem, 4vh, 2.5rem);
+    color: var(--text);
+    text-wrap: pretty;
+  }
+</style>

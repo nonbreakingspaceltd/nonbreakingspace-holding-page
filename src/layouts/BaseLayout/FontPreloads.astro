@@ -1,0 +1,23 @@
+---
+// Both primary faces back above-the-fold text. They're pulled in via CSS
+// @font-face (global.css), so the browser only discovers them mid-parse and
+// chains the requests — preload the latin subsets by URL so they start with the
+// document instead. Fraunces sets the hero headline (LCP); Inter the body.
+import frauncesDisplay from '@fontsource-variable/fraunces/files/fraunces-latin-opsz-normal.woff2?url';
+import interBody from '@fontsource-variable/inter/files/inter-latin-wght-normal.woff2?url';
+---
+
+<link
+  rel="preload"
+  href={frauncesDisplay}
+  as="font"
+  type="font/woff2"
+  crossorigin="anonymous"
+/>
+<link
+  rel="preload"
+  href={interBody}
+  as="font"
+  type="font/woff2"
+  crossorigin="anonymous"
+/>
