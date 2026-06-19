@@ -36,11 +36,6 @@ const site = Astro.site ?? new URL('https://www.nonbreakingspace.co.uk');
         /* storage blocked — fall back to the OS preference via CSS */
       }
       document.documentElement.classList.add('js');
-      // Single-page site: always open at the top. Without this the browser
-      // restores the previous scroll position on reload / back-forward, landing
-      // a few dozen pixels down and hiding the masthead's top padding. Fragment
-      // links (e.g. the skip link's #index) still scroll normally.
-      if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
     </script>
 
     <HeadMeta {title} {description} {path} {noindex} {site} />
