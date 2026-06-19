@@ -1,0 +1,62 @@
+---
+// Reveal-on-view: subtle fade/rise, runs once per element as it scrolls into
+// view. Fully JS-gated and honours prefers-reduced-motion.
+---
+
+<script>
+  // Reveal-on-view: subtle fade/rise, runs once per element.
+  const reveals = Array.from(document.querySelectorAll<HTMLElement>('[data-reveal]'));
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  if (reduced || !('IntersectionObserver' in window)) {
+    reveals.forEach((el) => el.classList.add('is-revealed'));
+  } else {
+    // One observer reveals each element the first time it enters view —
+    // including the above-the-fold ones, which intersect on its first
+    // callback (then transition with their stagger). Letting the observer
+    // decide visibility keeps this off the main thread: no getBoundingClientRect
+    // / innerHeight read, so nothing forces a synchronous reflow.
+    //
+    // Exception: a `.reveal-drop` element (the masthead) starts translated
+    // fully above the top edge — it can never *intersect*, so the observer
+    // would leave it stuck hidden. It's an on-load reveal by definition, so
+    // class it directly instead of observing it.
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-revealed');
+            observer.unobserve(entry.target);
+          }
+        }
+      },
+      { threshold: 0.15, rootMargin: '0px 0px -10% 0px' }
+    );
+    // Defer observing so the first reveal lands cleanly. Two races to avoid:
+    //  1. This is a deferred module — it runs before first paint, so the
+    //     hidden/translated start state must be painted before any class
+    //     flips, or there is no "from" frame to transition out of.
+    //  2. The web fonts finish loading a beat after navigation and trigger a
+    //     full style recalc; revealing in that same recalc collapses the
+    //     before/after and kills the transition.
+    // Waiting for fonts to settle, then two frames, clears both before the
+    // observer can fire.
+    const start = () =>
+      requestAnimationFrame(() =>
+        requestAnimationFrame(() => {
+          reveals.forEach((el) => {
+            if (el.classList.contains('reveal-drop')) {
+              el.classList.add('is-revealed');
+            } else {
+              observer.observe(el);
+            }
+          });
+        })
+      );
+    if (document.fonts?.status === 'loaded') {
+      start();
+    } else {
+      document.fonts.ready.then(start);
+    }
+  }
+</script>

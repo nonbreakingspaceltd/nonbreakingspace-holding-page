@@ -44,22 +44,31 @@ TypeScript where the tool allows it (`astro.config.ts`, `playwright.config.ts`);
 
 ```text
 src/
-  components/   One folder per component (Hero, Statement, Capabilities,
-                Approach, TrustedBy, Contact, Header, Wordmark, SectionLabel):
-                  Name/
-                    Name.astro      — markup + scoped <style>
-                    index.ts        — barrel (re-exports the component + types)
-                    types.ts        — Props (components that take props)
-                    __fixtures__/   — sample data for tests
-                    __tests__/      — Vitest + Astro Container unit tests
-  layouts/      BaseLayout.astro   — <head>, SEO/OG, fonts, reveal script
-  pages/        index.astro, brand.astro, 404.astro
-  styles/       global.css         — @theme tokens, type scale, motion
-public/         favicons, social image, web manifest
-tests/e2e/      Playwright specs
+├── components/   One folder per component (Hero, Statement, Capabilities,
+│   │             Approach, TrustedBy, Contact, Header, Wordmark, SectionLabel,
+│   │             NotFound):
+│   │   └── Name/
+│   │       ├── Name.astro     — markup + scoped <style>
+│   │       ├── index.ts       — barrel (re-exports the component + types)
+│   │       ├── types.ts       — Props (components that take props)
+│   │       ├── __fixtures__/  — sample data for tests
+│   │       └── __tests__/     — Vitest + Astro Container unit tests
+│   └── brand/    The /brand spec sheet, one folder per section (BrandHero,
+│                 ContentsNav, BrandIdea, Foundations, WordmarkSpec, Colour,
+│                 Typography, LayoutGrid, Iconography, Motion, Voice,
+│                 Applications, Colophon)
+├── layouts/      BaseLayout/ — folder with BaseLayout.astro + head sub-parts
+│                 (HeadMeta, Favicons, FontPreloads, RevealScript)
+├── pages/        index.astro, brand.astro, 404.astro — thin compositions
+└── styles/       global.css — @theme tokens; brand.css — shared spec utilities
+public/           favicons, social image, web manifest
+tests/e2e/        Playwright specs
 ```
 
-Components are imported via their folder barrel — `import Hero from '../components/Hero'`.
+Components and the layout are imported via their folder barrel — e.g.
+`import Hero from '../components/Hero'`, `import BaseLayout from '../layouts/BaseLayout'`.
+Each page is a thin composition of section components; `brand.astro` assembles
+the thirteen `components/brand/*` sections.
 
 ## Editing the content
 

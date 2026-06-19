@@ -1,0 +1,140 @@
+---
+import SectionLabel from '../../SectionLabel';
+
+// 07 — Iconography. The few marks, drawn one way.
+
+// Typographic connective marks — the system is near icon-free, so these glyphs
+// (set in Fraunces) do much of the work icons would elsewhere.
+const connectives = [
+  { glyph: '&', name: 'Ampersand', role: 'The wordmark’s hand — Fraunces’ characterful form.' },
+  { glyph: '—', name: 'Em dash', role: 'The studio aside; the page’s main connective.' },
+  { glyph: '·', name: 'Middle dot', role: 'Separates inline meta and the legal line.' },
+  { glyph: '→', name: 'Arrow', role: 'Change and direction — “0 → 100%”.' },
+];
+---
+
+<section id="iconography" class="band" aria-labelledby="icon-label">
+  <div class="wrap">
+    <SectionLabel index="07" label="Iconography" id="icon-label" />
+    <p class="t-body icon-lede" data-reveal>
+      The system is almost icon-free &mdash; type and hairlines carry the meaning. The few marks
+      that exist share one hand: a 24px field, a single hairline weight, round caps and joins,
+      drawn in <code class="token">currentColor</code> so they inherit the surrounding text.
+    </p>
+
+    <ul class="icon-set">
+      <li class="icon" data-reveal>
+        <span class="icon__art">
+          <svg viewBox="0 0 24 24" width="40" height="40" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="4.2"></circle>
+            <path d="M12 2.4v2.6M12 19v2.6M4.4 4.4l1.9 1.9M17.7 17.7l1.9 1.9M2.4 12h2.6M19 12h2.6M4.4 19.6l1.9-1.9M17.7 6.3l1.9-1.9"></path>
+          </svg>
+        </span>
+        <figcaption class="meta-label">Sun &mdash; switch to light</figcaption>
+      </li>
+      <li class="icon" data-reveal style="--reveal-delay: 80ms">
+        <span class="icon__art">
+          <svg viewBox="0 0 24 24" width="40" height="40" fill="currentColor" aria-hidden="true">
+            <path d="M20 14.4A8.2 8.2 0 1 1 9.6 4a6.6 6.6 0 0 0 10.4 10.4z"></path>
+          </svg>
+        </span>
+        <figcaption class="meta-label">Moon &mdash; switch to dark</figcaption>
+      </li>
+    </ul>
+
+    <dl class="specimen__meta icon-spec" data-reveal>
+      <div><dt class="meta-label">Field</dt><dd class="token">24 × 24</dd></div>
+      <div><dt class="meta-label">Stroke</dt><dd class="token">1.6px</dd></div>
+      <div><dt class="meta-label">Caps &amp; joins</dt><dd class="token">round</dd></div>
+      <div><dt class="meta-label">Colour</dt><dd class="token">currentColor</dd></div>
+    </dl>
+
+    <h3 class="meta-label subhead subhead--spaced">Connective marks</h3>
+    <ul class="connectives">
+      {
+        connectives.map((m, i) => (
+          <li class="connective" data-reveal style={`--reveal-delay: ${i * 50}ms`}>
+            <span class="connective__glyph t-display" aria-hidden="true">{m.glyph}</span>
+            <span class="connective__text">
+              <span class="connective__name t-body">{m.name}</span>
+              <span class="connective__role">{m.role}</span>
+            </span>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<style>
+  /* ---- 07 Iconography ---- */
+  .icon-lede {
+    max-width: 60ch;
+    margin-bottom: clamp(2rem, 5vh, 3.5rem);
+    color: var(--text);
+    text-wrap: pretty;
+  }
+  .icon-set {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(11rem, 1fr));
+    gap: clamp(1.25rem, 3vw, 2rem);
+  }
+  .icon {
+    display: flex;
+    flex-direction: column;
+    gap: var(--stack-gap);
+    padding: clamp(1.5rem, 4vw, 2.25rem);
+    border: 1px solid var(--rule);
+  }
+  .icon__art {
+    color: var(--text-strong);
+  }
+  .icon__art svg {
+    display: block;
+  }
+  .icon-spec {
+    margin-top: clamp(1.5rem, 4vh, 2.5rem);
+  }
+
+  .connectives {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr));
+    gap: 0 var(--grid-gap);
+  }
+  .connective {
+    display: grid;
+    grid-template-columns: 2.5ch 1fr;
+    align-items: baseline;
+    column-gap: clamp(1rem, 2.5vw, 1.75rem);
+    padding-block: clamp(0.9rem, 2vh, 1.35rem);
+    border-top: 1px solid var(--rule);
+  }
+  .connective__glyph {
+    font-variation-settings: 'opsz' 72, 'wght' 360;
+    font-size: clamp(1.75rem, 1.2rem + 1.6vw, 2.5rem);
+    line-height: 1;
+    color: var(--text-strong);
+  }
+  .connective__text {
+    display: block;
+  }
+  .connective__name {
+    display: block;
+    font-weight: 500;
+    color: var(--text-strong);
+  }
+  .connective__role {
+    display: block;
+    margin-top: 0.25rem;
+    font-size: 0.9375rem;
+    line-height: 1.5;
+    color: var(--text);
+    text-wrap: pretty;
+  }
+</style>

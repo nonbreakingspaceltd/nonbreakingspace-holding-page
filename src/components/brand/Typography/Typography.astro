@@ -1,0 +1,223 @@
+---
+import SectionLabel from '../../SectionLabel';
+
+// 05 — Typography. Two families, the scale and roles.
+
+// Fraunces display steps — the expressive voice. opsz (optical size) is set
+// explicitly per step rather than auto.
+const displayType = [
+  {
+    cls: 't-cta',
+    name: 'CTA',
+    token: '--t-cta',
+    axes: 'opsz 144 · wght 360',
+    size: '2.5 → 6rem',
+    sample: 'Proud of it',
+  },
+  {
+    cls: 't-hero',
+    name: 'Hero',
+    token: '--t-hero',
+    axes: 'opsz 144 · wght 360',
+    size: '2.25 → 5.75rem',
+    sample: 'Made with passion',
+  },
+  {
+    cls: 't-statement',
+    name: 'Statement',
+    token: '--t-statement',
+    axes: 'opsz 72 · wght 360',
+    size: '1.75 → 4.25rem',
+    sample: 'Clarity, restraint and care',
+  },
+  {
+    cls: 't-heading',
+    name: 'Heading',
+    token: '--t-heading',
+    axes: 'opsz 40 · wght 380',
+    size: '1.75 → 3.5rem',
+    sample: 'Think · Shape · Build',
+  },
+  {
+    cls: 't-cap',
+    name: 'Capability',
+    token: '--t-cap',
+    axes: 'opsz 40 · wght 380',
+    size: '1.5 → 2.75rem',
+    sample: 'Interaction Design',
+  },
+  {
+    cls: 't-email',
+    name: 'Email',
+    token: '--t-email',
+    axes: 'opsz 40 · wght 380',
+    size: '1.125 → 1.875rem',
+    sample: 'hello@nonbreakingspace.co.uk',
+  },
+];
+
+// Inter functional roles — the clean grotesque foil.
+const functionalType = [
+  { name: 'Body', token: '--t-body', detail: 'wght 380 · line-height 1.6 · the reading voice' },
+  {
+    name: 'Eyebrow',
+    token: '0.75rem',
+    detail: 'wght 500 · 0.22em tracking · uppercase — the only caps',
+  },
+  {
+    name: 'Meta label',
+    token: '0.8125rem',
+    detail: 'wght 500 · 0.12em tracking · uppercase descriptors',
+  },
+  { name: 'Row index', token: '0.75rem', detail: 'tabular lining numerals — two-digit foliation' },
+  { name: 'Legal', token: '0.6875rem', detail: 'line-height 1.5 · colophon fine print' },
+];
+---
+
+<section id="typography" class="band" aria-labelledby="type-label">
+  <div class="wrap">
+    <SectionLabel index="05" label="Typography" id="type-label" />
+
+    <div class="families">
+      <article class="family" data-reveal>
+        <p class="family__specimen t-display" aria-hidden="true" style="font-size: clamp(3rem, 8vw, 5.5rem); line-height: 0.9;">Aa</p>
+        <h3 class="t-cap">Fraunces</h3>
+        <p class="t-body">The expressive serif. Variable optical-size (opsz) axis, set
+          explicitly per step. Italic is reserved for a single accent word per view.</p>
+      </article>
+      <article class="family" data-reveal style="--reveal-delay: 100ms">
+        <p class="family__specimen" aria-hidden="true" style="font-family: var(--font-sans); font-weight: 380; font-size: clamp(3rem, 8vw, 5.5rem); line-height: 0.9; color: var(--text);">Aa</p>
+        <h3 class="t-cap">Inter</h3>
+        <p class="t-body">The clean grotesque foil. Body copy, eyebrows, labels and every
+          functional role. Tabular lining numerals for indices.</p>
+      </article>
+    </div>
+
+    <h3 class="meta-label subhead">Display scale &mdash; Fraunces</h3>
+    <ul class="specimens">
+      {
+        displayType.map((t, i) => (
+          <li class="specimen" data-reveal style={`--reveal-delay: ${i * 40}ms`}>
+            <p class={`specimen__sample ${t.cls}`}>{t.sample}</p>
+            <dl class="specimen__meta">
+              <div><dt class="meta-label">Class</dt><dd class="token">.{t.cls}</dd></div>
+              <div><dt class="meta-label">Token</dt><dd class="token">{t.token}</dd></div>
+              <div><dt class="meta-label">Axes</dt><dd class="token">{t.axes}</dd></div>
+              <div><dt class="meta-label">Size</dt><dd class="token">{t.size}</dd></div>
+            </dl>
+          </li>
+        ))
+      }
+    </ul>
+
+    <h3 class="meta-label subhead">Functional roles &mdash; Inter</h3>
+    <ul class="roles">
+      {
+        functionalType.map((t, i) => (
+          <li class="role" data-reveal style={`--reveal-delay: ${i * 40}ms`}>
+            <p class="role__name t-body">{t.name}</p>
+            <p class="token role__token">{t.token}</p>
+            <p class="role__detail">{t.detail}</p>
+          </li>
+        ))
+      }
+    </ul>
+
+    <h3 class="meta-label subhead">Links</h3>
+    <div class="link-spec" data-reveal>
+      <p class="link-spec__sample t-body">
+        Inline links carry a <a class="link-underline" href="#colour">drawn tan underline</a> that
+        wipes in on hover and keyboard focus &mdash; the page&rsquo;s only use of the accent.
+      </p>
+      <dl class="specimen__meta">
+        <div><dt class="meta-label">Class</dt><dd class="token">.link-underline</dd></div>
+        <div><dt class="meta-label">Colour</dt><dd class="token">--accent</dd></div>
+        <div><dt class="meta-label">Trigger</dt><dd class="token">:hover, :focus-visible</dd></div>
+        <div><dt class="meta-label">Motion</dt><dd class="token">background-size 0&rarr;100% &middot; 0.32s</dd></div>
+      </dl>
+    </div>
+  </div>
+</section>
+
+<style>
+  .families {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--grid-gap);
+    margin-bottom: clamp(3rem, 7vh, 5rem);
+  }
+  .family__specimen {
+    line-height: 0.9;
+    margin-bottom: clamp(0.75rem, 2vh, 1.25rem);
+  }
+  .family h3 {
+    margin-bottom: 0.65rem;
+  }
+  .family p {
+    max-width: 38ch;
+    color: var(--text);
+    text-wrap: pretty;
+  }
+  .specimens,
+  .roles {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .specimen {
+    padding-block: clamp(1.25rem, 3vh, 2rem);
+    border-top: 1px solid var(--rule);
+  }
+  .specimen:first-child {
+    border-top: 0;
+  }
+  .specimen__sample {
+    margin-bottom: clamp(0.85rem, 2vh, 1.35rem);
+    text-wrap: balance;
+  }
+  .link-spec__sample {
+    max-width: 46ch;
+    margin-bottom: clamp(0.85rem, 2vh, 1.35rem);
+    text-wrap: pretty;
+  }
+  .link-spec__sample a {
+    color: var(--text-strong);
+  }
+  .roles {
+    display: grid;
+    gap: 0;
+  }
+  .role {
+    display: grid;
+    grid-template-columns: 10rem 9rem 1fr;
+    gap: 1rem var(--grid-gap-tight);
+    align-items: baseline;
+    padding-block: clamp(0.9rem, 2vh, 1.35rem);
+    border-top: 1px solid var(--rule);
+  }
+  .role:first-child {
+    border-top: 0;
+  }
+  .role__name {
+    font-weight: 500;
+    color: var(--text-strong);
+  }
+  .role__detail {
+    color: var(--text);
+    font-size: 0.9375rem;
+    line-height: 1.5;
+  }
+
+  @media (max-width: 52rem) {
+    .role {
+      grid-template-columns: 1fr;
+      gap: 0.2rem;
+    }
+  }
+
+  @media (max-width: 40rem) {
+    .families {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

@@ -1,0 +1,73 @@
+---
+// SEO + social metadata for the document head: title, description, canonical,
+// robots, Open Graph, Twitter, structured data. All derived from the page's
+// title/description/path so a page only declares those.
+interface Props {
+  title: string;
+  description: string;
+  path: string;
+  noindex: boolean;
+  site: URL;
+}
+
+const { title, description, path, noindex, site } = Astro.props;
+const canonical = new URL(path, site).href;
+const ogImage = new URL('/og-image.png', site).href;
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: 'Nonbreakingspace',
+  legalName: 'Nonbreakingspace Ltd',
+  url: site.href,
+  description,
+  email: 'hello@nonbreakingspace.co.uk',
+  logo: new URL('/android-chrome-512x512.png', site).href,
+  identifier: {
+    '@type': 'PropertyValue',
+    propertyID: 'Companies House',
+    value: '10833071',
+  },
+  contactPoint: {
+    '@type': 'ContactPoint',
+    email: 'hello@nonbreakingspace.co.uk',
+    contactType: 'sales',
+  },
+  address: {
+    '@type': 'PostalAddress',
+    addressLocality: 'Manchester',
+    addressCountry: 'GB',
+  },
+};
+---
+
+<title>{title}</title>
+<meta name="description" content={description} />
+{noindex && <meta name="robots" content="noindex, nofollow" />}
+<link rel="canonical" href={canonical} />
+
+<!-- Open Graph -->
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="Nonbreakingspace Ltd" />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:locale" content="en_GB" />
+<meta property="og:url" content={canonical} />
+<meta property="og:image" content={ogImage} />
+<meta property="og:image:type" content="image/png" />
+<meta property="og:image:width" content="2400" />
+<meta property="og:image:height" content="1260" />
+<meta property="og:image:alt" content="Nonbreakingspace — software, interaction and visual design studio" />
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={ogImage} />
+<meta name="twitter:image:alt" content="Nonbreakingspace — software, interaction and visual design studio" />
+
+<meta
+  name="google-site-verification"
+  content="DqXpRpJlp_JRGelFAi8IH_IBmNDXgoBwJ1rDsAwIqmk"
+/>
+<script type="application/ld+json" set:html={JSON.stringify(jsonLd)} is:inline />

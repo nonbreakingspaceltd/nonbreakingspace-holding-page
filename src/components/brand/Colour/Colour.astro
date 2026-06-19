@@ -1,0 +1,286 @@
+---
+import SectionLabel from '../../SectionLabel';
+
+// 04 — Colour. Palette, semantic tokens and contrast.
+
+const colours = [
+  {
+    name: 'Navy',
+    token: '--color-navy',
+    hex: '#0b253f',
+    swatch: 'var(--color-navy)',
+    role: 'Display ink and the single dark close. Also the selection + focus ring.',
+    light: false,
+  },
+  {
+    name: 'Ink',
+    token: '--color-ink',
+    hex: '#071a2d',
+    swatch: 'var(--color-ink)',
+    role: 'Body copy on the ivory ground. ≈15:1 — well clear of AA.',
+    light: false,
+  },
+  {
+    name: 'Ivory',
+    token: '--color-ivory',
+    hex: '#fff9ed',
+    swatch: 'var(--color-ivory)',
+    role: 'The page ground — a warm off-white broadsheet stock.',
+    light: true,
+  },
+  {
+    name: 'Cream',
+    token: '--color-cream',
+    hex: '#f4ead8',
+    swatch: 'var(--color-cream)',
+    role: 'The one recessed tonal band (Approach). Use sparingly.',
+    light: true,
+  },
+  {
+    name: 'Warm tan',
+    token: '--color-warm',
+    hex: '#c9ad94',
+    swatch: 'var(--color-warm)',
+    role: 'The only accent. Draws the link underline on hover/focus — never used for text.',
+    light: true,
+  },
+  {
+    name: 'Taupe — strong',
+    token: '--color-muted-strong',
+    hex: '#685d4e',
+    swatch: 'var(--color-muted-strong)',
+    role: 'Essential small text: eyebrows, labels, descriptors. ≈6:1 on ivory.',
+    light: false,
+  },
+  {
+    name: 'Taupe — quiet',
+    token: '--color-muted',
+    hex: '#786c5d',
+    swatch: 'var(--color-muted)',
+    role: 'The quietest tier — decorative indices and ticks. ≈4.9:1 on ivory.',
+    light: false,
+  },
+];
+
+// Measured WCAG contrast ratios for every text-on-ground pairing the system
+// actually ships. Computed from the literal palette, not eyeballed.
+const contrastPairs = [
+  {
+    fg: 'var(--color-ink)',
+    bg: 'var(--color-ivory)',
+    pair: 'Ink on ivory',
+    sample: 'Body',
+    ratio: '16.8 : 1',
+    level: 'AAA',
+  },
+  {
+    fg: 'var(--color-navy)',
+    bg: 'var(--color-ivory)',
+    pair: 'Navy on ivory',
+    sample: 'Display',
+    ratio: '14.8 : 1',
+    level: 'AAA',
+  },
+  {
+    fg: 'var(--color-muted-strong)',
+    bg: 'var(--color-ivory)',
+    pair: 'Taupe strong on ivory',
+    sample: 'Labels',
+    ratio: '6.1 : 1',
+    level: 'AA',
+  },
+  {
+    fg: 'var(--color-muted)',
+    bg: 'var(--color-ivory)',
+    pair: 'Taupe quiet on ivory',
+    sample: 'Indices',
+    ratio: '4.9 : 1',
+    level: 'AA',
+  },
+  {
+    fg: 'var(--color-ink)',
+    bg: 'var(--color-cream)',
+    pair: 'Ink on cream',
+    sample: 'Approach',
+    ratio: '14.7 : 1',
+    level: 'AAA',
+  },
+  {
+    fg: 'var(--color-ivory)',
+    bg: 'var(--color-navy)',
+    pair: 'Ivory on navy',
+    sample: 'Close',
+    ratio: '14.8 : 1',
+    level: 'AAA',
+  },
+  {
+    fg: 'var(--color-warm)',
+    bg: 'var(--color-ivory)',
+    pair: 'Tan on ivory',
+    sample: 'Accent',
+    ratio: '2.0 : 1',
+    level: 'Decorative',
+  },
+];
+---
+
+<section id="colour" class="band" aria-labelledby="colour-label">
+  <div class="wrap">
+    <SectionLabel index="04" label="Colour" id="colour-label" />
+    <ul class="swatches">
+      {
+        colours.map((c, i) => (
+          <li class="swatch" data-reveal style={`--reveal-delay: ${i * 50}ms`}>
+            <span
+              class:list={['swatch__chip', { 'swatch__chip--light': c.light }]}
+              style={`background:${c.swatch}`}
+              aria-hidden="true"
+            />
+            <div class="swatch__meta">
+              <p class="swatch__name t-body">{c.name}</p>
+              <p class="token swatch__hex">{c.hex}</p>
+              <p class="token swatch__token">{c.token}</p>
+              <p class="swatch__role">{c.role}</p>
+            </div>
+          </li>
+        ))
+      }
+    </ul>
+
+    <h3 class="meta-label subhead subhead--spaced">Semantic tokens &amp; themes</h3>
+    <p class="t-body colour-note" data-reveal>
+      Components reference <em>role</em> tokens &mdash; <code class="token">--surface</code>,
+      <code class="token">--text</code>, <code class="token">--text-strong</code>,
+      <code class="token">--accent</code>, <code class="token">--rule</code> and friends
+      &mdash; never the raw palette above. The default Light theme maps them onto these
+      swatches; Dark re-points them to a warm-light-on-deep-navy set of the same family.
+      Dark follows the operating system by default, with a masthead toggle to override that
+      is remembered across visits.
+    </p>
+
+    <h3 class="meta-label subhead subhead--spaced">Contrast</h3>
+    <p class="t-body colour-note" data-reveal>
+      Measured ratios for every text-on-ground pairing the system ships. AA needs 4.5:1 for
+      body text; AAA, 7:1. The tan accent clears neither &mdash; which is exactly why it only
+      ever draws a line, never sets type.
+    </p>
+    <ul class="contrast">
+      {
+        contrastPairs.map((c, i) => (
+          <li class="contrast-row" data-reveal style={`--reveal-delay: ${i * 40}ms`}>
+            <span class="contrast__plate" style={`background:${c.bg};color:${c.fg}`} aria-hidden="true">{c.sample}</span>
+            <span class="contrast__pair t-body">{c.pair}</span>
+            <span class="token contrast__ratio">{c.ratio}</span>
+            <span class="contrast__level meta-label">{c.level}</span>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<style>
+  /* ---- 04 Colour ---- */
+  .swatches {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+    gap: var(--grid-gap-tight);
+  }
+  .swatch__chip {
+    display: block;
+    height: clamp(5rem, 12vh, 8rem);
+    border-radius: 1px;
+    /* Semi-transparent, theme-aware hairline so every block reads as a
+       defined plate — including the dark swatches on the dark ground. */
+    box-shadow: inset 0 0 0 1px var(--rule);
+  }
+  .swatch__meta {
+    margin-top: 0.9rem;
+  }
+  .swatch__name {
+    font-weight: 500;
+    color: var(--text-strong);
+  }
+  .swatch__hex {
+    margin-top: 0.35rem;
+    text-transform: uppercase;
+  }
+  .swatch__token {
+    margin-top: 0.1rem;
+    color: var(--text-muted);
+  }
+  .swatch__role {
+    margin-top: 0.6rem;
+    font-size: 0.875rem;
+    line-height: 1.45;
+    color: var(--text);
+    text-wrap: pretty;
+  }
+
+  /* Contrast matrix — every shipped text-on-ground pairing, measured. */
+  .contrast {
+    list-style: none;
+    margin: clamp(1.5rem, 4vh, 2.5rem) 0 0;
+    padding: 0;
+  }
+  .contrast-row {
+    display: grid;
+    grid-template-columns: minmax(5.5rem, 7rem) 1fr auto auto;
+    align-items: center;
+    gap: 0.5rem clamp(1rem, 3vw, 2.5rem);
+    padding-block: clamp(0.85rem, 2vh, 1.25rem);
+    border-top: 1px solid var(--rule);
+  }
+  .contrast-row:first-child {
+    border-top: 0;
+  }
+  .contrast__plate {
+    display: grid;
+    place-items: center;
+    height: clamp(2.5rem, 6vh, 3.25rem);
+    padding-inline: 0.5rem;
+    border-radius: 1px;
+    box-shadow: inset 0 0 0 1px var(--rule);
+    font-family: var(--font-display);
+    font-optical-sizing: none;
+    font-variation-settings: 'opsz' 40, 'wght' 380;
+    font-size: 0.95rem;
+    letter-spacing: -0.01em;
+    line-height: 1;
+    text-align: center;
+  }
+  .contrast__pair {
+    font-weight: 500;
+    color: var(--text-strong);
+  }
+  .contrast__ratio {
+    white-space: nowrap;
+    color: var(--text-muted-strong);
+  }
+  .contrast__level {
+    justify-self: end;
+    color: var(--text-muted-strong);
+  }
+
+  @media (max-width: 40rem) {
+    .contrast-row {
+      grid-template-columns: 4.5rem 1fr;
+      align-items: center;
+      row-gap: 0.15rem;
+      column-gap: 1rem;
+    }
+    .contrast__plate {
+      grid-row: span 3;
+      height: 100%;
+    }
+    .contrast__pair,
+    .contrast__ratio,
+    .contrast__level {
+      justify-self: start;
+      text-align: left;
+    }
+  }
+</style>

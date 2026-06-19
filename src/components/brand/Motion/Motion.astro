@@ -1,0 +1,61 @@
+---
+import SectionLabel from '../../SectionLabel';
+
+// 08 — Motion. One curve, reveals and the wipe.
+const motionTokens = [
+  {
+    name: 'Easing',
+    detail: 'cubic-bezier(0.22, 1, 0.36, 1) — every transition uses this single curve.',
+  },
+  { name: 'Reveal', detail: 'Fade + 1.25rem rise over 0.7s, once per element as it scrolls in.' },
+  {
+    name: 'Wipe',
+    detail: 'The wordmark performs a single left-to-right clip-path wipe over 0.9s — written once.',
+  },
+  {
+    name: 'Restraint',
+    detail: 'All motion is JS-gated and honours prefers-reduced-motion: reduce.',
+  },
+];
+---
+
+<section id="motion" class="band" aria-labelledby="motion-label">
+  <div class="wrap">
+    <SectionLabel index="08" label="Motion" id="motion-label" />
+    <ul class="motion">
+      {
+        motionTokens.map((m, i) => (
+          <li class="motion__item" data-reveal style={`--reveal-delay: ${i * 50}ms`}>
+            <h3 class="t-cap motion__name">{m.name}</h3>
+            <p class="t-body">{m.detail}</p>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<style>
+  .motion {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--grid-gap);
+  }
+  .motion__name {
+    margin-bottom: 0.65rem;
+  }
+  .motion__item p {
+    max-width: 40ch;
+    color: var(--text);
+    text-wrap: pretty;
+  }
+
+  @media (max-width: 52rem) {
+    .motion {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

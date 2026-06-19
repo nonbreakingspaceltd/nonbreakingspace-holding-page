@@ -1,0 +1,58 @@
+---
+import '../../styles/global.css';
+import Analytics from '@vercel/analytics/astro';
+import SpeedInsights from '@vercel/speed-insights/astro';
+import Favicons from './Favicons.astro';
+import FontPreloads from './FontPreloads.astro';
+import HeadMeta from './HeadMeta.astro';
+import RevealScript from './RevealScript.astro';
+import type { Props } from './types';
+
+const {
+  title = 'Nonbreakingspace — Software, interaction & visual design studio',
+  description = 'Nonbreakingspace is a Manchester digital studio working across front-end development, interaction design and brand-led web — accessible, inclusive systems that work for everyone, not just the few.',
+  path = '/',
+  noindex = false,
+  mainId = 'index',
+} = Astro.props;
+
+const site = Astro.site ?? new URL('https://www.nonbreakingspace.co.uk');
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- Apply the saved theme + add the `js` hook before paint, so there is no
+         flash of the wrong theme and reveal styles only apply with JS. -->
+    <script is:inline>
+      try {
+        var theme = localStorage.getItem('theme');
+        if (theme === 'dark' || theme === 'light') {
+          document.documentElement.setAttribute('data-theme', theme);
+        }
+      } catch (e) {
+        /* storage blocked — fall back to the OS preference via CSS */
+      }
+      document.documentElement.classList.add('js');
+      // Single-page site: always open at the top. Without this the browser
+      // restores the previous scroll position on reload / back-forward, landing
+      // a few dozen pixels down and hiding the masthead's top padding. Fragment
+      // links (e.g. the skip link's #index) still scroll normally.
+      if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+    </script>
+
+    <HeadMeta {title} {description} {path} {noindex} {site} />
+    <FontPreloads />
+    <Favicons />
+    <Analytics />
+    <SpeedInsights />
+  </head>
+
+  <body>
+    <a class="skip-link" href={`#${mainId}`}>Skip to content</a>
+    <slot />
+    <RevealScript />
+  </body>
+</html>
