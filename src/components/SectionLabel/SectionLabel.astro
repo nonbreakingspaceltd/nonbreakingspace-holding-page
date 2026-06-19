@@ -1,6 +1,7 @@
 ---
 // A numbered eyebrow that doubles as the section's accessible heading.
 // The two-digit "foliation" index is decorative; the label is the a11y name.
+import './SectionLabel.css';
 import type { Props } from './types';
 
 const { index, label, id, as: Tag = 'h2' } = Astro.props;
@@ -9,9 +10,3 @@ const { index, label, id, as: Tag = 'h2' } = Astro.props;
 <Tag {id} class="eyebrow section-label" data-reveal>
   <span class="index" aria-hidden="true">{index}&nbsp;&mdash;&nbsp;</span>{label}
 </Tag>
-
-<style>
-  .section-label {
-    margin: 0 0 clamp(2.5rem, 6vh, 4.5rem);
-  }
-</style>

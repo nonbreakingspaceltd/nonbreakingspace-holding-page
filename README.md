@@ -45,30 +45,33 @@ TypeScript where the tool allows it (`astro.config.ts`, `playwright.config.ts`);
 ```text
 src/
 ├── components/   One folder per component (Hero, Statement, Capabilities,
-│   │             Approach, TrustedBy, Contact, Header, Wordmark, SectionLabel,
-│   │             NotFound):
-│   │   └── Name/
-│   │       ├── Name.astro     — markup + scoped <style>
-│   │       ├── index.ts       — barrel (re-exports the component + types)
-│   │       ├── types.ts       — Props (components that take props)
-│   │       ├── __fixtures__/  — sample data for tests
-│   │       └── __tests__/     — Vitest + Astro Container unit tests
-│   └── brand/    The /brand spec sheet, one folder per section (BrandHero,
-│                 ContentsNav, BrandIdea, Foundations, WordmarkSpec, Colour,
-│                 Typography, LayoutGrid, Iconography, Motion, Voice,
-│                 Applications, Colophon)
+│                 Approach, TrustedBy, Contact, Header, Wordmark, SectionLabel,
+│                 NotFound):
+│   └── Name/
+│       ├── Name.astro     — markup + scoped <style>
+│       ├── index.ts       — barrel (re-exports the component + types)
+│       ├── types.ts       — Props (components that take props)
+│       ├── __fixtures__/  — sample data for tests
+│       └── __tests__/     — Vitest + Astro Container unit tests
 ├── layouts/      BaseLayout/ — folder with BaseLayout.astro + head sub-parts
 │                 (HeadMeta, Favicons, FontPreloads, RevealScript)
-├── pages/        index.astro, brand.astro, 404.astro — thin compositions
-└── styles/       global.css — @theme tokens; brand.css — shared spec utilities
+├── pages/        index.astro, brand.astro, 404.astro — thin route entries
+├── styles/       global.css — @theme tokens, type scale, motion
+└── views/        Brand/ — the /brand spec sheet, a self-contained view of the
+                  thirteen sections/* bands (BrandHero, ContentsNav, BrandIdea,
+                  Foundations, WordmarkSpec, Colour, Typography, LayoutGrid,
+                  Iconography, Motion, Voice, Applications, Colophon); brand.css
+                  holds shared utilities, pages/brand.astro just renders it
 public/           favicons, social image, web manifest
 tests/e2e/        Playwright specs
 ```
 
-Components and the layout are imported via their folder barrel — e.g.
+Components, layouts and views are imported via their folder barrel — e.g.
 `import Hero from '../components/Hero'`, `import BaseLayout from '../layouts/BaseLayout'`.
-Each page is a thin composition of section components; `brand.astro` assembles
-the thirteen `components/brand/*` sections.
+`index.astro` composes its sections inline; the larger `/brand` spec sheet is a
+self-contained view under `views/Brand` — its thirteen section bands live in
+`views/Brand/sections/*` and shared utilities in `views/Brand/brand.css` — and
+`brand.astro` is a thin route entry that just renders it.
 
 ## Editing the content
 
