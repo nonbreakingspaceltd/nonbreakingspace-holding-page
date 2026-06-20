@@ -1,0 +1,237 @@
+/* ---- 03 Wordmark ---- */
+.mark-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: clamp(1.25rem, 3vw, 2rem);
+}
+.mark {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: var(--stack-gap);
+  padding: clamp(1.75rem, 4vw, 3rem);
+  /* Shared example-card ratio so every framed image reads as one set. */
+  aspect-ratio: 16 / 9;
+  border: 1px solid var(--rule);
+}
+.mark--dark {
+  background: var(--surface-contrast);
+  border-color: transparent;
+}
+.mark--dark .meta-label {
+  color: color-mix(in srgb, var(--text-on-contrast) 70%, transparent);
+}
+.mark__art svg {
+  display: block;
+  width: clamp(160px, 30vw, 300px);
+  height: auto;
+  color: var(--text-strong);
+}
+.mark__art--invert svg {
+  color: var(--text-on-contrast);
+}
+
+/* Clear space + minimum size */
+.construction {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--grid-gap);
+}
+.clearspace,
+.minsize {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--stack-gap);
+}
+/* Outer card — the plain framed canvas (matches the wordmark example cards),
+     centring the construct so the pair balances with the min-size card. */
+.clearspace__stage {
+  display: grid;
+  place-items: center;
+  padding: clamp(1.75rem, 4vw, 3rem);
+  /* Shared example-card ratio (see .mark). */
+  aspect-ratio: 16 / 9;
+  border: 1px solid var(--rule);
+}
+/* The clear-space construct: shrink-wrapped to the mark plus one X of clear
+     space on every side, so the tinted band IS the keep-clear zone the corner
+     unit measures. */
+.clearspace__frame {
+  position: relative;
+  width: max-content;
+  max-width: 100%;
+  padding: var(--cs-x, clamp(1.5rem, 4vw, 2.75rem));
+  background: var(--surface-recessed);
+}
+/* The unit module that defines the margin, pinned into one corner. */
+.clearspace__unit {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: var(--cs-x, clamp(1.5rem, 4vw, 2.75rem));
+  height: var(--cs-x, clamp(1.5rem, 4vw, 2.75rem));
+  display: grid;
+  place-items: center;
+  background: color-mix(in srgb, var(--accent) 22%, transparent);
+  border-right: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+  font-family: var(--font-sans);
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  color: var(--text-muted-strong);
+}
+/* The dashed line hugs the mark — it IS the mark's bounding box. The mark
+     sits on the page ground so it reads as distinct from the tinted clear band. */
+.clearspace__bound {
+  display: block;
+  padding: 0;
+  border: 1px dashed color-mix(in srgb, var(--text-muted) 55%, transparent);
+  background: var(--surface);
+}
+.clearspace__mark {
+  display: block;
+}
+.clearspace__mark svg {
+  display: block;
+  width: clamp(180px, 40vw, 300px);
+}
+/* Matching outer card — same plain frame as the clear-space stage, centring
+     the dashed 120px mark + label. */
+.minsize__stage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.85rem;
+  padding: clamp(1.75rem, 4vw, 3rem);
+  /* Shared example-card ratio (see .mark). */
+  aspect-ratio: 16 / 9;
+  border: 1px solid var(--rule);
+}
+/* The dashed line wraps the 120px mark itself — it IS the 120px width the
+     label calls out; the "120PX" tag sits outside it, below. */
+.minsize__mark {
+  display: block;
+  width: max-content;
+  border: 1px dashed color-mix(in srgb, var(--text-muted) 55%, transparent);
+}
+.minsize__mark svg {
+  display: block;
+  width: 120px;
+}
+.minsize__tag {
+  color: var(--text-muted);
+}
+
+.notes {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--grid-gap);
+  margin-top: clamp(2.5rem, 6vh, 4rem);
+}
+.note__head {
+  margin-bottom: clamp(0.85rem, 2vh, 1.25rem);
+}
+.note__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  max-width: 40ch;
+}
+.note__list li {
+  position: relative;
+  padding-left: 1.25rem;
+  color: var(--text);
+}
+.note__list li + li {
+  margin-top: 0.65rem;
+}
+.note__list li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.7em;
+  width: 0.5rem;
+  height: 1px;
+  background: var(--accent);
+}
+
+/* Misuse gallery — the real mark under forbidden treatments. */
+.misuse {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--grid-gap-tight);
+}
+.misuse__item {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(0.85rem, 2vh, 1.15rem);
+}
+.misuse__stage {
+  display: grid;
+  place-items: center;
+  min-height: clamp(7rem, 16vh, 9rem);
+  padding: 1.25rem;
+  overflow: hidden;
+  border: 1px solid var(--rule);
+  background: var(--surface);
+}
+.misuse__mark svg {
+  width: clamp(120px, 18vw, 170px);
+  color: var(--text-strong);
+}
+.misuse--stretch .misuse__mark svg {
+  transform: scaleX(1.55);
+}
+.misuse--condense .misuse__mark svg {
+  transform: scaleX(0.55);
+}
+.misuse--rotate .misuse__mark svg {
+  transform: rotate(-9deg);
+}
+.misuse--recolour .misuse__mark svg {
+  color: var(--accent);
+}
+.misuse--effect .misuse__mark svg {
+  filter: drop-shadow(0 6px 6px rgb(0 0 0 / 0.4));
+}
+.misuse--busy {
+  background-image: repeating-linear-gradient(
+    45deg,
+    var(--surface-recessed) 0 10px,
+    var(--surface-contrast) 10px 20px
+  );
+}
+.misuse__cap {
+  display: flex;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  line-height: 1.45;
+  color: var(--text-muted-strong);
+  text-wrap: pretty;
+}
+.misuse__x {
+  flex: none;
+  font-weight: 600;
+  color: var(--text-strong);
+}
+
+@media (max-width: 52rem) {
+  .misuse {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 40rem) {
+  .mark-grid,
+  .notes,
+  .construction {
+    grid-template-columns: 1fr;
+  }
+}

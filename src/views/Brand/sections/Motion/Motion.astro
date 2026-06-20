@@ -1,4 +1,5 @@
 ---
+import './Motion.css';
 import SectionLabel from '../../../../components/SectionLabel';
 
 // 08 — Motion. One curve, reveals and the wipe.
@@ -34,28 +35,3 @@ const motionTokens = [
     </ul>
   </div>
 </section>
-
-<style>
-  .motion {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: var(--grid-gap);
-  }
-  .motion__name {
-    margin-bottom: 0.65rem;
-  }
-  .motion__item p {
-    max-width: 40ch;
-    color: var(--text);
-    text-wrap: pretty;
-  }
-
-  @media (max-width: 52rem) {
-    .motion {
-      grid-template-columns: 1fr;
-    }
-  }
-</style>

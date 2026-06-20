@@ -1,0 +1,80 @@
+.families {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--grid-gap);
+  margin-bottom: clamp(3rem, 7vh, 5rem);
+}
+.family__specimen {
+  line-height: 0.9;
+  margin-bottom: clamp(0.75rem, 2vh, 1.25rem);
+}
+.family h3 {
+  margin-bottom: 0.65rem;
+}
+.family p {
+  max-width: 38ch;
+  color: var(--text);
+  text-wrap: pretty;
+}
+.specimens,
+.roles {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.specimen {
+  padding-block: clamp(1.25rem, 3vh, 2rem);
+  border-top: 1px solid var(--rule);
+}
+.specimen:first-child {
+  border-top: 0;
+}
+.specimen__sample {
+  margin-bottom: clamp(0.85rem, 2vh, 1.35rem);
+  text-wrap: balance;
+}
+.link-spec__sample {
+  max-width: 46ch;
+  margin-bottom: clamp(0.85rem, 2vh, 1.35rem);
+  text-wrap: pretty;
+}
+.link-spec__sample a {
+  color: var(--text-strong);
+}
+.roles {
+  display: grid;
+  gap: 0;
+}
+.role {
+  display: grid;
+  grid-template-columns: 10rem 9rem 1fr;
+  gap: 1rem var(--grid-gap-tight);
+  align-items: baseline;
+  padding-block: clamp(0.9rem, 2vh, 1.35rem);
+  border-top: 1px solid var(--rule);
+}
+.role:first-child {
+  border-top: 0;
+}
+.role__name {
+  font-weight: 500;
+  color: var(--text-strong);
+}
+.role__detail {
+  color: var(--text);
+  font-size: 0.9375rem;
+  line-height: 1.5;
+}
+
+@media (max-width: 52rem) {
+  .role {
+    grid-template-columns: 1fr;
+    gap: 0.2rem;
+  }
+}
+
+@media (max-width: 40rem) {
+  .families {
+    grid-template-columns: 1fr;
+  }
+}

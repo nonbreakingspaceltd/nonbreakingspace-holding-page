@@ -7,6 +7,12 @@
    owns only its own section-specific CSS.
 ---------------------------------------------------------------------------- */
 
+/* Programmatic focus target (skip-link / route landing). The page root <main>
+   takes focus via tabindex="-1"; suppress the outline on that scripted focus. */
+#brand:focus {
+  outline: none;
+}
+
 /* Section shell — the hairline-topped vertical rhythm every numbered band uses. */
 .band {
   padding-block: var(--pad-section);

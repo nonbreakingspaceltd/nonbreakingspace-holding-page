@@ -1,0 +1,81 @@
+.site-header {
+  border-bottom: 1px solid var(--rule);
+}
+.site-header__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-block: clamp(1rem, 2.2vh, 1.4rem);
+}
+.lockup {
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--text);
+}
+
+/* Right cluster: location/time tag + the theme toggle. */
+.site-header__end {
+  display: flex;
+  align-items: center;
+  gap: clamp(0.85rem, 2vw, 1.25rem);
+}
+
+/* Understated icon button — a hairline ring that warms on hover, in keeping
+     with the rest of the system (no fills, no shadows). */
+.theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.1rem;
+  height: 2.1rem;
+  padding: 0;
+  margin: -0.3rem 0; /* keep the optical line without growing the header */
+  border: 1px solid var(--rule);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--text-muted-strong);
+  cursor: pointer;
+  transition:
+    color 0.24s var(--ease-out-soft),
+    border-color 0.24s var(--ease-out-soft);
+}
+.theme-toggle:hover {
+  color: var(--text-strong);
+  border-color: var(--accent);
+}
+.theme-toggle__icon {
+  display: block;
+}
+
+/* Show the icon for the theme the visitor would switch TO. Default (light):
+     moon. Dark — whether from the OS or an explicit choice: sun. */
+.theme-toggle__sun {
+  display: none;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .theme-toggle__sun {
+    display: block;
+  }
+  :root:not([data-theme="light"]) .theme-toggle__moon {
+    display: none;
+  }
+}
+:root[data-theme="dark"] .theme-toggle__sun {
+  display: block;
+}
+:root[data-theme="dark"] .theme-toggle__moon {
+  display: none;
+}
+
+/* On the narrowest screens, drop the location tag to keep the line clean.
+     30rem clears the band where the non-breaking tag could touch the lockup.
+     The toggle stays — it's the one control. */
+@media (max-width: 30rem) {
+  .site-header__end .eyebrow {
+    display: none;
+  }
+}

@@ -1,0 +1,105 @@
+/* ---- 04 Colour ---- */
+.swatches {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+  gap: var(--grid-gap-tight);
+}
+.swatch__chip {
+  display: block;
+  height: clamp(5rem, 12vh, 8rem);
+  border-radius: 1px;
+  /* Semi-transparent, theme-aware hairline so every block reads as a
+       defined plate — including the dark swatches on the dark ground. */
+  box-shadow: inset 0 0 0 1px var(--rule);
+}
+.swatch__meta {
+  margin-top: 0.9rem;
+}
+.swatch__name {
+  font-weight: 500;
+  color: var(--text-strong);
+}
+.swatch__hex {
+  margin-top: 0.35rem;
+  text-transform: uppercase;
+}
+.swatch__token {
+  margin-top: 0.1rem;
+  color: var(--text-muted);
+}
+.swatch__role {
+  margin-top: 0.6rem;
+  font-size: 0.875rem;
+  line-height: 1.45;
+  color: var(--text);
+  text-wrap: pretty;
+}
+
+/* Contrast matrix — every shipped text-on-ground pairing, measured. */
+.contrast {
+  list-style: none;
+  margin: clamp(1.5rem, 4vh, 2.5rem) 0 0;
+  padding: 0;
+}
+.contrast-row {
+  display: grid;
+  grid-template-columns: minmax(5.5rem, 7rem) 1fr auto auto;
+  align-items: center;
+  gap: 0.5rem clamp(1rem, 3vw, 2.5rem);
+  padding-block: clamp(0.85rem, 2vh, 1.25rem);
+  border-top: 1px solid var(--rule);
+}
+.contrast-row:first-child {
+  border-top: 0;
+}
+.contrast__plate {
+  display: grid;
+  place-items: center;
+  height: clamp(2.5rem, 6vh, 3.25rem);
+  padding-inline: 0.5rem;
+  border-radius: 1px;
+  box-shadow: inset 0 0 0 1px var(--rule);
+  font-family: var(--font-display);
+  font-optical-sizing: none;
+  font-variation-settings:
+    "opsz" 40,
+    "wght" 380;
+  font-size: 0.95rem;
+  letter-spacing: -0.01em;
+  line-height: 1;
+  text-align: center;
+}
+.contrast__pair {
+  font-weight: 500;
+  color: var(--text-strong);
+}
+.contrast__ratio {
+  white-space: nowrap;
+  color: var(--text-muted-strong);
+}
+.contrast__level {
+  justify-self: end;
+  color: var(--text-muted-strong);
+}
+
+@media (max-width: 40rem) {
+  .contrast-row {
+    grid-template-columns: 4.5rem 1fr;
+    align-items: center;
+    row-gap: 0.15rem;
+    column-gap: 1rem;
+  }
+  .contrast__plate {
+    grid-row: span 3;
+    height: 100%;
+  }
+  .contrast__pair,
+  .contrast__ratio,
+  .contrast__level {
+    justify-self: start;
+    text-align: left;
+  }
+}

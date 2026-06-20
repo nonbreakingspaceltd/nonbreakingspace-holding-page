@@ -1,0 +1,65 @@
+/* A single centred block. `safe center` keeps it vertically centred when
+     there's room, but falls back to top-aligned (scrolling) on short viewports
+     instead of clipping the top — so it never strands or overlaps. */
+.notfound {
+  min-height: 100svh;
+  display: grid;
+  align-content: safe center;
+  padding-block: clamp(3rem, 9vh, 6rem);
+}
+
+/* Optically hung into the left margin to honour the wordmark's calligraphic
+     entry stroke, matching the home hero. */
+.notfound__wordmark {
+  display: block;
+  width: max-content;
+  max-width: 100%;
+  margin-left: -0.75%;
+}
+.notfound__wordmark svg {
+  display: block;
+  width: clamp(180px, 28vw, 380px);
+  height: auto;
+  color: var(--text-strong);
+}
+
+/* A clear, even step below the wordmark — no negative tuck that would pull the
+     small eyebrow up into the wordmark's descenders. */
+.notfound__lower {
+  margin-top: clamp(0.75rem, 1.6vw, 1.5rem);
+}
+
+.notfound__title {
+  max-width: 18ch;
+  margin-top: clamp(0.5rem, 1.2vw, 1rem);
+}
+
+.notfound__body {
+  max-width: 46ch;
+  margin-top: clamp(1rem, 2vw, 1.5rem);
+  color: var(--text);
+  text-wrap: pretty;
+}
+
+.notfound__cta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  margin-top: clamp(1.25rem, 2.5vw, 2rem);
+}
+.notfound__home {
+  width: max-content;
+  max-width: 100%;
+  color: var(--text);
+}
+
+/* Short viewports: shrink the wordmark and tighten padding so the whole
+     message fits without overflowing into a scroll. */
+@media (max-height: 740px) {
+  .notfound {
+    padding-block: clamp(2rem, 6vh, 3.5rem);
+  }
+  .notfound__wordmark svg {
+    width: clamp(160px, 24vw, 300px);
+  }
+}
