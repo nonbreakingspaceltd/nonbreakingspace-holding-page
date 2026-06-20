@@ -1,0 +1,61 @@
+  .brand-idea__line {
+    max-width: 20ch;
+  }
+  .brand-idea__line em {
+    font-style: italic;
+  }
+  .brand-idea__lede {
+    max-width: 58ch;
+    margin-top: clamp(1.5rem, 4vh, 2.5rem);
+    color: var(--text);
+    text-wrap: pretty;
+  }
+  .brand-idea__split {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--grid-gap);
+    margin-top: clamp(3rem, 7vh, 5rem);
+  }
+  .brand-idea__copy {
+    max-width: 44ch;
+    color: var(--text);
+    text-wrap: pretty;
+  }
+  .promise {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    max-width: 36ch;
+  }
+  .promise li {
+    position: relative;
+    padding-left: 1.25rem;
+    padding-block: clamp(0.55rem, 1.4vh, 0.85rem);
+    color: var(--text);
+    border-top: 1px solid var(--rule);
+    font-family: var(--font-display);
+    font-optical-sizing: none;
+    font-variation-settings: 'opsz' 40, 'wght' 380;
+    font-size: clamp(1.125rem, 0.95rem + 0.8vw, 1.5rem);
+    line-height: 1.15;
+    letter-spacing: -0.01em;
+    color: var(--text-strong);
+  }
+  .promise li:first-child {
+    border-top: 0;
+  }
+  .promise li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 1.35em;
+    width: 0.5rem;
+    height: 1px;
+    background: var(--accent);
+  }
+
+  @media (max-width: 40rem) {
+    .brand-idea__split {
+      grid-template-columns: 1fr;
+    }
+  }

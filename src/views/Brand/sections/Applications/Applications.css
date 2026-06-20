@@ -1,0 +1,121 @@
+  /* The card mark reuses the wordmark art rules from the Wordmark section. */
+  .mark__art svg {
+    display: block;
+    width: clamp(160px, 30vw, 300px);
+    height: auto;
+    color: var(--text-strong);
+  }
+  .mark__art--invert svg {
+    color: var(--text-on-contrast);
+  }
+
+  .apps-lede {
+    max-width: 60ch;
+    margin-bottom: clamp(2rem, 5vh, 3.5rem);
+    color: var(--text);
+    text-wrap: pretty;
+  }
+  .apps-grid {
+    display: grid;
+    grid-template-columns: minmax(11rem, 16rem) 1fr;
+    grid-template-rows: auto auto;
+    column-gap: clamp(1.5rem, 4vw, 3rem);
+    row-gap: var(--stack-gap);
+  }
+  /* Both specimen figures borrow the grid's two rows via subgrid, so the stages
+     share row 1 (equal height) and the captions share row 2. The stage heights
+     no longer drift with however each caption happens to wrap. */
+  .apps-grid > .app {
+    display: grid;
+    grid-row: span 2;
+    grid-template-rows: subgrid;
+  }
+  .app {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--stack-gap);
+  }
+  .app--wide {
+    margin-top: clamp(1.5rem, 4vw, 3rem);
+  }
+  .app__stage {
+    display: grid;
+    place-items: center;
+    padding: clamp(1.5rem, 4vw, 2.5rem);
+    border: 1px solid var(--rule);
+    background: var(--surface-recessed);
+  }
+  .app__stage--icon {
+    aspect-ratio: 1;
+  }
+  .app__icon {
+    width: clamp(80px, 12vw, 104px);
+    height: auto;
+    border-radius: 22%;
+    box-shadow: inset 0 0 0 1px var(--rule);
+  }
+  /* Stretched by the subgrid to the app-icon stage's height; presents the
+     lockup as it runs in the real header — a bar across the top, brand left /
+     live location right, with the empty space below reading as the page it
+     sits atop. */
+  .app__stage--masthead {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.65rem 1.5rem;
+    text-align: left;
+  }
+  .app__lockup {
+    font-family: var(--font-sans);
+    font-size: clamp(0.8125rem, 0.7rem + 0.5vw, 1rem);
+    font-weight: 500;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--text-strong);
+  }
+  .app__loc {
+    color: var(--text-muted-strong);
+  }
+  .app__stage--og {
+    padding: 0;
+    overflow: hidden;
+  }
+  .app__og {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+  .app__stage--card {
+    aspect-ratio: 16 / 7;
+    flex-direction: column;
+    place-items: stretch;
+    justify-content: space-between;
+    gap: 1.5rem;
+    background: var(--surface-contrast);
+    border-color: transparent;
+    text-align: left;
+  }
+  .card__mark svg {
+    width: clamp(140px, 24vw, 220px);
+    height: auto;
+  }
+  .card__foot {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+  .card__role {
+    color: color-mix(in srgb, var(--text-on-contrast) 72%, transparent);
+  }
+  .card__line {
+    color: color-mix(in srgb, var(--text-on-contrast) 70%, transparent);
+  }
+
+  @media (max-width: 40rem) {
+    .apps-grid {
+      grid-template-columns: 1fr;
+    }
+  }

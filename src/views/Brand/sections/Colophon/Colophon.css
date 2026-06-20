@@ -1,0 +1,50 @@
+  /* ---- Colophon ---- */
+  .colophon__kicker {
+    margin-bottom: clamp(1.5rem, 4vh, 2.5rem);
+  }
+  .colophon__grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(2rem, 5vw, 4rem);
+    align-items: start;
+  }
+  .colophon__line {
+    max-width: 14ch;
+  }
+  .colophon__line em {
+    font-style: italic;
+  }
+  .colophon__facts {
+    margin: 0;
+  }
+  .colophon__facts > div {
+    display: grid;
+    grid-template-columns: 9rem 1fr;
+    gap: 0.4rem clamp(1.25rem, 3vw, 2rem);
+    align-items: baseline;
+    padding-block: clamp(0.75rem, 1.8vh, 1.1rem);
+    border-top: 1px solid var(--rule);
+  }
+  .colophon__facts > div:first-child {
+    border-top: 0;
+  }
+  .colophon__facts dd {
+    margin: 0;
+    font-size: 0.9375rem;
+    line-height: 1.5;
+    color: var(--text);
+    text-wrap: pretty;
+  }
+
+  @media (max-width: 52rem) {
+    .colophon__grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 40rem) {
+    .colophon__facts > div {
+      grid-template-columns: 1fr;
+      gap: 0.15rem;
+    }
+  }

@@ -1,0 +1,12 @@
+  .statement {
+    border-top: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+    padding-block: var(--pad-statement);
+  }
+
+  /* Flush-left with the section labels; the wide right margin frames it.
+     `balance` evens the rag across this short display block. */
+  .statement__text {
+    max-width: 24ch;
+    text-wrap: balance;
+  }

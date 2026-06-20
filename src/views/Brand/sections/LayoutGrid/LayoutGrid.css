@@ -1,0 +1,130 @@
+  /* Visual of the .wrap primitive: centred measure flanked by fluid gutters. */
+  .measure {
+    margin: 0 0 var(--stack-gap);
+  }
+  .measure__frame {
+    display: grid;
+    grid-template-columns: clamp(1.5rem, 7vw, 4rem) 1fr clamp(1.5rem, 7vw, 4rem);
+    min-height: clamp(7rem, 18vh, 11rem);
+    border: 1px solid var(--rule);
+  }
+  .measure__edge {
+    display: grid;
+    place-items: center;
+    background: var(--surface-recessed);
+  }
+  .measure__edge span {
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    font-family: var(--font-sans);
+    font-size: 0.6875rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+  .measure__col {
+    display: grid;
+    place-items: center;
+    padding: clamp(1.5rem, 4vh, 2.5rem);
+    border-inline: 1px solid var(--rule);
+    text-align: center;
+  }
+  .measure__cap {
+    color: var(--text-muted-strong);
+  }
+  .measure__note {
+    max-width: 62ch;
+    margin-top: var(--stack-gap);
+    font-size: 0.9375rem;
+    line-height: 1.5;
+    color: var(--text);
+    text-wrap: pretty;
+  }
+
+  .rhythm {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .rhythm__row {
+    display: grid;
+    grid-template-columns: 9rem 1fr auto;
+    align-items: center;
+    gap: 0.5rem clamp(1.25rem, 3vw, 2.5rem);
+    padding-block: clamp(0.85rem, 2vh, 1.25rem);
+    border-top: 1px solid var(--rule);
+  }
+  .rhythm__row:first-child {
+    border-top: 0;
+  }
+  .rhythm__name {
+    font-weight: 500;
+    color: var(--text-strong);
+  }
+  .rhythm__track {
+    display: block;
+  }
+  .rhythm__bar {
+    display: block;
+    height: 0.625rem;
+    border-radius: 1px;
+    background: var(--text-muted-strong);
+  }
+  .rhythm__val {
+    white-space: nowrap;
+    color: var(--text-muted);
+  }
+  .rhythm__note {
+    margin-top: clamp(0.85rem, 2vh, 1.25rem);
+  }
+
+  .tokens {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .token-row {
+    display: grid;
+    grid-template-columns: 13rem 1fr;
+    gap: 0.4rem clamp(1.5rem, 4vw, 3rem);
+    align-items: baseline;
+    padding-block: clamp(0.9rem, 2vh, 1.35rem);
+    border-top: 1px solid var(--rule);
+  }
+  .token-row:first-child {
+    border-top: 0;
+  }
+  .token-row__name {
+    color: var(--text-strong);
+  }
+  .token-row__value {
+    color: var(--text-muted-strong);
+  }
+  .token-row__note {
+    grid-column: 2;
+    margin-top: 0.15rem;
+    font-size: 0.9375rem;
+    line-height: 1.5;
+    color: var(--text);
+  }
+
+  @media (max-width: 52rem) {
+    .token-row {
+      grid-template-columns: 1fr;
+    }
+    .token-row__note {
+      grid-column: 1;
+    }
+  }
+
+  @media (max-width: 40rem) {
+    .rhythm__row {
+      grid-template-columns: 1fr auto;
+      column-gap: 1rem;
+    }
+    .rhythm__track {
+      grid-column: 1 / -1;
+      grid-row: 2;
+    }
+  }

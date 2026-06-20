@@ -1,0 +1,4 @@
+/* The skip-link target shouldn't draw an outline when focused programmatically. */
+#index:focus {
+  outline: none;
+}

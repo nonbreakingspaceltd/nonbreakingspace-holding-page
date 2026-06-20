@@ -1,0 +1,15 @@
+  .brand-hero {
+    padding-block: clamp(3.5rem, 9vh, 7rem) clamp(2.5rem, 6vh, 4.5rem);
+  }
+  .brand-hero__kicker {
+    margin-bottom: clamp(1.5rem, 4vh, 2.5rem);
+  }
+  .brand-hero__title {
+    max-width: 18ch;
+  }
+  .brand-hero__lede {
+    max-width: 52ch;
+    margin-top: clamp(1.5rem, 4vh, 2.5rem);
+    color: var(--text);
+    text-wrap: pretty;
+  }
