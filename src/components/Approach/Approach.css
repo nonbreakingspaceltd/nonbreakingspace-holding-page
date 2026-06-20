@@ -1,50 +1,50 @@
-  .approach {
-    background: var(--surface-recessed);
-    border-top: 1px solid var(--rule);
-    border-bottom: 1px solid var(--rule);
-    padding-block: var(--pad-section);
-  }
+.approach {
+  background: var(--surface-recessed);
+  border-top: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+  padding-block: var(--pad-section);
+}
 
-  .approach__grid {
-    --approach-gap: clamp(2rem, 4vw, 4rem);
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    column-gap: var(--approach-gap);
-  }
+.approach__grid {
+  --approach-gap: clamp(2rem, 4vw, 4rem);
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  column-gap: var(--approach-gap);
+}
 
-  .approach__col {
-    position: relative;
-  }
-  /* Rule centred in the gutter so every column's text starts flush with its
+.approach__col {
+  position: relative;
+}
+/* Rule centred in the gutter so every column's text starts flush with its
      grid track — the three columns then read as equal widths. */
+.approach__col + .approach__col::before {
+  content: "";
+  position: absolute;
+  inset-block: 0;
+  left: calc(-0.5 * var(--approach-gap));
+  border-left: 1px solid var(--rule);
+}
+
+.approach__verb {
+  margin-bottom: clamp(0.85rem, 2vh, 1.25rem);
+}
+
+.approach__copy {
+  max-width: 26ch;
+  color: var(--text);
+  text-wrap: pretty;
+}
+
+@media (max-width: 48rem) {
+  .approach__grid {
+    grid-template-columns: 1fr;
+    row-gap: clamp(2.5rem, 7vw, 3.5rem);
+  }
   .approach__col + .approach__col::before {
-    content: '';
-    position: absolute;
-    inset-block: 0;
-    left: calc(-0.5 * var(--approach-gap));
-    border-left: 1px solid var(--rule);
+    display: none;
   }
-
-  .approach__verb {
-    margin-bottom: clamp(0.85rem, 2vh, 1.25rem);
+  .approach__col + .approach__col {
+    border-top: 1px solid var(--rule);
+    padding-top: clamp(2.5rem, 7vw, 3.5rem);
   }
-
-  .approach__copy {
-    max-width: 26ch;
-    color: var(--text);
-    text-wrap: pretty;
-  }
-
-  @media (max-width: 48rem) {
-    .approach__grid {
-      grid-template-columns: 1fr;
-      row-gap: clamp(2.5rem, 7vw, 3.5rem);
-    }
-    .approach__col + .approach__col::before {
-      display: none;
-    }
-    .approach__col + .approach__col {
-      border-top: 1px solid var(--rule);
-      padding-top: clamp(2.5rem, 7vw, 3.5rem);
-    }
-  }
+}

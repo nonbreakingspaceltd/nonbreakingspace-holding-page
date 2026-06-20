@@ -1,78 +1,78 @@
-  /* ---- 09 Voice & accessibility ---- */
-  .voice {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: var(--grid-gap);
-  }
-  .voice__head {
-    margin-bottom: clamp(0.85rem, 2vh, 1.25rem);
-  }
-  .voice__col p {
-    max-width: 42ch;
-    color: var(--text);
-    text-wrap: pretty;
-  }
+/* ---- 09 Voice & accessibility ---- */
+.voice {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--grid-gap);
+}
+.voice__head {
+  margin-bottom: clamp(0.85rem, 2vh, 1.25rem);
+}
+.voice__col p {
+  max-width: 42ch;
+  color: var(--text);
+  text-wrap: pretty;
+}
 
-  /* Lexicon — we say / not / why */
-  .lexicon {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    /* One shared grid for the whole table so every row's columns align. Say +
+/* Lexicon — we say / not / why */
+.lexicon {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  /* One shared grid for the whole table so every row's columns align. Say +
        Not are max-content — sized to their longest phrase ACROSS ALL ROWS, so
        neither ever wraps; Why (1fr) takes the rest. Rows opt in via subgrid.
        (The responsive rules below reset this to a block for narrow screens.) */
-    display: grid;
-    grid-template-columns: max-content max-content 1fr;
-    column-gap: var(--grid-gap-tight);
+  display: grid;
+  grid-template-columns: max-content max-content 1fr;
+  column-gap: var(--grid-gap-tight);
+}
+.lexicon__row {
+  display: grid;
+  grid-column: 1 / -1;
+  grid-template-columns: subgrid;
+  gap: 0.35rem var(--grid-gap-tight);
+  align-items: baseline;
+  padding-block: clamp(0.9rem, 2vh, 1.35rem);
+  border-top: 1px solid var(--rule);
+}
+.lexicon__row:first-child {
+  border-top: 0;
+}
+.lexicon__say {
+  font-weight: 500;
+  color: var(--text-strong);
+}
+.lexicon__not {
+  color: var(--text-muted-strong);
+}
+.lexicon__why {
+  font-size: 0.9375rem;
+  line-height: 1.5;
+  color: var(--text);
+  text-wrap: pretty;
+}
+
+@media (max-width: 52rem) {
+  .lexicon {
+    display: block;
   }
   .lexicon__row {
-    display: grid;
-    grid-column: 1 / -1;
-    grid-template-columns: subgrid;
-    gap: 0.35rem var(--grid-gap-tight);
-    align-items: baseline;
-    padding-block: clamp(0.9rem, 2vh, 1.35rem);
-    border-top: 1px solid var(--rule);
-  }
-  .lexicon__row:first-child {
-    border-top: 0;
-  }
-  .lexicon__say {
-    font-weight: 500;
-    color: var(--text-strong);
-  }
-  .lexicon__not {
-    color: var(--text-muted-strong);
+    grid-template-columns: 1fr 1fr;
   }
   .lexicon__why {
-    font-size: 0.9375rem;
-    line-height: 1.5;
-    color: var(--text);
-    text-wrap: pretty;
+    grid-column: 1 / -1;
   }
+}
 
-  @media (max-width: 52rem) {
-    .lexicon {
-      display: block;
-    }
-    .lexicon__row {
-      grid-template-columns: 1fr 1fr;
-    }
-    .lexicon__why {
-      grid-column: 1 / -1;
-    }
+@media (max-width: 40rem) {
+  .voice {
+    grid-template-columns: 1fr;
   }
-
-  @media (max-width: 40rem) {
-    .voice {
-      grid-template-columns: 1fr;
-    }
-    .lexicon__row {
-      grid-template-columns: 1fr;
-      gap: 0.15rem;
-    }
-    .lexicon__why {
-      grid-column: 1;
-    }
+  .lexicon__row {
+    grid-template-columns: 1fr;
+    gap: 0.15rem;
   }
+  .lexicon__why {
+    grid-column: 1;
+  }
+}
