@@ -107,7 +107,7 @@
 /* The bead is a tan band masked into the hairline; held off-stage (opacity 0)
      until the motion system is active, so reduced-motion leaves a still rule. */
 .hero__scroll-rule::after {
-  content: '';
+  content: "";
   position: absolute;
   inset: 0;
   background: linear-gradient(to bottom, transparent 35%, var(--accent) 50%, transparent 65%);
