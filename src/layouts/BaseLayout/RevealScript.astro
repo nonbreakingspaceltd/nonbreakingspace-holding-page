@@ -11,16 +11,6 @@
   if (reduced || !('IntersectionObserver' in window)) {
     reveals.forEach((el) => el.classList.add('is-revealed'));
   } else {
-    // One observer reveals each element the first time it enters view —
-    // including the above-the-fold ones, which intersect on its first
-    // callback (then transition with their stagger). Letting the observer
-    // decide visibility keeps this off the main thread: no getBoundingClientRect
-    // / innerHeight read, so nothing forces a synchronous reflow.
-    //
-    // Exception: a `.reveal-drop` element (the masthead) starts translated
-    // fully above the top edge — it can never *intersect*, so the observer
-    // would leave it stuck hidden. It's an on-load reveal by definition, so
-    // class it directly instead of observing it.
     const observer = new IntersectionObserver(
       (entries) => {
         for (const entry of entries) {
@@ -32,31 +22,44 @@
       },
       { threshold: 0.15, rootMargin: '0px 0px -10% 0px' }
     );
-    // Defer observing so the first reveal lands cleanly. Two races to avoid:
-    //  1. This is a deferred module — it runs before first paint, so the
-    //     hidden/translated start state must be painted before any class
-    //     flips, or there is no "from" frame to transition out of.
-    //  2. The web fonts finish loading a beat after navigation and trigger a
-    //     full style recalc; revealing in that same recalc collapses the
-    //     before/after and kills the transition.
-    // Waiting for fonts to settle, then two frames, clears both before the
-    // observer can fire.
-    const start = () =>
+
+    // Above-the-fold elements reveal on load rather than on scroll, and — unlike
+    // before — are NOT gated on document.fonts.ready. Chrome records LCP roughly
+    // when the hero's fade *begins*, so starting it on load (instead of after the
+    // fonts settle a beat later) is what pulls LCP in, with the same animation.
+    //  - `.reveal-drop` (the masthead) starts above the top edge and can never
+    //    *intersect*, so it must be classed directly.
+    //  - `[data-reveal-eager]` (the hero) is the LCP region — reveal it now.
+    const isEager = (el: HTMLElement) =>
+      el.classList.contains('reveal-drop') || el.hasAttribute('data-reveal-eager');
+
+    // Two frames so the hidden/translated start state is painted before any class
+    // flips — this is a deferred module that runs before first paint, so without
+    // the wait there's no "from" frame to transition out of.
+    requestAnimationFrame(() =>
+      requestAnimationFrame(() => {
+        reveals.forEach((el) => {
+          if (isEager(el)) el.classList.add('is-revealed');
+        });
+      })
+    );
+
+    // Below-the-fold elements fade in on scroll. Defer observing them until the
+    // web fonts have loaded: they finish a beat after navigation and trigger a
+    // full style recalc, and revealing in that same recalc collapses the
+    // before/after and kills the transition.
+    const observeRest = () =>
       requestAnimationFrame(() =>
         requestAnimationFrame(() => {
           reveals.forEach((el) => {
-            if (el.classList.contains('reveal-drop')) {
-              el.classList.add('is-revealed');
-            } else {
-              observer.observe(el);
-            }
+            if (!isEager(el)) observer.observe(el);
           });
         })
       );
     if (document.fonts?.status === 'loaded') {
-      start();
+      observeRest();
     } else {
-      document.fonts.ready.then(start);
+      document.fonts.ready.then(observeRest);
     }
   }
 </script>
