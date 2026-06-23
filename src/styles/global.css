@@ -384,7 +384,8 @@
     background-repeat: no-repeat;
     background-size: 0% 1px;
     transition: background-size 0.32s var(--ease-out-soft);
-    padding-bottom: 0.1em;
+    /* Sit the rule a couple of px below the descenders so g/p/y don't touch it. */
+    padding-bottom: calc(0.1em + 2px);
   }
   .link-underline:hover,
   .link-underline:focus-visible {
