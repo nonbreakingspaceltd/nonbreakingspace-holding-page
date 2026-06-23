@@ -9,23 +9,23 @@ const email = 'hello@nonbreakingspace.co.uk';
   <div class="wrap hero__main">
     <h1 class="hero__brand">
       <span class="sr-only">Nonbreakingspace — software, interaction and visual design studio</span>
-      <span class="hero__wordmark reveal-draw" data-reveal style="--reveal-delay: 120ms">
+      <span class="hero__wordmark reveal-draw" data-reveal data-reveal-eager style="--reveal-delay: 120ms">
         <Wordmark animated />
       </span>
     </h1>
 
     <div class="hero__lower">
-      <p class="t-hero hero__headline" data-reveal style="--reveal-delay: 380ms">
+      <p class="t-hero hero__headline reveal-rise" data-reveal data-reveal-eager style="--reveal-delay: 380ms">
         Software, interaction and visual design, crafted with <em>passion</em>.
       </p>
 
-      <p class="t-body hero__intro" data-reveal style="--reveal-delay: 560ms">
+      <p class="t-body hero__intro reveal-rise" data-reveal data-reveal-eager style="--reveal-delay: 560ms">
         Nonbreakingspace is a small Manchester studio working across front-end development,
         interaction design and brand-led web &mdash; creative, accessible and inclusive by
         design, so what we build works for everyone.
       </p>
 
-      <p class="hero__cta" data-reveal style="--reveal-delay: 680ms">
+      <p class="hero__cta reveal-rise" data-reveal data-reveal-eager style="--reveal-delay: 680ms">
         <span class="eyebrow hero__cta-label">&rarr;&nbsp;&nbsp;Start a conversation</span>
         <a class="t-email link-underline hero__email" href={`mailto:${email}`}>{email}</a>
       </p>

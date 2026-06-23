@@ -426,6 +426,23 @@
     transform: none;
   }
 
+  /* Above-the-fold lines (the hero) must paint on the very first frame so they
+     can register as the LCP element — fading them in from opacity 0 is exactly
+     what delays LCP. So these stay fully opaque and animate position ONLY: the
+     glyphs are painted immediately (LCP fires at first paint), then the line
+     slides up into place. Transform is composited and never reflows, so this
+     adds no layout shift. Revealed eagerly on load, before fonts settle (see
+     RevealScript) — there's no opacity fade for a font-swap recalc to collapse. */
+  .js [data-reveal].reveal-rise {
+    opacity: 1;
+    transform: translateY(1.25rem);
+    transition: transform 0.7s var(--ease-out-soft);
+    transition-delay: var(--reveal-delay, 0ms);
+  }
+  .js [data-reveal].reveal-rise.is-revealed {
+    transform: none;
+  }
+
   /* The masthead drops in from above the top edge instead of rising up into
      place — it reads as settling down from the top of the window. */
   .js [data-reveal].reveal-drop {
