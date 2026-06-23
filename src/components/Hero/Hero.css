@@ -68,8 +68,77 @@
   color: var(--text);
 }
 
+/* The index mark hangs at the left gutter; the scroll cue answers it at the
+     right, both anchored to the same baseline so the foot reads as one rule. */
 .hero__foot {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1.5rem;
   padding-bottom: clamp(1.25rem, 3.5vh, 2.25rem);
+}
+
+/* Scroll affordance — a hair-tracked label above a single hairline down which a
+     bead of the tan accent glides: the page's one quiet, repeating mark, built
+     from the same vocabulary as everything else (eyebrow type + a rule + the one
+     accent). A real anchor to the first section; smooth-scrolled by the global
+     scroll-behaviour, reduced-motion safe (the bead simply never runs). */
+.hero__scroll {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.9rem;
+}
+.hero__scroll-label {
+  transition: color 0.32s var(--ease-out-soft);
+}
+.hero__scroll:hover .hero__scroll-label,
+.hero__scroll:focus-visible .hero__scroll-label {
+  color: var(--text-strong);
+}
+
+.hero__scroll-rule {
+  position: relative;
+  width: 1px;
+  height: clamp(2.75rem, 6vh, 3.75rem);
+  overflow: hidden;
+  background: var(--rule);
+}
+/* The bead is a tan band masked into the hairline; held off-stage (opacity 0)
+     until the motion system is active, so reduced-motion leaves a still rule. */
+.hero__scroll-rule::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, transparent 35%, var(--accent) 50%, transparent 65%);
+  opacity: 0;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .hero__scroll-rule::after {
+    animation: hero-scroll-bead 3s var(--ease-out-soft) infinite;
+  }
+}
+
+/* Fade in at the crown, run the rule, fade out at the foot, then hold off-stage
+     for a beat before the next pass — a slow, unhurried cadence, never a bounce. */
+@keyframes hero-scroll-bead {
+  0%,
+  6% {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  24% {
+    opacity: 1;
+  }
+  58% {
+    opacity: 1;
+  }
+  76%,
+  100% {
+    transform: translateY(100%);
+    opacity: 0;
+  }
 }
 
 /* Short viewports (a small or split window): stop forcing the hero to fill
